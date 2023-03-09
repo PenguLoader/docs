@@ -21,9 +21,13 @@ DataStore.set('my_num', my_num)
 DataStore.set('my_str', my_str)
 ```
 
-::: tip Unique keys You should use unique names for keys, do not use common
-names, e.g `access_token`, `is_logged`, etc. Other plugins can override your
-data, you can add prefix to your keys. :::
+::: tip
+
+Unique keys You should use unique names for keys, do not use common names, e.g
+`access_token`, `is_logged`, etc. Other plugins can override your data, you can
+add prefix to your keys.
+
+:::
 
 ## `DataStore.get(key)`
 
