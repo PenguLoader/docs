@@ -1,0 +1,39 @@
+on:
+  push:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://pengu.lol
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: 1.x
+
+      - run: deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts
+
+      - name: Build project
+        run: |
+          npm i -g yarn
+          yarn install
+          yarn build
+
+      - name: Deploy to Deno Deploy
+        run: |
+          cd .vitepress
+          deployctl deploy --prod --project=pengu-docs ./serve.ts --token ${{ secrets.DENO_DEPLOY_TOKEN }}

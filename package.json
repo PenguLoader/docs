@@ -1,0 +1,27 @@
+{
+  "name": "@penguloader/docs",
+  "version": "1.0.0",
+  "description": "Pengu Loader docs",
+  "license": "MIT",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.6",
+    "vitepress": "1.0.0-alpha.49",
+    "vitepress-plugin-nprogress": "^0.0.4",
+    "vitepress-plugin-tabs": "^0.2.0",
+    "vue": "^3.2.47"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search"
+      ]
+    }
+  }
+}

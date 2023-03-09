@@ -1,0 +1,17 @@
+{
+  "fmt": {
+    "files": {
+      "include": [
+        "docs/"
+      ]
+    },
+    "options": {
+      "useTabs": false,
+      "lineWidth": 80,
+      "indentWidth": 2,
+      "singleQuote": true,
+      "semiColons": false,
+      "proseWrap": "always"
+    }
+  }
+}

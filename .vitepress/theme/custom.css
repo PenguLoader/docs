@@ -1,0 +1,61 @@
+:root {
+  --vp-c-brand: #646cff;
+  --vp-c-brand-light: #747bff;
+  --vp-c-brand-lighter: #9499ff;
+  --vp-c-brand-lightest: #bcc0ff;
+  --vp-c-brand-dark: #535bf2;
+  --vp-c-brand-darker: #454ce1;
+  --vp-c-brand-dimm: rgba(100, 108, 255, 0.08);
+
+  --vp-button-brand-border: var(--vp-c-brand-light);
+  --vp-button-brand-text: var(--vp-c-white);
+  --vp-button-brand-bg: var(--vp-c-brand);
+  --vp-button-brand-hover-border: var(--vp-c-brand-light);
+  --vp-button-brand-hover-text: var(--vp-c-white);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-light);
+  --vp-button-brand-active-border: var(--vp-c-brand-light);
+  --vp-button-brand-active-text: var(--vp-c-white);
+  --vp-button-brand-active-bg: var(--vp-button-brand-bg);
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe, #41d1ff);
+  --vp-home-hero-image-background-image: linear-gradient(156deg, #378adf60 30%, #bb5ff560);
+  --vp-home-hero-image-filter: blur(66px);
+
+  scroll-behavior: smooth;
+}
+
+.VPHero .VPImage {
+  border-radius: .8rem;
+}
+
+.VPFeature .VPImage {
+  width: 48px;
+  height: 48px;
+  border-radius: .3rem;
+}
+
+.VPNavBar.has-sidebar .content-body {
+  /* margin-left: 1.4rem; */
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.VPNavBar.has-sidebar .curtain {
+  display: none;
+}
+
+.VPFooter {
+  border-top: none !important;
+  background-color: #8080800A !important;
+}
+
+.VPMenu {
+  min-width: 160px !important;
+}
+
+.DocSearch.DocSearch-Button {
+  background: var(--docsearch-searchbox-focus-background);
+  box-shadow: var(--docsearch-searchbox-shadow);
+  color: var(--docsearch-text-color);
+  outline: none;
+}
