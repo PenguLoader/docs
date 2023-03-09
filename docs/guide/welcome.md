@@ -26,7 +26,7 @@ Key features:
 ## Why JavaScript?
 
 <p align=center style="margin: 3rem 0">
-  <img src="/guide/javascript-144.png" />
+  <img src="/features/javascript.png" />
 </p>
 
 **JavaScript** is a versatile and powerful programming language that is widely
