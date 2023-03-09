@@ -41,7 +41,7 @@ export default defineConfig({
     // },
 
     editLink: {
-      pattern: 'https://github.com/PenguLoader/PenguLoader/edit/main/docs/:path',
+      pattern: 'https://github.com/PenguLoader/docs/blob/main/docs/:path',
       text: 'Edit this page on GitHub'
     },
 
@@ -91,11 +91,11 @@ function nav() {
       items: [
         {
           text: 'Changelog',
-          link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
+          link: 'https://github.com/PenguLoader/PenguLoader/blob/main/CHANGELOG.md'
         },
         {
           text: 'Contributing',
-          link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
+          link: 'https://github.com/PenguLoader/PenguLoader/blob/main/.github/contributing.md'
         }
       ]
     }
