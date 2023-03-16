@@ -37,6 +37,6 @@ features:
     details: Criado para funcionar perfeitamente dentro do Client, ajudando você a ter acesso aos endpoints LCU com facilidade e sem restrições.
   - icon:
       src: /features/chrome-dev.png
-    title: Ferramenta de Desenvolvedor do Chrome
+    title: Chrome DevTools
     details: Inspecione e edite tudo no seu Client como se estivesse em um navegador.
 ---
