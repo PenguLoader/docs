@@ -19,6 +19,18 @@ export default defineConfig({
   head: [
     ['meta', { name: 'theme-color', content: '#1e1e20' }],
     ['link', { rel: 'icon', href: '/PenguLoader.png', type: 'image/png' }],
+
+    ['meta', { name: 'og:type', content: 'website' }],
+    ['meta', { name: 'og:url', content: 'https://pengu.lol/' }],
+    ['meta', { name: 'og:title', content: 'Pengu Loader' }],
+    ['meta', { name: 'og:description', content: 'Unleash the power of Customization from your League of Legends Client.' }],
+    ['meta', { name: 'og:image', content: 'https://pengu.lol/banner.jpg' }],
+
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:url', content: 'https://pengu.lol/' }],
+    ['meta', { name: 'twitter:title', content: 'Pengu Loader' }],
+    ['meta', { name: 'twitter:description', content: 'Unleash the power of Customization from your League of Legends Client.' }],
+    ['meta', { name: 'twitter:image', content: 'https://pengu.lol/banner.jpg' }],
   ],
 
   markdown: {
