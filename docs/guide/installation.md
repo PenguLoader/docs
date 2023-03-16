@@ -27,3 +27,9 @@ Follow the steps below to install:
 - Before removing the portable version, you must first deactivate it
 
 ## Using plugins
+
+You can get more plugins on the [Discord](https://chat.pengu.lol) server, join it now. Each plugin will
+have its own installation instruction.
+
+If you would like to create your own plugins, please check out the
+[JavaScript Plugin](./javascript-plugin).

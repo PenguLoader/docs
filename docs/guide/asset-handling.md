@@ -72,12 +72,6 @@ loader/
 <video src="//assets/your-background.mp4"></video>
 ```
 
-::: warning
-
-This method is now deprecated and may be removed in the future.
-
-:::
-
 ## Remote assets
 
 ### GitHub file hosting
@@ -85,11 +79,9 @@ This method is now deprecated and may be removed in the future.
 If you prefer to host your assets on GitHub, you should use the **RawGitHack**
 CDN to avoid access restrictions. It also supports GitLab and Bitbucket.
 
-<p align="center">
-  <img src="/guide/rawgithack.png">
-</p>
-
 Try it now: https://raw.githack.com/
+
+![](/guide/rawgithack.png)
 
 ### Imgur image hosting
 
@@ -98,7 +90,7 @@ Imgur site and retrieve the link.
 
 Try it now: https://imgur.com/
 
-## Optimizing resources
+## Optimizing your resources
 
 You should reduce the asset size to optimize your plugin load time.
 

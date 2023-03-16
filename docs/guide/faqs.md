@@ -35,3 +35,13 @@ Your antivirus ate/blocked the Loader's core DLL.
 Try installing the
 [VC++ 2015-2019](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
 runtime.
+
+## LeagueClientUx.exe - System Error?
+
+Make sure you have been deactivated the Loader before removing it.
+
+## The Client looks like Discord glass themes?
+
+Check out the [Acrylical theme](https://github.com/PrincessAkira/league-launcher-theme/tree/main/Acrylical), or some similar themes.
+
+For theme developers, you should use the [Effect API](/runtime-api/effect) in your theme.

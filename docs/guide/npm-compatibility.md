@@ -38,4 +38,4 @@ them.
 - [Pengu vite-theme](https://github.com/PenguLoader/PenguLoader/blob/main/plugins/vite-theme) -
   A simple theme with HMR + SASS + TypeScript
 - [Pengu @default](https://github.com/PenguLoader/PenguLoader/blob/main/plugins/@default) -
-  The first plugin with HMR + SolidJS + SASS + TypeScript
+  The default plugin with HMR + SolidJS + SASS + TypeScript

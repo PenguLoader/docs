@@ -54,6 +54,13 @@ in the DevTools and scroll to the top, you will see the output message.
 Hello, League Client!
 ```
 
-🎉 Congratulations! You have completed the beginner tutorial.
-
 ## What's next?
+
+🎉 Congratulations! You have completed the beginner tutorial. Follow the next
+pages to get more power out of your plugins.
+
+- [Module System](./module-system) - Learn more about module system
+- [CSS Theme](./css-theme) - Build your theme with CSS
+- [Assets Handling](./asset-handling) - Add custom content to your plugins
+- [LCU Request](./lcu-request) - Some guides helps you to work with LCU
+- [Runtime API](/runtime-api/) - Useful built-in APIs to use in your plugins

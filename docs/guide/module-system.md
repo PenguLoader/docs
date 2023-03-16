@@ -6,16 +6,29 @@ Plugin module system is actually the
 
 ## JS module
 
+As you know, the plugin entry is a single `index.js` file, using multiple files
+makes your code easier to manage.
+
+The following will have two files, `index.js` and `utils.js.` The **index** will
+acquire the **utils** and print out the retrieved value.
+
+```
+your-plugin/
+  |__index.js
+  |__utils.js
+```
+
 ::: code-group
 
 ```js [index.js]
+// import utils.js using the import statement
 import utils from './utils'
 
-console.log(utils.greeting)
-// prints: Hello
+console.log(utils.greeting) // -> hello
 ```
 
 ```ts [utils.js]
+// export a simple object
 export default {
   gretting: 'Hello'
 }
@@ -50,6 +63,48 @@ async function load() {
 > Read more at
 > [MDN import() operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import).
 > Please note that you no need to add the `.js` extension to import path.
+
+### CDN import
+
+For example, importing **axios** from [**Skypack**](https://skypack.dev).
+
+```js
+import axios from 'https://cdn.skypack.dev/axios'
+
+async function testRequest() {
+  const res = await axios.get('https://...')
+  console.log(res.data)
+}
+```
+
+::: info
+
+Some libraries are designed only for NodeJS, they cannot be imported into the
+plugins.
+
+:::
+
+::: tip Recommended CDNs
+
+- [Skypack](https://www.skypack.dev/)
+- [ESM>CDN](https://esm.sh/)
+- [jsDelivr ESM](https://esm.run)
+- [UNPKG](https://unpkg.com/)
+
+:::
+
+Using dynamic import will be useful when the CDN connection is slow.
+
+```js
+import('https://cdn.skypack.dev/axios')
+  .then(async (mod) => {
+    const axios = mod.default
+    // make a request
+  })
+  .catch((err) => {
+    // handle error
+  })
+```
 
 ## CSS module
 

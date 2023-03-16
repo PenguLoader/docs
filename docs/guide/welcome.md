@@ -23,6 +23,12 @@ Key features:
 - Support for built-in and remote DevTools
 - Easier to work with LCU API
 
+::: tip Fact
+
+Pengu Loader is a part of our "Programming for gamers" mission.
+
+:::
+
 ## Why JavaScript?
 
 <p align=center style="margin: 3rem 0">
@@ -48,7 +54,7 @@ is a widely-used language with a large community of developers, there are many
 existing tools and libraries that can be leveraged to enhance the functionality
 of Pengu Loader.
 
-## Community
+## Our community
 
 - The [Discord server](https://chat.pengu.lol/)
 - The [GitHub repository](https://github.com/PenguLoader/PenguLoader)
