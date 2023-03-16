@@ -64,7 +64,8 @@ export default defineConfig({
 
     sidebar: {
       '/guide/': sidebarGuide(),
-      '/runtime-api/': sidebarGuide()
+      '/runtime-api/': sidebarGuide(),
+      '/ptbr/guide/': sidebarGuideBR()
     },
 
     footer: {
@@ -82,7 +83,11 @@ export default defineConfig({
     //   label: 'Tiếng Việt',
     //   lang: 'vi',
     //   link: '/vi/',
-    // }
+    // },
+    ptbr: {
+      label: 'Português (BR)',
+      lang: 'ptbr'
+    },
   }
 });
 
@@ -155,4 +160,50 @@ function sidebarGuide() {
       ]
     }
   ]
+}
+
+function sidebarGuideBR() {
+    return [
+        {
+            text: "Começando",
+            collapsed: false,
+            items: [
+                { text: "Bem Vindo", link: "/guide/welcome" },
+                { text: "Instalação", link: "/guide/installation" },
+                { text: "FAQs", link: "/guide/faqs" },
+            ],
+        },
+        {
+            text: "Plugins",
+            collapsed: false,
+            items: [
+                { text: "JavaScript Plugin", link: "/guide/javascript-plugin" },
+                { text: "Module System", link: "/guide/module-system" },
+                { text: "CSS Theme", link: "/guide/css-theme" },
+                { text: "Asset Handling", link: "/guide/asset-handling" },
+                { text: "LCU Request", link: "/guide/lcu-request" },
+                { text: "Npm Compatibility", link: "/guide/npm-compatibility" },
+            ],
+        },
+        {
+            text: "Runtime API",
+            collapsed: false,
+            items: [
+                { text: "Overview", link: "/runtime-api/" },
+                { text: "[AuthCallback]", link: "/runtime-api/auth-callback" },
+                { text: "[DataStore]", link: "/runtime-api/data-store" },
+                { text: "[Effect]", link: "/runtime-api/effect" },
+            ],
+        },
+        {
+            text: "Migrations",
+            collapsed: false,
+            items: [
+                {
+                    text: "Migration from v0.6",
+                    link: "/guide/migration-from-v0-6",
+                },
+            ],
+        },
+    ];
 }
