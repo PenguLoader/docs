@@ -78,11 +78,11 @@ export default defineConfig({
       label: 'English',
       lang: 'en',
     },
-    'vi': {
-      label: 'Tiếng Việt',
-      lang: 'vi',
-      link: '/vi/',
-    }
+    // 'vi': {
+    //   label: 'Tiếng Việt',
+    //   lang: 'vi',
+    //   link: '/vi/',
+    // }
   }
 });
 
