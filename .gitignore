@@ -112,4 +112,6 @@ src/tutorial/data.json
 draft.md
 
 .vscode/
+.yarn/
+.yarnrc.yml
 deno.lock
