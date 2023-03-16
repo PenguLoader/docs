@@ -46,11 +46,11 @@ export default defineConfig({
     logo: '/PenguLoader.png',
     nav: nav(),
 
-    // algolia: {
-    //   apiKey: '',
-    //   appId: '',
-    //   indexName: ''
-    // },
+    algolia: {
+      apiKey: '470d1a268c45ebcec23f9cefd23a6387',
+      appId: 'QXR7IBTC3K',
+      indexName: 'pengu'
+    },
 
     editLink: {
       pattern: 'https://github.com/PenguLoader/docs/blob/main/docs/:path',
