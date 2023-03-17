@@ -14,7 +14,7 @@ hero:
   actions:
     - theme: brand
       text: Bắt đầu ngay
-      link: /guide/welcome
+      link: /vi/guide/welcome
     - theme: alt
       text: Discord
       link: https://chat.pengu.lol
