@@ -21,7 +21,7 @@ to build plugins.
 ::: tip
 
 With the build tool, the output of your bundled assets may have incorrect paths.
-Please refer to the [Asset Handling](/guide/asset-handling) to make correct
+Please refer to the [Asset Handling](./asset-handling) to make correct
 them.
 
 :::

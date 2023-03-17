@@ -44,4 +44,4 @@ Make sure you have been deactivated the Loader before removing it.
 
 Check out the [Acrylical theme](https://github.com/PrincessAkira/league-launcher-theme/tree/main/Acrylical), or some similar themes.
 
-For theme developers, you should use the [Effect API](/runtime-api/effect) in your theme.
+For theme developers, you should use the [Effect API](../runtime-api/effect) in your theme.

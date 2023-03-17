@@ -14,7 +14,7 @@ hero:
   actions:
     - theme: brand
       text: Comece por aqui
-      link: /guide/welcome
+      link: ./guide/welcome
     - theme: alt
       text: Entre em nosso Discord
       link: https://chat.pengu.lol

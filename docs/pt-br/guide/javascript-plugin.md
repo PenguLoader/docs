@@ -63,4 +63,4 @@ pages to get more power out of your plugins.
 - [CSS Theme](./css-theme) - Build your theme with CSS
 - [Assets Handling](./asset-handling) - Add custom content to your plugins
 - [LCU Request](./lcu-request) - Some guides helps you to work with LCU
-- [Runtime API](/runtime-api/) - Useful built-in APIs to use in your plugins
+- [Runtime API](../runtime-api/) - Useful built-in APIs to use in your plugins

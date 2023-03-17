@@ -145,5 +145,5 @@ In this case above, `import` becomes an async function like. You can also add a
 
 ### JSON and CSS modules
 
-You should refer to the [Module System](/guide/module-system) to handle
+You should refer to the [Module System](./module-system) to handle
 importing them.
