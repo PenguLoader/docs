@@ -139,7 +139,7 @@ function getAuthStatus() {
 }
 ```
 
-::: Tài liệu RiotClient API mới nhất
+::: details Tài liệu RiotClient API mới nhất
 
 https://riotclient.nomi.dev
 
