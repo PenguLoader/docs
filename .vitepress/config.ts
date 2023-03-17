@@ -65,7 +65,6 @@ export default defineConfig({
     sidebar: {
       '/guide/': sidebarGuide(),
       '/runtime-api/': sidebarGuide(),
-      '/ptbr/guide/': sidebarGuideBR()
     },
 
     footer: {
@@ -84,9 +83,16 @@ export default defineConfig({
     //   lang: 'vi',
     //   link: '/vi/',
     // },
-    ptbr: {
+    'pt-br': {
       label: 'Português (BR)',
-      lang: 'ptbr'
+      lang: 'pt-br',
+      link: '/pt-br/',
+      themeConfig: {
+        sidebar: {
+          '/pt-br/guide/': sidebarGuideBR(),
+          '/pt-br/runtime-api/': sidebarGuideBR(),
+        }
+      }
     },
   }
 });
@@ -163,47 +169,44 @@ function sidebarGuide() {
 }
 
 function sidebarGuideBR() {
-    return [
-        {
-            text: "Começando",
-            collapsed: false,
-            items: [
-                { text: "Bem Vindo", link: "/guide/welcome" },
-                { text: "Instalação", link: "/guide/installation" },
-                { text: "FAQs", link: "/guide/faqs" },
-            ],
-        },
-        {
-            text: "Plugins",
-            collapsed: false,
-            items: [
-                { text: "JavaScript Plugin", link: "/guide/javascript-plugin" },
-                { text: "Module System", link: "/guide/module-system" },
-                { text: "CSS Theme", link: "/guide/css-theme" },
-                { text: "Asset Handling", link: "/guide/asset-handling" },
-                { text: "LCU Request", link: "/guide/lcu-request" },
-                { text: "Npm Compatibility", link: "/guide/npm-compatibility" },
-            ],
-        },
-        {
-            text: "Runtime API",
-            collapsed: false,
-            items: [
-                { text: "Overview", link: "/runtime-api/" },
-                { text: "[AuthCallback]", link: "/runtime-api/auth-callback" },
-                { text: "[DataStore]", link: "/runtime-api/data-store" },
-                { text: "[Effect]", link: "/runtime-api/effect" },
-            ],
-        },
-        {
-            text: "Migrations",
-            collapsed: false,
-            items: [
-                {
-                    text: "Migration from v0.6",
-                    link: "/guide/migration-from-v0-6",
-                },
-            ],
-        },
-    ];
+  return [
+    {
+      text: "Começando",
+      collapsed: false,
+      items: [
+        { text: "Bem Vindo", link: "/pt-br/guide/welcome" },
+        { text: "Instalação", link: "/pt-br/guide/installation" },
+        { text: "FAQs", link: "/pt-br/guide/faqs" },
+      ],
+    },
+    {
+      text: "Plugins",
+      collapsed: false,
+      items: [
+        { text: "JavaScript Plugin", link: "/pt-br/guide/javascript-plugin" },
+        { text: "Module System", link: "/pt-br/guide/module-system" },
+        { text: "CSS Theme", link: "/pt-br/guide/css-theme" },
+        { text: "Asset Handling", link: "/pt-br/guide/asset-handling" },
+        { text: "LCU Request", link: "/pt-br/guide/lcu-request" },
+        { text: "Npm Compatibility", link: "/pt-br/guide/npm-compatibility" },
+      ],
+    },
+    {
+      text: "Runtime API",
+      collapsed: false,
+      items: [
+        { text: "Overview", link: "/pt-br/runtime-api/" },
+        { text: "[AuthCallback]", link: "/pt-br/runtime-api/auth-callback" },
+        { text: "[DataStore]", link: "/pt-br/runtime-api/data-store" },
+        { text: "[Effect]", link: "/pt-br/runtime-api/effect" },
+      ],
+    },
+    {
+      text: "Migrations",
+      collapsed: false,
+      items: [
+        { text: "Migration from v0.6", link: "/pt-br/guide/migration-from-v0-6" },
+      ],
+    },
+  ]
 }
