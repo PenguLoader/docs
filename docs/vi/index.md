@@ -7,33 +7,33 @@ titleTemplate: Pengu Loader
 hero:
   name: Pengu Loader
   # text: Pengu Loader
-  tagline: Phóng thích sức mạnh tùy biến trong Client LMHT
+  tagline: Giải phóng sức mạnh của Client LMHT
   image:
     src: /Pengu_Featherknight_144.jpg
-    alt: VitePress
+    alt: PenguLoader
   actions:
     - theme: brand
       text: Bắt đầu ngay
-      link: /guide/welcome
+      link: /vi/guide/welcome
     - theme: alt
-      text: Nhập hội Discord
+      text: Discord
       link: https://chat.pengu.lol
     - theme: alt
-      text: Xem mã nguồn
+      text: Mã nguồn
       link: https://github.com/PenguLoader/PenguLoader
 
 features:
   - icon:
       src: /features/javascript.png
-    title: JavaScript-Powered
+    title: Hỗ trợ JavaScript
     details: Xây dựng một Client thông minh hơn với JavaScript. Thật tuyệt khi có thể dùng cả công nghệ front-end yêu thích của bạn.
   - icon:
       src: /features/theme.png
-    title: Personalized Look & Feel
+    title: Cá nhân hóa giao diện và trải nghiệm
     details: Tùy biến giao diện Client theo ý thích của bạn và biến nó thành độc nhất.
   - icon:
       src: /features/league-of-legends.png
-    title: Inside the League
+    title: Khám phá bên trong Client
     details: Được thiết kế để hoạt động trơn tru bên trong Client, giúp bạn truy cập vào LCU không giới hạn.
   - icon:
       src: /features/chrome-dev.png

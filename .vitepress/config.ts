@@ -78,11 +78,26 @@ export default defineConfig({
       label: 'English',
       lang: 'en',
     },
-    // 'vi': {
-    //   label: 'Tiếng Việt',
-    //   lang: 'vi',
-    //   link: '/vi/',
-    // },
+    'vi': {
+      label: 'Tiếng Việt',
+      lang: 'vi',
+      link: '/vi/',
+      themeConfig: {
+        nav: navVi(),
+        sidebar: {
+          '/vi/guide/': sidebarGuideVi(),
+          '/vi/runtime-api/': sidebarGuideVi(),
+        },
+        editLink: {
+          pattern: 'https://github.com/PenguLoader/docs/blob/main/docs/:path',
+          text: 'Sửa trang này trên GitHub'
+        },
+        footer: {
+          message: 'Được phát hành theo Giấy phép WTF.',
+          copyright: `Bản quyền © 2023-nay thuộc Pengu Loader`
+        },
+      }
+    },
     'pt-br': {
       label: 'Português (BR)',
       lang: 'pt-br',
@@ -118,6 +133,34 @@ function nav() {
         },
         {
           text: 'Contributing',
+          link: 'https://github.com/PenguLoader/PenguLoader/blob/main/.github/contributing.md'
+        }
+      ]
+    }
+  ]
+}
+
+function navVi() {
+  return [
+    {
+      text: 'Tài Liệu',
+      link: '/vi/guide/welcome',
+      activeMatch: '/guide/'
+    },
+    {
+      text: 'Runtime API',
+      link: '/vi/runtime-api/',
+      activeMatch: '/runtime-api/'
+    },
+    {
+      text: 'v1.0.1-stable',
+      items: [
+        {
+          text: 'Changelog',
+          link: 'https://github.com/PenguLoader/PenguLoader/blob/main/CHANGELOG.md'
+        },
+        {
+          text: 'Đóng góp',
           link: 'https://github.com/PenguLoader/PenguLoader/blob/main/.github/contributing.md'
         }
       ]
@@ -163,6 +206,49 @@ function sidebarGuide() {
       collapsed: false,
       items: [
         { text: 'Migration from v0.6', link: '/guide/migration-from-v0-6' },
+      ]
+    }
+  ]
+}
+
+function sidebarGuideVi() {
+  return [
+    {
+      text: 'Bắt đầu',
+      collapsed: false,
+      items: [
+        { text: 'Chào mừng', link: '/vi/guide/welcome' },
+        { text: 'Cài đặt', link: '/vi/guide/installation' },
+        { text: 'FAQs', link: '/vi/guide/faqs' },
+      ]
+    },
+    {
+      text: 'Plugins',
+      collapsed: false,
+      items: [
+        { text: 'Plugin JavaScript', link: '/vi/guide/javascript-plugin' },
+        { text: 'Hệ Thống Mô-đun', link: '/vi/guide/module-system' },
+        { text: 'Theme CSS', link: '/vi/guide/css-theme' },
+        { text: 'Xử lí Asset', link: '/vi/guide/asset-handling' },
+        { text: 'LCU Request', link: '/vi/guide/lcu-request' },
+        { text: 'Tương Thích Với NPM', link: '/vi/guide/npm-compatibility' },
+      ]
+    },
+    {
+      text: 'Runtime API',
+      collapsed: false,
+      items: [
+        { text: 'Tổng Quan', link: '/vi/runtime-api/' },
+        { text: '[AuthCallback]', link: '/vi/runtime-api/auth-callback' },
+        { text: '[DataStore]', link: '/vi/runtime-api/data-store' },
+        { text: '[Effect]', link: '/vi/runtime-api/effect' },
+      ]
+    },
+    {
+      text: 'Migrations',
+      collapsed: false,
+      items: [
+        { text: 'Migrate từ phiên bản v0.6', link: '/vi/guide/migration-from-v0-6' },
       ]
     }
   ]
