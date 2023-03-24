@@ -8,7 +8,7 @@
 
 Pengu Loader is totally safe to use.
 
-## Does it affect the game?
+## Does it affect the in-game?
 
 No.
 
@@ -42,6 +42,16 @@ Make sure you have been deactivated the Loader before removing it.
 
 ## The Client looks like Discord glass themes?
 
-Check out the [Acrylical theme](https://github.com/PrincessAkira/league-launcher-theme/tree/main/Acrylical), or some similar themes.
+Check out the
+[Acrylical theme](https://github.com/PrincessAkira/league-launcher-theme/tree/main/Acrylical),
+or some similar themes.
 
-For theme developers, you should use the [Effect API](../runtime-api/effect) in your theme.
+For theme developers, you should use the [Effect API](../runtime-api/effect) in
+your theme.
+
+## Followed the instructions, but the plugin/theme does not work?
+
+If you have been renamed some files, be sure this File Explorer option is
+unchecked, then recheck your file names.
+
+![](https://i.imgur.com/SUFr9Qk.png)

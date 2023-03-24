@@ -59,3 +59,7 @@ of Pengu Loader.
 - The [Discord server](https://chat.pengu.lol/)
 - The [GitHub repository](https://github.com/PenguLoader/PenguLoader)
 - The [GitHub organization](https://github.com/PenguLoader)
+
+<br>
+
+Now go to the [Installation](./installation) page to get started.

@@ -2,10 +2,19 @@
 
 Follow the steps below to install:
 
-1. Download the
-   [latest release](https://github.com/PenguLoader/PenguLoader/releases)
+::: warning No download link?
 
-   - There are two versions, the setup EXE and the portable ZIP version
+v1.0.1 is not released yet, please check out
+[this issue](https://github.com/PenguLoader/PenguLoader/issues/46) on GitHub to
+download it or get
+[this snapshot version](https://discord.com/channels/1069483280438673418/1077899913561657344/1088553547961991178)
+from our Discord server.
+
+:::
+
+1. ~~Download the
+   [latest release](https://github.com/PenguLoader/PenguLoader/releases)~~
+   - ~~There are two versions, the setup EXE and the portable ZIP version~~
    - With the ZIP version, you should extract it to a fixed location
 
 2. Run **Pengu Loader**
@@ -28,8 +37,8 @@ Follow the steps below to install:
 
 ## Using plugins
 
-You can get more plugins on the [Discord](https://chat.pengu.lol) server, join it now. Each plugin will
-have its own installation instruction.
+You can get more plugins on the [Discord](https://chat.pengu.lol) server, join
+it now. Each plugin will have its own installation instruction.
 
 If you would like to create your own plugins, please check out the
 [JavaScript Plugin](./javascript-plugin).
