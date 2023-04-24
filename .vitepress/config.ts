@@ -78,28 +78,28 @@ export default defineConfig({
       label: 'English',
       lang: 'en',
     },
-    'vi': {
-      label: 'Tiếng Việt',
-      lang: 'vi',
-      link: '/vi/',
-      themeConfig: {
-        sidebar: {
-          '/vi/guide/': sidebarGuideVi(),
-          '/vi/runtime-api/': sidebarGuideVi(),
-        }
-      }
-    },
-    'pt-br': {
-      label: 'Português (BR)',
-      lang: 'pt-br',
-      link: '/pt-br/',
-      themeConfig: {
-        sidebar: {
-          '/pt-br/guide/': sidebarGuideBR(),
-          '/pt-br/runtime-api/': sidebarGuideBR(),
-        }
-      }
-    },
+    // 'vi': {
+    //   label: 'Tiếng Việt',
+    //   lang: 'vi',
+    //   link: '/vi/',
+    //   themeConfig: {
+    //     sidebar: {
+    //       '/vi/guide/': sidebarGuideVi(),
+    //       '/vi/runtime-api/': sidebarGuideVi(),
+    //     }
+    //   }
+    // },
+    // 'pt-br': {
+    //   label: 'Português (BR)',
+    //   lang: 'pt-br',
+    //   link: '/pt-br/',
+    //   themeConfig: {
+    //     sidebar: {
+    //       '/pt-br/guide/': sidebarGuideBR(),
+    //       '/pt-br/runtime-api/': sidebarGuideBR(),
+    //     }
+    //   }
+    // },
   }
 });
 
