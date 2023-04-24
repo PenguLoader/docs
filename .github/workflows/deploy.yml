@@ -1,7 +1,5 @@
 on:
   push:
-    branches:
-      - "main"
   workflow_dispatch:
 
 jobs:
@@ -29,9 +27,9 @@ jobs:
 
       - name: Build project
         run: |
-          npm i -g yarn
-          yarn install
-          yarn build
+          npm i -g pnpm
+          pnpm install
+          pnpm build
 
       - name: Deploy to Deno Deploy
         run: |
