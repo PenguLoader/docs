@@ -39,6 +39,18 @@ Example:
 window.openPluginsFolder()
 ```
 
+<Badge type="tip" text="since v1.0.4" />
+
+## `window.reloadClient()`
+
+Call this function to reload the Client and ignore caching.
+
+Example:
+
+```js
+window.reloadClient()
+```
+
 ## `window.__llver`
 
 <Badge type="tip" text="since v0.6" />

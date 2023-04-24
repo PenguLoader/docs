@@ -83,19 +83,10 @@ export default defineConfig({
       lang: 'vi',
       link: '/vi/',
       themeConfig: {
-        nav: navVi(),
         sidebar: {
           '/vi/guide/': sidebarGuideVi(),
           '/vi/runtime-api/': sidebarGuideVi(),
-        },
-        editLink: {
-          pattern: 'https://github.com/PenguLoader/docs/blob/main/docs/:path',
-          text: 'Sửa trang này trên GitHub'
-        },
-        footer: {
-          message: 'Được phát hành theo Giấy phép WTF.',
-          copyright: `Bản quyền © 2023-nay thuộc Pengu Loader`
-        },
+        }
       }
     },
     'pt-br': {
@@ -125,7 +116,7 @@ function nav() {
       activeMatch: '/runtime-api/'
     },
     {
-      text: 'v1.0.1-stable',
+      text: 'v1.0.4-stable',
       items: [
         {
           text: 'Changelog',
@@ -133,34 +124,6 @@ function nav() {
         },
         {
           text: 'Contributing',
-          link: 'https://github.com/PenguLoader/PenguLoader/blob/main/.github/contributing.md'
-        }
-      ]
-    }
-  ]
-}
-
-function navVi() {
-  return [
-    {
-      text: 'Tài Liệu',
-      link: '/vi/guide/welcome',
-      activeMatch: '/guide/'
-    },
-    {
-      text: 'Runtime API',
-      link: '/vi/runtime-api/',
-      activeMatch: '/runtime-api/'
-    },
-    {
-      text: 'v1.0.1-stable',
-      items: [
-        {
-          text: 'Changelog',
-          link: 'https://github.com/PenguLoader/PenguLoader/blob/main/CHANGELOG.md'
-        },
-        {
-          text: 'Đóng góp',
           link: 'https://github.com/PenguLoader/PenguLoader/blob/main/.github/contributing.md'
         }
       ]

@@ -2,28 +2,26 @@
 
 Follow the steps below to install:
 
-::: warning No download link?
-
-v1.0.1 is not released yet, please check out
-[this issue](https://github.com/PenguLoader/PenguLoader/issues/46) on GitHub to
-download it or get
-[this snapshot version](https://discord.com/channels/1069483280438673418/1077899913561657344/1088553547961991178)
-from our Discord server.
-
-:::
-
-1. ~~Download the
-   [latest release](https://github.com/PenguLoader/PenguLoader/releases)~~
-   - ~~There are two versions, the setup EXE and the portable ZIP version~~
+1. Download the
+   [latest release](https://github.com/PenguLoader/PenguLoader/releases)
+   - There are two versions, the setup EXE and the portable ZIP version
    - With the ZIP version, you should extract it to a fixed location
 
 2. Run **Pengu Loader**
-3. Click **ACTIVATE**
-4. Launch **League Client** and enjoy
+3. Click the switch button to activate it
 
 <p align=center>
-  <img src="https://i.imgur.com/K4vehuE.png" />
+  <img src="https://i.imgur.com/Nv6PsNB.png" />
 </p>
+
+4. Launch **League Client** and enjoy
+
+::: tip
+
+After successful activation, you do not need to run the app again, except to
+update it.
+
+:::
 
 ## Troubleshooting
 

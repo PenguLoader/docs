@@ -54,6 +54,11 @@ in the DevTools and scroll to the top, you will see the output message.
 Hello, League Client!
 ```
 
+## Plugin templates
+
+To get started with ease, we have already provided base plugins, check it out:
+https://github.com/PenguLoader/PenguLoader/tree/main/plugins
+
 ## What's next?
 
 🎉 Congratulations! You have completed the beginner tutorial. Follow the next

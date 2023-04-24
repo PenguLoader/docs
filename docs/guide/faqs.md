@@ -55,3 +55,8 @@ If you have been renamed some files, be sure this File Explorer option is
 unchecked, then recheck your file names.
 
 ![](https://i.imgur.com/SUFr9Qk.png)
+
+## My v0.6.0 and v1.0.1 did not work?
+
+After LoL patch 13.8, all previous versions will not work anymore due to 64-bit
+Client update. Please download the latest version right now.
