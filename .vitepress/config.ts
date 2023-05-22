@@ -117,17 +117,8 @@ function nav() {
       activeMatch: '/runtime-api/'
     },
     {
-      text: `v${pkg.version}-stable`,
-      items: [
-        {
-          text: 'Changelog',
-          link: 'https://github.com/PenguLoader/PenguLoader/blob/main/CHANGELOG.md'
-        },
-        {
-          text: 'Contributing',
-          link: 'https://github.com/PenguLoader/PenguLoader/blob/main/.github/contributing.md'
-        }
-      ]
+      text: `v${pkg.version}`,
+      link: `https://github.com/PenguLoader/PenguLoader/releases/tag/v${pkg.version}`
     }
   ]
 }
