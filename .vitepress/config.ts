@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress';
 import { resolve } from 'node:path';
 import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs';
+import pkg from '../package.json';
 
 export default defineConfig({
   srcDir: './docs',
@@ -116,7 +117,7 @@ function nav() {
       activeMatch: '/runtime-api/'
     },
     {
-      text: 'v1.0.4-stable',
+      text: `v${pkg.version}-stable`,
       items: [
         {
           text: 'Changelog',

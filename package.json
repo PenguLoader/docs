@@ -1,6 +1,6 @@
 {
   "name": "@penguloader/docs",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Pengu Loader docs",
   "license": "MIT",
   "main": "index.js",

@@ -38,7 +38,16 @@ Example:
 
 ```js
 console.log(DataStore.get('my_str'))
-console.log(DataStore.get('key-does-not-exist')) // undefined
+// some string
+console.log(DataStore.get('key-does-not-exist'))
+// undefined
+```
+
+Since **v1.0.5**, you can set fallback value for non-existent keys.
+
+```js
+console.log(DataStore.get('key-does-not-exist'), 1000)
+// 1000
 ```
 
 ## `DataStore.has(key)`

@@ -39,9 +39,9 @@ Example:
 window.openPluginsFolder()
 ```
 
-<Badge type="tip" text="since v1.0.4" />
-
 ## `window.reloadClient()`
+
+<Badge type="tip" text="since v1.0.4" />
 
 Call this function to reload the Client and ignore caching.
 
@@ -49,6 +49,18 @@ Example:
 
 ```js
 window.reloadClient()
+```
+
+## `window.restartClient()`
+
+<Badge type="tip" text="since v1.0.5" />
+
+Call this function to restart the Client (entire the UX processes).
+
+Example:
+
+```js
+window.restartClient()
 ```
 
 ## `window.__llver`
@@ -71,6 +83,8 @@ namespace globalThis {
   function openAssetsFolder(): void
   function openPluginsFolder(): void
   function openDevTools(remote?: boolean): void
+  function reloadClient(): void
+  function restartClient(): void
   var __llver: string
 
   namespace AuthCallback {
@@ -80,8 +94,8 @@ namespace globalThis {
 
   namespace DataStore {
     function has(key: string): boolean
-    function get(key: string): any
-    function set(key: string, value: any): void
+    function get(key: string, fallback: any): any
+    function set(key: string, value: any): boolean
     function remove(key: string): boolean
   }
 
