@@ -1,4 +1,4 @@
-# Rntime API
+# Runtime API
 
 These APIs are designed to use inside League Client with Pengu Loader plugin
 runtime.
