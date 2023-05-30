@@ -3,7 +3,7 @@ Pengu Loader Docs, built on top of [VitePress](https://vitepress.dev/).
 
 ## How to run?
 
-You need NodeJS 16+ and Yarn installed. Then clone the repo:
+You need **NodeJS 16+** and **pnpm** installed. Then clone the repo:
 
 ```
 git clone https://github.com/PenguLoader/docs
@@ -11,14 +11,14 @@ git clone https://github.com/PenguLoader/docs
 
 Install dependencies and start development.
 ```
-yarn install
-yarn dev
+pnpm i
+pnpm dev
 ```
 
 Build and preview the production.
 ```
-yarn build
-yarn preview
+pnpm build
+pnpm preview
 ```
 
 ## Help us translate the docs
