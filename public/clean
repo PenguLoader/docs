@@ -1,1 +1,6 @@
-echo hello
+$programName = "LeagueClientUx.exe"
+$ifeoRegistryPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\$programName"
+
+if (Test-Path $ifeoRegistryPath) {
+  Remove-Item -Path $ifeoRegistryPath -Force
+}
