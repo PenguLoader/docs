@@ -156,6 +156,26 @@ config.enabled = false
 console.log(config.enabled) // false
 ```
 
+## TOML and YAML module
+
+Since v1.0.6, TOML and YAML formats are supported. They are easy to read and
+solve the JSON brackets hell, as well as the trailing comma problem.
+
+```js
+import config from './config.toml'
+console.log('test toml', config)
+```
+
+In the YAML format, both .yaml and .yml file extensions are legal.
+
+```js
+import config from './config.yaml'
+import config2 from './config2.yml'
+```
+
+> Note that the third-party parsers are imported via esm.sh CDN, some restrcited
+> regions may not work. Please report it.
+
 ## Importing assets
 
 For updating HTML elements from JS, you can use `import` to get the asset path
