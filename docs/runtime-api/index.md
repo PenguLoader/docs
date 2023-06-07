@@ -63,6 +63,19 @@ Example:
 window.restartClient()
 ```
 
+## `window.getScriptPath()`
+
+<Badge type="tip" text="since v1.0.6" />
+
+Call this function get the current script path.
+
+Example:
+
+```js
+// https://plugins/your-plugin/index.js
+window.getScriptPath()
+```
+
 ## `window.__llver`
 
 <Badge type="tip" text="since v0.6" />
