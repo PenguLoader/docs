@@ -1,17 +1,16 @@
-import DefaultTheme from 'vitepress/theme';
-import { vitepressGoogleAnalytics } from './analytics';
-import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client';
-import vitepressNprogress from 'vitepress-plugin-nprogress';
-import 'vitepress-plugin-nprogress/lib/css/index.css';
-import './custom.css';
+// https://vitepress.dev/guide/custom-theme
+import { h } from 'vue'
+import Theme from 'vitepress/theme'
+import './style.css'
 
-const theme: typeof DefaultTheme = {
-  ...DefaultTheme,
-  enhanceApp: (ctx) => {
-    vitepressNprogress(ctx);
-    vitepressGoogleAnalytics('G-KX1BWHTJ9S');
-    enhanceAppWithTabs(ctx.app);
+export default {
+  extends: Theme,
+  Layout: () => {
+    return h(Theme.Layout, null, {
+      // https://vitepress.dev/guide/extending-default-theme#layout-slots
+    })
+  },
+  enhanceApp({ app, router, siteData }) {
+    // ...
   }
-};
-
-export default theme;
+}

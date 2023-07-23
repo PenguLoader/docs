@@ -1,14 +1,24 @@
-# `AuthCallback` <Badge type="tip" text="since v1.0" />
+# ~~AuthCallback~~
+
+<Badge type="danger" text="removed in v1.0.6" />
 
 This namespace helps you to create a callback URL and read its response from an
 auth flow.
 
-## `AuthCallback.createURL()`
+## ~~AuthCallback.createURL~~
+
+<Badge type="info" text="function" />
+<Badge type="tip" text="since v1.0.1" />
+<Badge type="danger" text="removed in v1.0.6" />
 
 Create a unique callback URL that can be used for auth callback/redirect from
 external web browsers.
 
-## `AuthCallback.readResponse(url, timeout?)`
+## ~~AuthCallback.readResponse~~
+
+<Badge type="info" text="function" />
+<Badge type="tip" text="since v1.0.1" />
+<Badge type="danger" text="removed in v1.0.6" />
 
 This function wait for response from a given callback URL. It returns a
 `Promise` for async context, contains string if success or null when timeout.

@@ -38,9 +38,10 @@ async function quitLobby() { // dont know why people call it 'dodge'
 }
 ```
 
-::: details Up-to-date LCU API docs
+::: details LCU API docs
 
-https://lcu.kebs.dev.
+- https://lcu.kebs.dev
+- http://www.mingweisamuel.com/lcu-schema/tool/#/
 
 :::
 
@@ -139,8 +140,9 @@ function getAuthStatus() {
 }
 ```
 
-::: details Up-to-date RiotClient API docs
+::: details RiotClient API docs
 
-https://riotclient.nomi.dev
+- https://riotclient.kebs.dev
+- https://riotclient.nomi.dev
 
 :::

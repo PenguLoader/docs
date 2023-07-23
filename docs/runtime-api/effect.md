@@ -1,28 +1,38 @@
-# `Effect` <Badge type="tip" text="since v1.0" />
+# Effect
 
-This namespace supports changing window effects.<br>
+This namespace supports changing window transparency effect.
 
-Available effects: `mica`, `acrylic`, `unified` and `blurbehind`.
+<br>
 
 ![](https://user-images.githubusercontent.com/38210249/216951830-b3bb3ce3-7a5f-4e60-8a67-33d0bce799cf.png)
 
-## `Effect.current`
+## Effect.current
 
-A read-only property that returns the currently applied effect or `undefined` if
+<Badge type="info" text="string" />
+<Badge type="tip" text="since v1.0.1" />
+
+A read-only property that returns the currently applied effect or `null` if
 no effect has been applied.
+
+Available effects: `mica`, `acrylic`, `unified` and `blurbehind`.
 
 Example:
 
 ```js
-// prints applied effect
 console.log(Effect.current)
+// mica
 ```
 
-## `Effect.apply(name, options?)`
+## Effect.apply(name, options?)
+
+<Badge type="info" text="function" />
+<Badge type="tip" text="since v1.0.1" />
 
 A function that takes the name of the desired effect name and an optional
 object.<br> It returns a boolean indicating whether the effect was successfully
 applied or not.
+
+Parameters:
 
 - `name` [required] These effect names above to be applied, in string.
 
@@ -50,11 +60,29 @@ Effect.apply('mica')
 Tint colors must be in CSS hex color format, e.g. #RGB, #RGBA, #RRGGBB,
 #RRGGBBAA.
 
+To see transparency effect correctly, you should remove all lowest backgrounds.
+
 :::
 
 ![](https://user-images.githubusercontent.com/38210249/216951865-bb9c6676-58ec-4c81-ad96-67e94e91ac22.png)
 
-### System compatibility
+## Effect.clear()
+
+<Badge type="info" text="function" />
+<Badge type="tip" text="since v1.0.1" />
+
+A function that clears any currently applied effect, then the Client background
+will be black.<br> Using `Effect.current` after clearing will give you
+`undefined`.
+
+Example:
+
+```js
+// just clear applied effect, even if nothing applied
+Effect.clear()
+```
+
+## System compatibility
 
 <!-- - These effects are currently supported only Windows 7+. -->
 
@@ -71,33 +99,12 @@ moving the Client window.
 
 :::
 
-## `Effect.clear()`
-
-A function that clears any currently applied effect, then the Client background
-will be black.<br> Using `Effect.current` after clearing will give you
-`undefined`.
-
-Example:
-
-```js
-// just clear applied effect, even if nothing applied
-Effect.clear()
-```
-
-## `Effect.on(event, callback)`
+## Listening for changes
 
 Add a listener which will be triggered when effect changed.
 
 ```js
-Effect.on('apply', ({ old, name, options }) => {
-  // do something
-})
-
-Effect.on('clear', () => {
-  // do something
+window.addEventListener('effect-changed', (event) => {
+  console.log(event.detail)
 })
 ```
-
-## `Effect.off(event, callback)`
-
-Remove your added listener.
