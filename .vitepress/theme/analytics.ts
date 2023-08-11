@@ -1,5 +1,3 @@
-/// <reference types="vite/client" />
-
 declare global {
   interface Window {
     dataLayer?: any[];
@@ -29,7 +27,7 @@ function mountGoogleAnalytics(id: string) {
 }
 
 export function vitepressGoogleAnalytics(id: string) {
-  if (import.meta.env.PROD && id && typeof window !== 'undefined') {
+  if (id && typeof window !== 'undefined') {
     mountGoogleAnalytics(id);
   }
 }
