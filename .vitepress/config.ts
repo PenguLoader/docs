@@ -118,6 +118,7 @@ function sidebar() {
         { text: '[Pengu]', link: '/runtime-api/pengu' },
         { text: '[DataStore]', link: '/runtime-api/data-store' },
         { text: '[Effect]', link: '/runtime-api/effect' },
+        { text: '[rcp]', link: '/runtime-api/rcp' },
       ]
     },
     {
