@@ -21,6 +21,7 @@ window.openDevTools(true) // remote DevTools
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v0.6" />
+<Badge type="warning" text="deprecated" />
 
 Call this function to open the assets folder in new File Explorer window.
 
@@ -85,9 +86,9 @@ window.getScriptPath()
 
 ## window.__llver
 
-<Badge type="info" text="function" />
+<Badge type="info" text="string" />
 <Badge type="tip" text="since v0.6" />
-<Badge type="warning" text="deprecated in v1.0.6" />
+<Badge type="warning" text="deprecated" />
 
 This property returns the current version of Pengu Loader.
 

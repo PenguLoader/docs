@@ -1,6 +1,6 @@
 # Effect
 
-This namespace supports changing window transparency effect.
+This namespace supports changing window transparency/translucent effect.
 
 <br>
 
@@ -26,7 +26,7 @@ console.log(Effect.current)
 ## Effect.apply(name, options?)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.1" />
+<Badge type="success" text="since v1.0.1" />
 
 A function that takes the name of the desired effect name and an optional
 object.<br> It returns a boolean indicating whether the effect was successfully
