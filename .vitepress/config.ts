@@ -116,7 +116,6 @@ function sidebar() {
       items: [
         { text: 'Overview', link: '/runtime-api/' },
         { text: '[Pengu]', link: '/runtime-api/pengu' },
-        { text: '[AuthCallback]', link: '/runtime-api/auth-callback' },
         { text: '[DataStore]', link: '/runtime-api/data-store' },
         { text: '[Effect]', link: '/runtime-api/effect' },
       ]
