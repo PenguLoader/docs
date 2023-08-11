@@ -1,31 +1,59 @@
 on:
   push:
-    branches: 
+    branches:
       - main
+      - dev
   workflow_dispatch:
 
 jobs:
+  env-prod:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://pengu.lol
+    steps:
+      - run: echo >nul
+
+  env-dev:
+    if: github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+      url: https://beta.pengu.lol
+    steps:
+      - run: echo >nul
+
   deploy:
     permissions:
       id-token: write
       contents: read
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://pengu.lol
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
+      - name: Set environment variables
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "DENO_DEPLOY_PROJECT=pengu-docs" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+            echo "DENO_DEPLOY_PROJECT=pengu-docs-dev" >> $GITHUB_ENV
+          fi
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
         with:
           node-version: 18.x
 
-      - uses: denoland/setup-deno@v1
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
         with:
           deno-version: 1.x
 
-      - run: deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts
+      - name: Install Deno deployctl
+        run: deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts
 
       - name: Build project
         run: |
@@ -36,4 +64,4 @@ jobs:
       - name: Deploy to Deno Deploy
         run: |
           cd .vitepress
-          deployctl deploy --prod --project=pengu-docs ./serve.ts --token ${{ secrets.DENO_DEPLOY_TOKEN }}
+          deployctl deploy --prod --project=$DENO_DEPLOY_PROJECT ./serve.ts --token ${{ secrets.DENO_DEPLOY_TOKEN }}
