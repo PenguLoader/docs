@@ -116,6 +116,7 @@ function sidebar() {
       items: [
         { text: 'Overview', link: '/runtime-api/' },
         { text: '[Pengu]', link: '/runtime-api/pengu' },
+        { text: '[CommandBar]', link: '/runtime-api/command-bar' },
         { text: '[DataStore]', link: '/runtime-api/data-store' },
         { text: '[Effect]', link: '/runtime-api/effect' },
         { text: '[rcp]', link: '/runtime-api/rcp' },
