@@ -1,15 +1,19 @@
 import { defineConfig } from 'vitepress'
 import { join } from 'node:path'
 import pkg from '../package.json'
+import { execSync } from 'node:child_process'
+
+const gitBranch = execSync('git rev-parse --abbrev-ref HEAD').toString().trimEnd()
+const isBeta = gitBranch !== 'main'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
 
-  title: "Pengu Loader",
+  title: "Pengu Loader" + (isBeta ? ' Beta' : ''),
   description: "Unleash the power of Customization from your League of Legends Client.",
 
   lang: 'en',
-  // appearance: 'dark',
+  appearance: isBeta ? undefined : 'dark',
   lastUpdated: true,
   cleanUrls: true,
 
@@ -81,8 +85,9 @@ function nav() {
       activeMatch: '/runtime-api/'
     },
     {
-      text: `v${pkg.version}`,
-      link: `https://github.com/PenguLoader/PenguLoader/releases/tag/v${pkg.version}`
+      text: `v${pkg.version}` + (isBeta ? '-beta' : ''),
+      link: isBeta ? 'https://github.com/PenguLoader/PenguLoader/actions'
+        : `https://github.com/PenguLoader/PenguLoader/releases/tag/v${pkg.version}`
     }
   ]
 }
