@@ -125,6 +125,7 @@ function sidebar() {
         { text: '[DataStore]', link: '/runtime-api/data-store' },
         { text: '[Effect]', link: '/runtime-api/effect' },
         { text: '[rcp]', link: '/runtime-api/rcp' },
+        { text: '[PluginFS]', link: '/runtime-api/plugin-fs' },
       ]
     },
     {
