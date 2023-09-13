@@ -31,17 +31,20 @@ Example:
 window.openAssetsFolder()
 ```
 
-## window.openPluginsFolder()
+## window.openPluginsFolder(path?)
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.0" />
 
 Call this function to open the plugins folder in new File Explorer window.
 
+If `path` is given, it will open the path with respect to the plugins folder.
+
 Example:
 
 ```js
 window.openPluginsFolder()
+window.openPluginsFolder("/plugin-demo/config")
 ```
 
 ## window.reloadClient()
