@@ -54,7 +54,7 @@ so your callbacks sometimes will not triggered.
 
 :::
 
-## rcp.postInit(name, callback)
+## rcp.postInit(name, callback, blocking?)
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.0.6" />
@@ -66,6 +66,7 @@ Gives you an opportunity to access the plugin API.
 
 - `name` - RCP name, should be prefixed with `rcp-`.
 - `callback` - A function will be triggered after the plugin is loaded.
+- `blocking` - A boolean value indicating whether this callback will be executed in blocking way. It's `false` by default.
 
 Example:
 
