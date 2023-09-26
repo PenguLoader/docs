@@ -126,6 +126,7 @@ function sidebar() {
         { text: '[Effect]', link: '/runtime-api/effect' },
         { text: '[rcp]', link: '/runtime-api/rcp' },
         { text: '[PluginFS]', link: '/runtime-api/plugin-fs' },
+        { text: '[Toast]', link: '/runtime-api/toast' },
       ]
     },
     {
