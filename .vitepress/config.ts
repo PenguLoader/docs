@@ -1,21 +1,26 @@
-import { defineConfig } from 'vitepress';
-import { resolve } from 'node:path';
-import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs';
-import pkg from '../package.json';
+import { defineConfig } from 'vitepress'
+import { join } from 'node:path'
+import pkg from '../package.json'
+import { execSync } from 'node:child_process'
 
+const gitBranch = execSync('git rev-parse --abbrev-ref HEAD').toString().trimEnd()
+const isBeta = gitBranch !== 'main'
+
+// https://vitepress.dev/reference/site-config
 export default defineConfig({
-  srcDir: './docs',
-  vite: {
-    publicDir: resolve(__dirname, '../public'),
-  },
+
+  title: "Pengu Loader" + (isBeta ? ' Beta' : ''),
+  description: "Unleash the power of Customization from your League of Legends Client.",
 
   lang: 'en',
-  title: 'Pengu Loader',
-  description: 'Unleash the power of Customization from your League of Legends Client.',
-  appearance: 'dark',
-
+  appearance: isBeta ? undefined : 'dark',
   lastUpdated: true,
   cleanUrls: true,
+
+  srcDir: './docs',
+  vite: {
+    publicDir: join(__dirname, '../public')
+  },
 
   head: [
     ['meta', { name: 'theme-color', content: '#1e1e20' }],
@@ -34,16 +39,8 @@ export default defineConfig({
     ['meta', { name: 'twitter:image', content: 'https://pengu.lol/banner.jpg' }],
   ],
 
-  markdown: {
-    headers: {
-      level: [0, 0]
-    },
-    config: (md) => {
-      md.use(tabsMarkdownPlugin);
-    }
-  },
-
   themeConfig: {
+    // https://vitepress.dev/reference/default-theme-config
     logo: '/PenguLoader.png',
     nav: nav(),
 
@@ -64,8 +61,8 @@ export default defineConfig({
     ],
 
     sidebar: {
-      '/guide/': sidebarGuide(),
-      '/runtime-api/': sidebarGuide(),
+      '/guide/': sidebar(),
+      '/runtime-api/': sidebar(),
     },
 
     footer: {
@@ -73,36 +70,7 @@ export default defineConfig({
       copyright: `Copyright © 2023-present Pengu Loader`
     },
   },
-
-  locales: {
-    root: {
-      label: 'English',
-      lang: 'en',
-    },
-    // 'vi': {
-    //   label: 'Tiếng Việt',
-    //   lang: 'vi',
-    //   link: '/vi/',
-    //   themeConfig: {
-    //     sidebar: {
-    //       '/vi/guide/': sidebarGuideVi(),
-    //       '/vi/runtime-api/': sidebarGuideVi(),
-    //     }
-    //   }
-    // },
-    // 'pt-br': {
-    //   label: 'Português (BR)',
-    //   lang: 'pt-br',
-    //   link: '/pt-br/',
-    //   themeConfig: {
-    //     sidebar: {
-    //       '/pt-br/guide/': sidebarGuideBR(),
-    //       '/pt-br/runtime-api/': sidebarGuideBR(),
-    //     }
-    //   }
-    // },
-  }
-});
+})
 
 function nav() {
   return [
@@ -117,13 +85,14 @@ function nav() {
       activeMatch: '/runtime-api/'
     },
     {
-      text: `v${pkg.version}`,
-      link: `https://github.com/PenguLoader/PenguLoader/releases/tag/v${pkg.version}`
+      text: `v${pkg.version}` + (isBeta ? '-beta' : ''),
+      link: isBeta ? 'https://github.com/PenguLoader/PenguLoader/actions'
+        : `https://github.com/PenguLoader/PenguLoader/releases/tag/v${pkg.version}`
     }
   ]
 }
 
-function sidebarGuide() {
+function sidebar() {
   return [
     {
       text: 'Getting Started',
@@ -151,9 +120,14 @@ function sidebarGuide() {
       collapsed: false,
       items: [
         { text: 'Overview', link: '/runtime-api/' },
-        { text: '[AuthCallback]', link: '/runtime-api/auth-callback' },
+        { text: '[Pengu]', link: '/runtime-api/pengu' },
+        { text: '[CommandBar]', link: '/runtime-api/command-bar' },
         { text: '[DataStore]', link: '/runtime-api/data-store' },
         { text: '[Effect]', link: '/runtime-api/effect' },
+        { text: '[PluginFS]', link: '/runtime-api/plugin-fs' },
+        { text: '[Toast]', link: '/runtime-api/toast' },
+        { text: '[rcp] context.rcp', link: '/runtime-api/rcp' },
+        { text: 'context.socket', link: '/runtime-api/socket' },
       ]
     },
     {
@@ -163,91 +137,5 @@ function sidebarGuide() {
         { text: 'Migration from v0.6', link: '/guide/migration-from-v0-6' },
       ]
     }
-  ]
-}
-
-function sidebarGuideVi() {
-  return [
-    {
-      text: 'Bắt đầu',
-      collapsed: false,
-      items: [
-        { text: 'Chào mừng', link: '/vi/guide/welcome' },
-        { text: 'Cài đặt', link: '/vi/guide/installation' },
-        { text: 'FAQs', link: '/vi/guide/faqs' },
-      ]
-    },
-    {
-      text: 'Plugins',
-      collapsed: false,
-      items: [
-        { text: 'Plugin JavaScript', link: '/vi/guide/javascript-plugin' },
-        { text: 'Hệ Thống Mô-đun', link: '/vi/guide/module-system' },
-        { text: 'Theme CSS', link: '/vi/guide/css-theme' },
-        { text: 'Xử lí Asset', link: '/vi/guide/asset-handling' },
-        { text: 'LCU Request', link: '/vi/guide/lcu-request' },
-        { text: 'Tương Thích Với NPM', link: '/vi/guide/npm-compatibility' },
-      ]
-    },
-    {
-      text: 'Runtime API',
-      collapsed: false,
-      items: [
-        { text: 'Tổng Quan', link: '/vi/runtime-api/' },
-        { text: '[AuthCallback]', link: '/vi/runtime-api/auth-callback' },
-        { text: '[DataStore]', link: '/vi/runtime-api/data-store' },
-        { text: '[Effect]', link: '/vi/runtime-api/effect' },
-      ]
-    },
-    {
-      text: 'Migrations',
-      collapsed: false,
-      items: [
-        { text: 'Migrate từ phiên bản v0.6', link: '/vi/guide/migration-from-v0-6' },
-      ]
-    }
-  ]
-}
-
-function sidebarGuideBR() {
-  return [
-    {
-      text: "Começando",
-      collapsed: false,
-      items: [
-        { text: "Bem Vindo", link: "/pt-br/guide/welcome" },
-        { text: "Instalação", link: "/pt-br/guide/installation" },
-        { text: "FAQs", link: "/pt-br/guide/faqs" },
-      ],
-    },
-    {
-      text: "Plugins",
-      collapsed: false,
-      items: [
-        { text: "JavaScript Plugin", link: "/pt-br/guide/javascript-plugin" },
-        { text: "Module System", link: "/pt-br/guide/module-system" },
-        { text: "CSS Theme", link: "/pt-br/guide/css-theme" },
-        { text: "Asset Handling", link: "/pt-br/guide/asset-handling" },
-        { text: "LCU Request", link: "/pt-br/guide/lcu-request" },
-        { text: "Npm Compatibility", link: "/pt-br/guide/npm-compatibility" },
-      ],
-    },
-    {
-      text: "Runtime API",
-      collapsed: false,
-      items: [
-        { text: "Overview", link: "/pt-br/runtime-api/" },
-        { text: "[AuthCallback]", link: "/pt-br/runtime-api/auth-callback" },
-        { text: "[DataStore]", link: "/pt-br/runtime-api/data-store" },
-        { text: "[Effect]", link: "/pt-br/runtime-api/effect" },
-      ],
-    },
-    {
-      text: "Migrations",
-      collapsed: false,
-      items: [
-        { text: "Migration from v0.6", link: "/pt-br/guide/migration-from-v0-6" },
-      ],
-    },
   ]
 }

@@ -1,9 +1,8 @@
 {
-  "name": "@penguloader/docs",
-  "version": "1.0.6",
+  "name": "pengu-docs",
+  "version": "1.1.0",
   "description": "Pengu Loader docs",
   "license": "MIT",
-  "main": "index.js",
   "type": "module",
   "scripts": {
     "dev": "vitepress dev",
@@ -12,15 +11,19 @@
   },
   "devDependencies": {
     "@types/node": "^18.14.6",
-    "vitepress": "1.0.0-alpha.60",
+    "vitepress": "^1.0.0-rc.4",
     "vitepress-plugin-nprogress": "^0.0.4",
     "vitepress-plugin-tabs": "^0.2.0",
-    "vue": "^3.2.47"
+    "vue": "^3.3.4"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
-        "@algolia/client-search"
+        "@algolia/client-search",
+        "search-insights"
       ]
     }
   }

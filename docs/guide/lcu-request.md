@@ -38,9 +38,10 @@ async function quitLobby() { // dont know why people call it 'dodge'
 }
 ```
 
-::: details Up-to-date LCU API docs
+::: details LCU API docs
 
-https://lcu.kebs.dev.
+- https://lcu.kebs.dev
+- http://www.mingweisamuel.com/lcu-schema/tool/#/
 
 :::
 
@@ -94,6 +95,12 @@ Send `6` to unsubscribe from a specific API call, or `OnJsonApiEvent` for all.
 socket.send(JSON.stringify([6, '<EventName>']))
 ```
 
+::: tip
+
+Since v1.1.0, we have introduced [`context.socket`](../runtime-api/socket) to for easier socket observation.
+
+:::
+
 ## Unauthenticated issue
 
 In some cases that the Ux loads faster than the LCU server, many API that
@@ -139,8 +146,9 @@ function getAuthStatus() {
 }
 ```
 
-::: details Up-to-date RiotClient API docs
+::: details RiotClient API docs
 
-https://riotclient.nomi.dev
+- https://riotclient.kebs.dev
+- https://riotclient.nomi.dev
 
 :::
