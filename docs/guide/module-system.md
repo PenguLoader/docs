@@ -158,7 +158,7 @@ console.log(config.enabled) // false
 
 ## TOML and YAML module
 
-Since v1.0.6, TOML and YAML formats are supported. They are easy to read and
+Since v1.1.0, TOML and YAML formats are supported. They are easy to read and
 solve the JSON brackets hell, as well as the trailing comma problem.
 
 ```js

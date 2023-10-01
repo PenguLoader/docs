@@ -19,7 +19,7 @@ All paths passed into this API are relative to the root directory of your plugin
 ## PluginFS.read(path)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 Read a file in text mode.
 
@@ -46,7 +46,7 @@ const content = await PluginFs.read("./README.md")
 ## PluginFS.write(path,content,enableAppendMode?)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 Write to a file in text mode.
 
@@ -85,7 +85,7 @@ This API can create a file but can't create a file under a non-existing director
 ## PluginFS.mkdir(path)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 Create directories recursively.
 
@@ -110,7 +110,7 @@ const bMkdir3 = await PluginFS.mkdir("a\\b/")
 ## PluginFS.stat(path)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 Get the status of a file.
 
@@ -144,7 +144,7 @@ const stat2 = await PluginFS.stat("a/random.js")
 ## PluginFS.ls(path)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 List files and directories under given path. 
 
@@ -161,7 +161,7 @@ A `Promise` of `undefined` on failure.
 ## PluginFS.rm(path,recursively?)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 ::: danger
 

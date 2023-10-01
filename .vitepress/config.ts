@@ -124,9 +124,10 @@ function sidebar() {
         { text: '[CommandBar]', link: '/runtime-api/command-bar' },
         { text: '[DataStore]', link: '/runtime-api/data-store' },
         { text: '[Effect]', link: '/runtime-api/effect' },
-        { text: '[rcp]', link: '/runtime-api/rcp' },
         { text: '[PluginFS]', link: '/runtime-api/plugin-fs' },
         { text: '[Toast]', link: '/runtime-api/toast' },
+        { text: '[rcp] context.rcp', link: '/runtime-api/rcp' },
+        { text: 'context.socket', link: '/runtime-api/socket' },
       ]
     },
     {

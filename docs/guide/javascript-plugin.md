@@ -54,10 +54,34 @@ in the DevTools and scroll to the top, you will see the output message.
 Hello, League Client!
 ```
 
+## Plugin entry points
+
+<Badge type="tip" text="since v1.1.0" />
+
+A plugin's entry point is an exported function in the plugin index that is called automatically by the loader.
+The `init` entry should be called before League Client initializes its scripts.
+
+```js
+export function init(context) {
+  // your code here
+}
+```
+- See [`context.rcp`](../runtime-api/rcp) to use RiotClientPlugin hooks from this `context`.
+- See [`context.socket`](../runtime-api/socket.md) to use built-in socket observation.
+
+As of v1.1.0, you no longer need to put your load script in the `load` event of `window`.
+Instead, you can put in the `load` entry, it will be called even after window is loaded.
+
+```js
+export function load() {
+  // your code here
+}
+```
+
 ## Plugin templates
 
 To get started with ease, we have already provided base plugins, check it out:
-https://github.com/PenguLoader/PenguLoader/tree/main/plugins
+https://github.com/PenguLoader/PenguLoader/tree/v1.0.5/plugins
 
 ## What's next?
 

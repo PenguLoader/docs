@@ -5,7 +5,7 @@ This namespace is used to push your toast notifications onto the League Client s
 ## Toast.success(message)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 ```ts
 function success(message: string): void
@@ -26,7 +26,7 @@ Toast.success('Welcome to my theme!')
 ## Toast.error(message)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 ```ts
 function error(message: string): void
@@ -47,7 +47,7 @@ Toast.error('Oops! Something went wrong.')
 ## Toast.promise(promise, msg)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 ```ts
 function promise(promise: Promise<T>, msg: {

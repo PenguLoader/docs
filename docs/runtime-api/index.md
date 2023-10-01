@@ -76,7 +76,7 @@ window.restartClient()
 ## window.getScriptPath()
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 Call this function get the current script path.
 
@@ -104,7 +104,7 @@ console.log(`You are using Pengu Loader v${window.__llver}`)
 
 ::: tip
 
-Since v1.0.6, this property has been deprecated.
+Since v1.1.0, this property has been deprecated.
 Please use `Pengu.version` instead.
 
 :::

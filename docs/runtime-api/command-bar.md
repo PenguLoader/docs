@@ -1,6 +1,6 @@
 # CommandBar
 
-Since v1.0.6, we bring to you a new Command Bar 
+Since v1.1.0, we bring to you a new Command Bar 
 that can provide access to app-level commands
 and can be used with any navigation pattern.
 
@@ -21,7 +21,7 @@ To add your custom actions, please use the APIs below.
 ## CommandBar.addAction
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 ```ts
 function addAction(action: Action): void
@@ -49,7 +49,7 @@ interface Action {
 ## CommandBar.show
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 ```ts
 function show(): void
@@ -60,7 +60,7 @@ Show the Command Bar programmatically if it was hidden.
 ## CommandBar.update
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 ```ts
 function update(): void

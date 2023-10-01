@@ -21,7 +21,7 @@ const rcp = window.rcp
 ## rcp.preInit(name, callback)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 Register a callback that will be triggered before the target plugin loads.
 
@@ -57,7 +57,7 @@ so your callbacks sometimes will not triggered.
 ## rcp.postInit(name, callback, blocking?)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 Register a callback that will be triggered after the target plugin is loaded.
 Gives you an opportunity to access the plugin API.
@@ -87,7 +87,7 @@ preferably witin your plugin's `init` entry. So they will not work after the plu
 ## rcp.whenInit(name)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 This function works as same as `postInit` but allows you 
 to get the target plugin asynchronously and also works even after the plugin is loaded.
@@ -119,7 +119,7 @@ rcp.whenReady(['rcp-a', 'rcp-b', 'rcp-c'])
 ## rcp.get(name)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.6" />
+<Badge type="tip" text="since v1.1.0" />
 
 Get a RCP plugin synchronously after it's registered in the callbacks map.
 
