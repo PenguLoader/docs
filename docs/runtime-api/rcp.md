@@ -84,7 +84,7 @@ preferably witin your plugin's `init` entry. So they will not work after the plu
 
 :::
 
-## rcp.whenInit(name)
+## rcp.whenReady(name)
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
