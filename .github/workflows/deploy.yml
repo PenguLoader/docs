@@ -53,7 +53,7 @@ jobs:
           deno-version: v2.x
 
       - name: Install Deno deployctl
-        run: deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts
+        run: deno install -gArf jsr:@deno/deployctl
 
       - name: Build project
         run: |
