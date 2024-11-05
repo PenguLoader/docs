@@ -87,7 +87,7 @@ function nav() {
     {
       text: `v${pkg.version}` + (isBeta ? '-beta' : ''),
       link: isBeta ? 'https://github.com/PenguLoader/PenguLoader/actions'
-        : `https://github.com/PenguLoader/PenguLoader/releases/tag/v${pkg.version}`
+        : `https://github.com/PenguLoader/PenguLoader/releases/latest`
     }
   ]
 }
