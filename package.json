@@ -5,8 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/generate-api.js",
-    "prebuild": "node scripts/generate-api.js",
+    "predev": "node scripts/generate-api.js && node scripts/generate-llms.js",
+    "prebuild": "node scripts/generate-api.js && node scripts/generate-llms.js",
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
