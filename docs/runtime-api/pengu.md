@@ -47,7 +47,7 @@ console.log(Pengu.plugins)
 ## Pengu.isMac
 
 <Badge type="info" text="boolean" />
-<Badge type="tip" text="since v1.1.0" />
+<Badge type="tip" text="since v1.1.2" />
 
 A boolean value that indicates whether the current platform is macOS.
 

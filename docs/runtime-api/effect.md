@@ -59,7 +59,7 @@ Effect.clear()
 ## Effect.setTheme(theme)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.1" />
+<Badge type="tip" text="since v1.1.0" />
 
 Set the window theme to light or dark.
 
