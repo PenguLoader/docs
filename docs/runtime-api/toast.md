@@ -7,14 +7,9 @@ This namespace is used to push your toast notifications onto the League Client s
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
 
-```ts
-function success(message: string): void
-```
-
 Push a simple notification with a success checkmark.
 
 Params:
-
 - `message` a string to be shown on the notification.
 
 Example:
@@ -28,14 +23,9 @@ Toast.success('Welcome to my theme!')
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
 
-```ts
-function error(message: string): void
-```
-
 Push a simple notification with a failure icon.
 
 Params:
-
 - `message` a string to be shown on the notification.
 
 Example:
@@ -49,19 +39,10 @@ Toast.error('Oops! Something went wrong.')
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
 
-```ts
-function promise(promise: Promise<T>, msg: {
-  loading: string
-  success: string
-  error: string
-}): Promise<T>
-```
-
 Push a progress notification and wait for the given promise to complete.
 This function returns the given promise that is helpful for then/catch chain.
 
 Params:
-
 - `promise` a promise that the progress waits for.
 - `msg` an object with these properties:
   - `loading` a string message to be shown when the progress starts loading.

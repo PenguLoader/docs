@@ -6,41 +6,19 @@ This namespace supports changing window transparency/translucent effect.
 
 ![](https://user-images.githubusercontent.com/38210249/216951830-b3bb3ce3-7a5f-4e60-8a67-33d0bce799cf.png)
 
-## Effect.current
-
-<Badge type="info" text="string" />
-<Badge type="tip" text="since v1.0.1" />
-
-A read-only property that returns the currently applied effect or `null` if
-no effect has been applied.
-
-Available effects: `mica`, `acrylic`, `unified` and `blurbehind`.
-
-Example:
-
-```js
-console.log(Effect.current)
-// mica
-```
-
-## Effect.apply(name, options?)
+## Effect.apply()
 
 <Badge type="info" text="function" />
-<Badge type="success" text="since v1.0.1" />
+<Badge type="tip" text="since v1.0.1" />
 
-A function that takes the name of the desired effect name and an optional
-object.<br> It returns a boolean indicating whether the effect was successfully
-applied or not.
+A function that takes the name of the desired effect name and an optional object.
+It returns a boolean indicating whether the effect was successfully applied or not.
 
 Parameters:
-
 - `name` [required] These effect names above to be applied, in string.
+- `options` [optional] Additional options for the effect, `acrylic`, `unified` and `blurbehind` could have tint color, but `mica` will ignore this options.
 
-- `options` [optional] Additional options for the effect, `acrylic`, `unified`
-  and `blurbehind` could have tint color, but `mica` will ignore this options.
-
-This function returns `false` if the effect could not be applied, see the
-[System compatibility](#system-compatibility) below.
+This function returns `false` if the effect could not be applied, see the [System compatibility](#system-compatibility) below.
 
 Example:
 
@@ -57,23 +35,19 @@ Effect.apply('mica')
 
 ::: info
 
-Tint colors must be in CSS hex color format, e.g. #RGB, #RGBA, #RRGGBB,
-#RRGGBBAA.
+Tint colors must be in CSS hex color format, e.g. #RGB, #RGBA, #RRGGBB, #RRGGBBAA.
 
 To see transparency effect correctly, you should remove all lowest backgrounds.
 
 :::
-
-![](https://user-images.githubusercontent.com/38210249/216951865-bb9c6676-58ec-4c81-ad96-67e94e91ac22.png)
 
 ## Effect.clear()
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.0.1" />
 
-A function that clears any currently applied effect, then the Client background
-will be black.<br> Using `Effect.current` after clearing will give you
-`undefined`.
+A function that clears any currently applied effect, then the Client background will be black.
+Using `Effect.current` after clearing will give you `undefined`.
 
 Example:
 
@@ -81,6 +55,15 @@ Example:
 // just clear applied effect, even if nothing applied
 Effect.clear()
 ```
+
+## Effect.setTheme(theme)
+
+<Badge type="info" text="function" />
+<Badge type="tip" text="since v1.0.1" />
+
+Set the window theme to light or dark.
+
+![](https://user-images.githubusercontent.com/38210249/216951865-bb9c6676-58ec-4c81-ad96-67e94e91ac22.png)
 
 ## System compatibility
 

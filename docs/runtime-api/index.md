@@ -17,21 +17,7 @@ window.openDevTools()     // built-in DevTools
 window.openDevTools(true) // remote DevTools
 ```
 
-## window.openAssetsFolder()
-
-<Badge type="info" text="function" />
-<Badge type="tip" text="since v0.6" />
-<Badge type="warning" text="deprecated" />
-
-Call this function to open the assets folder in new File Explorer window.
-
-Example:
-
-```js
-window.openAssetsFolder()
-```
-
-## window.openPluginsFolder(path?)
+## window.openPluginsFolder(subdir?)
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.0" />

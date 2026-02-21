@@ -18,19 +18,14 @@ Let's press `Ctrl + K` to open the Command Bar.
 
 To add your custom actions, please use the APIs below.
 
-## CommandBar.addAction
+## CommandBar.addAction(action)
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
 
-```ts
-function addAction(action: Action): void
-```
-
 Add a new action item to the Command Bar. It will automatically update even when showing.
 
 #### Params
-
 - `action`: An object that describes action information with these properties
 
 ```ts
@@ -46,25 +41,17 @@ interface Action {
 }
 ```
 
-## CommandBar.show
+## CommandBar.show()
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
-
-```ts
-function show(): void
-```
 
 Show the Command Bar programmatically if it was hidden.
 
-## CommandBar.update
+## CommandBar.update()
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
-
-```ts
-function update(): void
-```
 
 Manually trigger the Command Bar to update its items.
 Only use this function if your added actions are not updating.
