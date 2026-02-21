@@ -5,12 +5,15 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/generate-api.js && node scripts/generate-llms.js",
+    "prebuild": "node scripts/generate-api.js && node scripts/generate-llms.js",
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
   },
   "devDependencies": {
     "@types/node": "^18.14.6",
+    "ts-morph": "^27.0.2",
     "vitepress": "^1.0.0-rc.4",
     "vitepress-plugin-nprogress": "^0.0.4",
     "vitepress-plugin-tabs": "^0.2.0",

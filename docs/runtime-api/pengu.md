@@ -1,4 +1,4 @@
-# Pengu namespace
+# Pengu
 
 This namespace provides information about current Pengu version and its settings.
 
@@ -8,6 +8,8 @@ This namespace provides information about current Pengu version and its settings
 <Badge type="tip" text="since v1.1.0" />
 
 A read-only property that returns the current version of Pengu Loader.
+
+Example:
 
 ```js
 console.log(Pengu.version)
@@ -21,6 +23,8 @@ console.log(Pengu.version)
 
 A boolean value that indicates the **Super Low Spec Mode** is enabled or not.
 
+Example:
+
 ```js
 console.log(Pengu.superPotato)
 // true
@@ -33,7 +37,24 @@ console.log(Pengu.superPotato)
 
 An array of plugin entries.
 
+Example:
+
 ```js
 console.log(Pengu.plugins)
 // [ '@default/index.js', 'your-plugin/index.js' ]
+```
+
+## Pengu.isMac
+
+<Badge type="info" text="boolean" />
+<Badge type="tip" text="since v1.1.2" />
+
+A boolean value that indicates whether the current platform is macOS.
+
+Example:
+
+```js
+if (Pengu.isMac) {
+  console.log('Running on macOS')
+}
 ```

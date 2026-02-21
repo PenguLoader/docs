@@ -20,20 +20,18 @@ All paths passed into this API are relative to the root directory of your plugin
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
+<Badge type="warning" text="deprecated" />
 
 Read a file in text mode.
 
 ### Params
-
 - `path` - The path of the file you want to access with respect to the plugin root directory.
 
 ### Return value
-
 A `Promise` of the content string on success.
-
 A `Promise` of `undefined` on failure.
 
-### Example
+Example:
 
 ```javascript
 PluginFS.read("./index.js").then( content => {
@@ -43,24 +41,23 @@ PluginFS.read("./index.js").then( content => {
 const content = await PluginFs.read("./README.md")
 ```
 
-## PluginFS.write(path,content,enableAppendMode?)
+## PluginFS.write(path, content, enableAppendMode?)
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
+<Badge type="warning" text="deprecated" />
 
 Write to a file in text mode.
 
 ### Params
-
 - `path` - The path of the file you want to access with respect to the plugin root directory.
 - `content` - The content string you want to write into.
 - `enableAppendMode` - Append to file if set to `true` or overwrite file if `false`. This is `false` by default.
 
 ### Return value
-
 A `Promise` of a boolean result indicating success or failure.
 
-### Example
+Example:
 
 ```javascript
 // Create test.txt and write "Hello" into it
@@ -86,18 +83,17 @@ This API can create a file but can't create a file under a non-existing director
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
+<Badge type="warning" text="deprecated" />
 
 Create directories recursively.
 
 ### Params
-
 `path` - The directory path you want to create with respect to the plugin root directory.
 
 ### Return Value
-
 A `Promise` of a boolean result indicating success or failure.
 
-### Example
+Example:
 
 ```javascript
 const bMkdir0 = await PluginFS.mkdir("utils")
@@ -111,27 +107,17 @@ const bMkdir3 = await PluginFS.mkdir("a\\b/")
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
+<Badge type="warning" text="deprecated" />
 
 Get the status of a file.
 
 ### Params
-
 - `path` - The file path with respect to the plugin root directory.
 
 ### Return value
-
 A `Promise` of `FileStat` or `undefined` depending on success or failure.
 
-```typescript
-interface FileStat{
-  fileName: string
-  // 0 if isDir is true
-  length: number
-  isDir: boolean
-}
-```
-
-### Example
+Example:
 
 ```javascript
 const stat1 = await PluginFS.stat("a/b")
@@ -145,48 +131,36 @@ const stat2 = await PluginFS.stat("a/random.js")
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
+<Badge type="warning" text="deprecated" />
 
 List files and directories under given path. 
 
 ### Params
-
 - `path` - The directory path with respect to the plugin root directory.
 
 ### Return value
-
 A `Promise` of `Array` of file name strings on success.
-
 A `Promise` of `undefined` on failure.
 
-## PluginFS.rm(path,recursively?)
+## PluginFS.rm(path, recursively?)
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
-
-::: danger
-
-You should know what you are doing when using this.
-
-:::
+<Badge type="warning" text="deprecated" />
 
 Remove file/directories.
 
 Just like `rm` command in Unix-like systems.
 
 ### Params
-
 - `path` - The file/directory path with respect to the plugin root directory.
 - `recursively` - Delete all files/directories under the give path recursively. This is `false` by default.
 
 ### Return value
-
 A `Promise` of a `number` showing how many files and directories is deleted.
-
 When deleting with `recursively` set to `true`, the number value is sum of deleted `directories` and `files`.
 
-### Example
-
-You can only delete a non-empty directory with `recursively` set to `true`
+Example:
 
 ```javascript
 // 1
@@ -199,3 +173,9 @@ const bRm3 = await PluginFS.rm("./non-empty-dir")
 // bRm4 >= 1 with recursively set to true
 const bRm4 = await PluginFS.rm("./non-empty-dir",true)
 ```
+
+::: danger
+
+You should know what you are doing when using this.
+
+:::

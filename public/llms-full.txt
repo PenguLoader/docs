@@ -1,0 +1,1756 @@
+# Pengu Loader - Full Documentation
+
+> Complete documentation for Pengu Loader, a mod loader for the League of Legends Client.
+
+---
+
+# Welcome
+
+## What is Pengu Loader?
+
+<p align=center style="margin: 3rem 0">
+  <img src="/Pengu_Featherknight_144.jpg" />
+</p>
+
+**Pengu Loader** (formerly **League Loader**) is a **plugin loader** designed
+specifically for the **League of Legends Client**.
+
+With Pengu Loader, you can load **JavaScript** plug-ins into the Client as
+dependencies, which can help you personalize the look and feel of the Client,
+load your custom content, add new features, and improve your overall experience.
+It also allows you to build a smarter Client that fits your needs and
+preferences.
+
+Key features:
+
+- Customize League Client with plugins
+- Theme/personalize your Client
+- Support for modern JavaScript features
+- Support for built-in and remote DevTools
+- Easier to work with LCU API
+
+::: tip Fact
+
+Pengu Loader is a part of our "Programming for gamers" mission.
+
+:::
+
+## Why JavaScript?
+
+<p align=center style="margin: 3rem 0">
+  <img src="/features/javascript.png" />
+</p>
+
+**JavaScript** is a versatile and powerful programming language that is widely
+used in web development. It has become the de facto standard for client-side
+scripting on the web, allowing developers to create interactive and dynamic web
+pages.
+
+The main advantage of JavaScript is its compatibility with the League Client Ux,
+which is actually an embedded Chromium web browser. This means that JavaScript
+plugins can be easily integrated into the client and run seamlessly alongside
+the existing client code. In addition, users can leverage the full power of the
+Chrome DevTools to debug and modify their plugins.
+
+In the case of Pengu Loader, JavaScript provides an ideal platform for
+customizing the League of Legends Client. By using JavaScript plugins, users can
+add new functionality, change the look and feel of the client, and even
+integrate web-based technologies into the client interface. Because JavaScript
+is a widely-used language with a large community of developers, there are many
+existing tools and libraries that can be leveraged to enhance the functionality
+of Pengu Loader.
+
+## Our community
+
+- The [Discord server](https://chat.pengu.lol/)
+- The [GitHub repository](https://github.com/PenguLoader/PenguLoader)
+- The [GitHub organization](https://github.com/PenguLoader)
+
+<br>
+
+Now go to the [Installation](./installation) page to get started.
+
+---
+
+# Installation
+
+Follow the steps below to install:
+
+1. Download the
+   [latest release](https://github.com/PenguLoader/PenguLoader/releases/)
+   - There are two versions, the setup EXE and the portable ZIP version
+   - With the ZIP version, you should extract it to a fixed location
+
+2. Run **Pengu Loader**
+3. Click the switch button to activate it
+
+<p align=center>
+  <img src="https://i.imgur.com/Nv6PsNB.png" />
+</p>
+
+4. Launch **League Client** and enjoy
+
+::: tip
+
+After successful activation, you do not need to run the app again, except to
+update it.
+
+:::
+
+## Troubleshooting
+
+- Windows 7 is not tested, but requires .Net Framework 4.5+ installed to run
+- For Windows 8.1/10 clean install, you should install
+  [VC++ 2015-2019](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
+  runtime
+- Do not put any files from the tool in the 'League of Legends' or 'Riot Client'
+  folder
+- Before removing the portable version, you must first deactivate it
+
+## Using plugins
+
+You can get more plugins on the [Discord](https://chat.pengu.lol) server, join
+it now. Each plugin will have its own installation instruction.
+
+If you would like to create your own plugins, please check out the
+[JavaScript Plugin](./javascript-plugin).
+
+---
+
+# JavaScript Plugin
+
+Plugin development requires basic knowledge of
+[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript), and
+[CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) if you want to make a
+theme. It's pretty easy if you're already familiar with web programming.
+
+## Creating a plugin
+
+Suppose your new plugin name is `your-plugin`.
+
+First, you need to create a new folder called `your-plugin` in the **plugins**
+folder (inside the Pengu Loader root folder).
+
+```
+root/
+  |__plugins/
+    |__@default/        <- the default plugin
+      |...
+    |__your-plugin/     <- your new plugin
+      |__index.js       <- plugin entry
+```
+
+Then create a new file called `index.js` in your plugin folder. This index is an
+entry point for your plugin which will be executed when the League Client is
+ready. Now you can open it in any editor and start coding.
+
+::: tip
+
+We recommend that you use modern JavaScript editors such as
+[Visual Studio Code](https://code.visualstudio.com/) to develop your plugins, as
+it supports intellisense, linter and code auto-completion.
+
+:::
+
+Next, just add this line to the index and save it.
+
+```js
+console.log('Hello, League Client!')
+```
+
+::: info
+
+All your code/text files should be saved in UTF-8 encoding (no BOM). If not,
+your plugin won't work as expected.
+
+:::
+
+Then launch your League Client, and when the Client is ready, try pressing
+`Ctrl Shift I` key to open **Chrome DevTools**. Navigate to the **Console** tab
+in the DevTools and scroll to the top, you will see the output message.
+
+```
+Hello, League Client!
+```
+
+## Plugin entry points
+
+
+
+A plugin's entry point is an exported function in the plugin index that is called automatically by the loader.
+The `init` entry should be called before League Client initializes its scripts.
+
+```js
+export function init(context) {
+  // your code here
+}
+```
+- See [`context.rcp`](../runtime-api/rcp) to use RiotClientPlugin hooks from this `context`.
+- See [`context.socket`](../runtime-api/socket.md) to use built-in socket observation.
+
+As of v1.1.0, you no longer need to put your load script in the `load` event of `window`.
+Instead, you can put in the `load` entry, it will be called even after window is loaded.
+
+```js
+export function load() {
+  // your code here
+}
+```
+
+## Plugin templates
+
+To get started with ease, we have already provided base plugins, check it out:
+https://github.com/PenguLoader/PenguLoader/tree/v1.0.5/plugins
+
+## What's next?
+
+🎉 Congratulations! You have completed the beginner tutorial. Follow the next
+pages to get more power out of your plugins.
+
+- [Module System](./module-system) - Learn more about module system
+- [CSS Theme](./css-theme) - Build your theme with CSS
+- [Assets Handling](./asset-handling) - Add custom content to your plugins
+- [LCU Request](./lcu-request) - Some guides helps you to work with LCU
+- [Runtime API](../runtime-api/) - Useful built-in APIs to use in your plugins
+
+---
+
+# CSS Theme
+
+A plugin is considered a **theme** if it aims to to change the default style of
+the League Client, rather than creating helpers for the Client.
+
+## Creating a theme
+
+From your plugin entry, use `import` to add it:
+
+```javascript
+import './theme.css'
+```
+
+This line will append a link tag to body pointing to `theme.css` next to your
+`index.js` .
+
+```
+your-plugin/
+  |__index.js       <- plugin entry
+  |__theme.css      <- your theme
+```
+
+### Changing the default font
+
+The following will import a custom font from
+[Google Fonts](https://fonts.google.com/) and override the default font using
+the `:root` selector and CSS variables.
+
+```css
+/* theme.css */
+@import url('https://fonts.googleapis.com/css2?family=Shantell+Sans&display=swap');
+
+:root {
+  /* override default League font */
+  --font-display: 'Shantell Sans', sans-serif !important;
+  --font-body: 'Shantell Sans', sans-serif !important;
+}
+```
+
+Note that some selectors may no be applied due to the priority, you can force
+them on top of the rules with the `!important` suffix.
+
+To get more CSS variables used by the Client, you should inpsect them using the
+Chrome DevTools. Try hitting the `Ctrl Shift I` key to open it.
+
+## CSS module
+
+When you **import** the theme, your theme becomes a module. Now you can use the
+relative path of `url()` to import assets.
+
+```css
+/* theme.css */
+.some-div {
+  background-image: url(./assets/background.png);
+}
+
+.another-div {
+  background-image: url(./assets/some-image.jpg);
+}
+```
+
+The corresponding plugin structure:
+
+```
+your-plugin/
+  |__assets/
+    |__background.png
+    |__some-image.jpg
+  |__theme.css
+```
+
+## Remote theme
+
+Using remote theme keeps your theme up to date.
+
+The following will inject a stylesheet link tag pointing to your theme from
+https://example.com/theme.css
+
+```javascript
+// index.js
+function addCssLink(url) {
+  const link = document.createElement('link')
+  link.href = url
+  link.type = 'text/css'
+  link.rel = 'stylesheet'
+  document.head.appendChild(link)
+}
+
+window.addEventListener('load', () => {
+  addCssLink('https://example.com/theme.css')
+})
+```
+
+::: info
+
+Your server should respond with MIME type `text/css` .
+
+:::
+
+---
+
+# Module System
+
+Plugin module system is actually the
+[JavaScript module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+(also known as ES module).
+
+## JS module
+
+As you know, the plugin entry is a single `index.js` file, using multiple files
+makes your code easier to manage.
+
+The following will have two files, `index.js` and `utils.js.` The **index** will
+acquire the **utils** and print out the retrieved value.
+
+```
+your-plugin/
+  |__index.js
+  |__utils.js
+```
+
+::: code-group
+
+```js [index.js]
+// import utils.js using the import statement
+import utils from './utils'
+
+console.log(utils.greeting) // -> hello
+```
+
+```ts [utils.js]
+// export a simple object
+export default {
+  gretting: 'Hello'
+}
+```
+
+:::
+
+### `import`
+
+> Read more at
+> [MDN import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
+> Please note that you no need to add the `.js` extension to import path.
+
+### `export`
+
+> Read more at
+> [MDN export statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export).
+
+### Dynamic import
+
+The `import` statement is designed to be used in top-level of code. So you
+cannot use it inside functions or some scopes. Dynamic import allows you to load
+your modules dynamically, even inside a function or scope.
+
+```js
+async function load() {
+  const mod = await import('./mod')
+  // do something
+}
+```
+
+> Read more at
+> [MDN import() operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import).
+> Please note that you no need to add the `.js` extension to import path.
+
+### CDN import
+
+For example, importing **axios** from [**Skypack**](https://skypack.dev).
+
+```js
+import axios from 'https://cdn.skypack.dev/axios'
+
+async function testRequest() {
+  const res = await axios.get('https://...')
+  console.log(res.data)
+}
+```
+
+::: info
+
+Some libraries are designed only for NodeJS, they cannot be imported into the
+plugins.
+
+:::
+
+::: tip Recommended CDNs
+
+- [Skypack](https://www.skypack.dev/)
+- [ESM>CDN](https://esm.sh/)
+- [jsDelivr ESM](https://esm.run)
+- [UNPKG](https://unpkg.com/)
+
+:::
+
+Using dynamic import will be useful when the CDN connection is slow.
+
+```js
+import('https://cdn.skypack.dev/axios')
+  .then(async (mod) => {
+    const axios = mod.default
+    // make a request
+  })
+  .catch((err) => {
+    // handle error
+  })
+```
+
+## CSS module
+
+```js
+import './theme.css'
+```
+
+This line will inject a `link` tag into `body` to load your `theme.css`. It's
+equivalent to the legacy way:
+
+```js
+const link = document.createElement('link')
+link.rel = 'stylesheet'
+link.href = '//plugins/your-plugin/theme.css'
+document.body.appendChild(link)
+```
+
+In your CSS module, you can import plugin assets using relative path:
+
+```css
+.some-div {
+  background-image: url(./assets/image.png);
+  /* resolve to //plugins/your-plugin/assets/image.png */ 
+}
+```
+
+## JSON module
+
+Assuming your `config.json` like this:
+
+```json
+{
+  "enabled": true
+}
+```
+
+Let's import it:
+
+```js
+import config from './config.json'
+console.log(config.enabled) // true
+```
+
+You can also change its value, but no change to the JSON file.
+
+```js
+config.enabled = false
+// in other modules that require it
+console.log(config.enabled) // false
+```
+
+## TOML and YAML module
+
+Since v1.1.0, TOML and YAML formats are supported. They are easy to read and
+solve the JSON brackets hell, as well as the trailing comma problem.
+
+```js
+import config from './config.toml'
+console.log('test toml', config)
+```
+
+In the YAML format, both .yaml and .yml file extensions are legal.
+
+```js
+import config from './config.yaml'
+import config2 from './config2.yml'
+```
+
+> Note that the third-party parsers are imported via esm.sh CDN, some restrcited
+> regions may not work. Please report it.
+
+## Importing assets
+
+For updating HTML elements from JS, you can use `import` to get the asset path
+without knowing its full path.
+
+```
+your-plugin/
+  |__assets/
+    |__background.jpg
+  |__index.js
+
+background URL: //plugins/your-plugin/assets/background.jpg
+```
+
+Here is the example code:
+
+```js
+import background from './assets/background.jpg'
+
+function changeBackground() {
+  const div = document.querySelector('some-div')
+  div.style.backgroundImage = `url(${background})`
+  // or with <img>'s src attribute
+  myImg.src = background
+}
+```
+
+You can log the `background` to see its value:
+
+```js
+console.log(background)
+```
+
+With the structure above, you got
+`//plugins/your-plugin/assets/my-background.jpg`.
+
+::: info
+
+Note that asset import supports common image, font and media file types. Other
+unsupported types won't work; you'll need to add the `?url` suffix in the next
+section to get their path.
+
+:::
+
+## Explicit import
+
+You can specific a suffix value as query param to the import URL.
+
+```js
+import content from './my-data.txt?raw'
+// read the file as string
+
+import path from './some-resource?url'
+// get path to the asset
+```
+
+:::info
+
+With `?raw`, your file should be saved in UTF-8 encoding.
+
+:::
+
+---
+
+# Asset Handling
+
+Assets can be other resources such as fonts, images, media, etc. that you use
+from your plugin to load custom content.
+
+## Local assets
+
+### Plugin assets
+
+Each plugin should have its own assets folder to store assets.
+
+For example, with the plugin structure below:
+
+```
+plugins/
+  |__your-plugin/
+    |__assets/            <- assets
+      |__background.png
+      |...
+    |__index.js           <- entry
+    |__theme.css          <- theme
+```
+
+If your plugin folder name is unique and will not change in the future, you can
+use this link to access the `background.png` directly:
+
+```
+//plugins/your-plugin/assets/background.png
+```
+
+We recommend that you use the module system instead.
+
+::: code-group
+
+```js [index.js]
+import background from './assets/background.png'
+
+// usage
+const img = document.getElementById('some-img')
+img.src = background
+```
+
+```css [theme.css]
+/* note that you should
+import this theme.css from your index.js */
+
+.some-div {
+  background-image: url('./assets/background.png');
+}
+```
+
+:::
+
+### Common assets
+
+Since v0.5, we have provided access to local assets via the `//assets/` domain.
+
+Example:
+
+```
+loader/
+  |__assets/
+    |__your-image.png
+    |__your-background.mp4
+    |...
+  |__plugins/
+    |...
+```
+
+```html
+<img src="//assets/your-image.png" />
+<video src="//assets/your-background.mp4"></video>
+```
+
+## Remote assets
+
+### GitHub file hosting
+
+If you prefer to host your assets on GitHub, you should use the **RawGitHack**
+CDN to avoid access restrictions. It also supports GitLab and Bitbucket.
+
+Try it now: https://raw.githack.com/
+
+![](/guide/rawgithack.png)
+
+### Imgur image hosting
+
+Imgur is a great free image hosting service. You can upload your images to the
+Imgur site and retrieve the link.
+
+Try it now: https://imgur.com/
+
+## Optimizing your resources
+
+You should reduce the asset size to optimize your plugin load time.
+
+- JavaScript and CSS code should be minified for production
+- For SVGs, you can use https://github.com/svg/svgo
+- With images, you should convert them to **webp** format
+- With video, you can try to convert to **webm** format
+
+---
+
+# LCU Request
+
+## Making API request
+
+Just use `fetch` to make LCU requests:
+
+```js
+function acceptMatchFound() {
+  fetch('/lol-matchmaking/v1/ready-check/accept', {
+    method: 'POST',
+  })
+}
+```
+
+Note that `fetch` returns a Promise for async context, you should wrap it inside
+an async function.
+
+```js
+async function getSummonerName() {
+  const res = await fetch('/lol-summoner/v1/current-summoner')
+  const data = await res.json()
+  return data['displayName']
+}
+```
+
+With LCDS (RTMP) calls, you can use `URLSearchParams` and `JSON.strigify` to
+construct call parameters.
+
+```js
+async function quitLobby() { // dont know why people call it 'dodge'
+  const params = new URLSearchParams({
+    destination: 'lcdsServiceProxy',
+    method: 'call',
+    args: JSON.stringify(['', 'teambuilder-draft', 'quitV2', '']),
+  })
+  const url = '/lol-login/v1/session/invoke?' + params.toString()
+  await fetch(url, { method: 'POST' })
+}
+```
+
+::: details LCU API docs
+
+- https://lcu.kebs.dev
+- http://www.mingweisamuel.com/lcu-schema/tool/#/
+
+:::
+
+## LCU WebSocket
+
+When the WebSocket is ready, this link tag will appear:
+
+```html
+<link rel="riot:plugins:websocket" href="wss://riot:.../">
+```
+
+Getting its URI with a simple query.
+
+```js
+document.querySelector('link[rel="riot:plugins:websocket"]').href
+```
+
+Here is an example that subscribes to all API calls:
+
+```js
+function subscribe() {
+  const uri = document.querySelector('link[rel="riot:plugins:websocket"]').href
+  const socket = new WebSocket(uri, 'wamp')
+
+  socket.onopen = () => socket.send(JSON.stringify([5, 'OnJsonApiEvent']))
+  socket.onmessage = async (message) => {
+    const data = JSON.parse(message.data)
+    console.log(data)
+    // @todo process data
+  }
+}
+
+window.addEventListener('load', () => {
+  subscribe()
+})
+```
+
+Listening a single API call, e.g `/lol-gameflow/v1/gameflow-phase`.
+
+```js
+const TARGET_API = '/lol-gameflow/v1/gameflow-phase'
+const TARGET_EVENT = TARGET_API.replace(/\//g, '_')
+// OnJsonApiEvent_lol-gameflow_v1_gameflow-phase
+
+socket.send(JSON.stringify([5, 'OnJsonApiEvent' + TARGET_EVENT]))
+```
+
+Send `6` to unsubscribe from a specific API call, or `OnJsonApiEvent` for all.
+
+```js
+socket.send(JSON.stringify([6, '<EventName>']))
+```
+
+::: tip
+
+Since v1.1.0, we have introduced [`context.socket`](../runtime-api/socket) to for easier socket observation.
+
+:::
+
+## Unauthenticated issue
+
+In some cases that the Ux loads faster than the LCU server, many API that
+require authentication will result in wrong value. You need to wait for this to
+be done before you start plugin initialization.
+
+```js
+const delay = (t) => new Promise((r) => setTimeout(r, t))
+
+async function init() {
+  while (!await getSummonerName()) {
+    await delay(500)
+  }
+
+  // continue
+}
+
+window.addEventListener('load', init)
+```
+
+::: tip
+
+You can do it with the WebSocket way.
+
+:::
+
+## RiotClient API
+
+We provided a `riotclient` domain which helps you to make request to RiotClient
+API.
+
+```
+//riotclient/<api>
+https://riotclient/<api>
+```
+
+For example:
+
+```js
+function getAuthStatus() {
+  return fetch('//riotclient/app-command/v1/auth/status')
+    .then((res) => res.json())
+}
+```
+
+::: details RiotClient API docs
+
+- https://riotclient.kebs.dev
+- https://riotclient.nomi.dev
+
+:::
+
+---
+
+# Npm Compatibility
+
+## Using NodeJS project
+
+We strongly recommend that you to use NodeJS project to build your plugins.
+
+With TypeScript or other languages that require transpilation, you need a build
+tool to build them, Webpack, Rollup or Vite is the best choice.
+
+You can also use any front-end library to build custom UI, e.g. React, Preact,
+Vue, Svelte, SolidJS, etc. With front-end tooling, its hot-reload/HMR will help
+you to do faster.
+
+::: info
+
+Note that npm packages those are designed to run only in NodeJS cannot be used
+to build plugins.
+
+:::
+
+::: tip
+
+With the build tool, the output of your bundled assets may have incorrect paths.
+Please refer to the [Asset Handling](./asset-handling) to make correct
+them.
+
+:::
+
+## Example plugins
+
+### Webpack 📦
+
+- [douugdev/league-a-better-client](https://github.com/douugdev/league-a-better-client) -
+  A LCU utilities with HMR + ⚛ Preact + SASS + TypeScript
+
+### Vite ⚡
+
+- [Pengu vite-theme](https://github.com/PenguLoader/PenguLoader/blob/main/plugins/vite-theme) -
+  A simple theme with HMR + SASS + TypeScript
+- [Pengu @default](https://github.com/PenguLoader/PenguLoader/blob/main/plugins/@default) -
+  The default plugin with HMR + SolidJS + SASS + TypeScript
+
+---
+
+# Migration from v0.6
+
+## New plugin project structure
+
+
+
+Since v0.5, we have introduced the `//assets/` domain which supports access to
+resources from the **assets** folder. And now, this folder is only used for
+large-common-unique resources. So every plugin will have its assets and you can
+access them via `//plugins/`.
+
+Since v1.0, the top-level `js` is not executed as a plugin entry point. Stop
+putting your plugin JS files directly into the **plugins** folder. You need to
+create a new folder for your plugin.
+
+```
+plugins/
+  |__your-plugin/
+    |__assets/
+      |...         <- resources
+    |__index.js    <- plugin entry
+    |...           <- other utils
+```
+
+## Removed CommonJS
+
+
+
+In v1.0, we have been removed CommonJS support and switched to ES module. This
+means all scripts from v0.6 that use `require` and `module.exports` will not
+work in the new version.
+
+Please refer to the migration guide below.
+
+### Update your `require()`:
+
+```js
+// before
+const utils = require('./utils')
+
+// after
+import utils from './utils'
+```
+
+```js
+// before
+const { hello } = require('./greeting')
+
+// after
+import { hello } from './greeting'
+```
+
+> Read more at
+> [MDN import statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
+> Please note that you no need to add the `.js` extension to import path.
+
+### Also update your `module.exports`:
+
+```js
+// before
+module.exports = {
+  greet: () => 'Hello',
+}
+
+// after
+export default {
+  greet: () => 'Hello',
+}
+```
+
+```js
+// before
+module.exports = to_export
+
+// after
+export default to_export
+```
+
+Just `exports.<id>`:
+
+```js
+// before
+exports.data = some_value
+
+// after
+export let data = some_value
+// or with const if data is immutable
+export const data = some_value
+```
+
+This also works with named functions:
+
+```js
+// before
+exports.todo = function () { ... }
+exports.todoAsync = async function () { ... }
+
+// after
+export function todo() { ... }
+export async function todoAsync() { ... }
+```
+
+> Read more at
+> [MDN export statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export).
+
+### Dynamic import
+
+`import` statement does not allow you to use it in non-top-level, in functions
+or some scopes, likes `require()` does.
+
+```js
+// before
+function load() {
+  const utils = require('./utils')
+}
+```
+
+Do it with async context:
+
+```js
+// after
+async function load() {
+  const utils = await import('./utils')
+}
+```
+
+Or with Promise's `.then` callback:
+
+```js
+// after
+function load() {
+  import('./utils').then((module) => {
+    const utils = module.default
+    // ...
+  })
+}
+```
+
+In this case above, `import` becomes an async function like. You can also add a
+`.catch` chain to catch module errors.
+
+> Read more at
+> [MDN import() operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import).
+> Please note that you no need to add the `.js` extension to import path.
+
+### JSON and CSS modules
+
+You should refer to the [Module System](./module-system) to handle
+importing them.
+
+---
+
+# FAQs
+
+<p align=center>
+  <img src="https://styles.redditmedia.com/t5_2rfxx/styles/bannerPositionedImage_dcwlivs38oq61.png" />
+</p>
+
+## Can I get banned?
+
+Pengu Loader is totally safe to use.
+
+## Does it affect the in-game?
+
+No.
+
+## Regions support?
+
+Pengu Loader works for all regions, including Tencent server.
+
+## MacOS support?
+
+Coming soon.
+
+## Reloading the Client causes high memory usage?
+
+The League Client is designed for single loading only. If you reload it using
+the Ctrl+Shift+R key or via Chrome DevTools, the Client will reload its
+interface. But there will be mostly old resources, that may cause memory leaks.
+
+## RunDLL error?
+
+Your antivirus ate/blocked the Loader's core DLL.
+
+## Missing runtime?
+
+Try installing the
+[VC++ 2015-2019](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
+runtime.
+
+## LeagueClientUx.exe - System Error?
+
+Make sure you have been deactivated the Loader before removing it.
+
+## The Client looks like Discord glass themes?
+
+Check out the
+[Acrylical theme](https://github.com/PrincessAkira/league-launcher-theme/tree/main/Acrylical),
+or some similar themes.
+
+For theme developers, you should use the [Effect API](../runtime-api/effect) in
+your theme.
+
+## Followed the instructions, but the plugin/theme does not work?
+
+If you have been renamed some files, be sure this File Explorer option is
+unchecked, then recheck your file names.
+
+![](https://i.imgur.com/SUFr9Qk.png)
+
+## My v0.6.0 and v1.0.1 did not work?
+
+After LoL patch 13.8, all previous versions will not work anymore due to 64-bit
+Client update. Please download the latest version right now.
+
+---
+
+# Runtime API
+
+These APIs are designed to use inside League Client with Pengu Loader plugin
+runtime.
+
+## window.openDevTools(remote?)
+
+Call this function to open the built-in Chrome DevTools window.
+
+Example:
+
+```js
+window.openDevTools()     // built-in DevTools
+window.openDevTools(true) // remote DevTools
+```
+
+## window.openPluginsFolder(subdir?)
+
+Call this function to open the plugins folder in new File Explorer window.
+
+If `path` is given, it will open the path with respect to the plugins folder.
+
+Example:
+
+```js
+window.openPluginsFolder()
+window.openPluginsFolder("/plugin-demo/config")
+```
+
+## window.reloadClient()
+
+Call this function to reload the Client and ignore caching.
+
+Example:
+
+```js
+window.reloadClient()
+```
+
+## window.restartClient()
+
+Call this function to restart the Client (entire the UX processes).
+
+Example:
+
+```js
+window.restartClient()
+```
+
+## window.getScriptPath()
+
+Call this function get the current script path.
+
+Example:
+
+```js
+// https://plugins/your-plugin/index.js
+window.getScriptPath()
+```
+
+## window.__llver
+
+This property returns the current version of Pengu Loader.
+
+Example:
+
+```js
+console.log(window.__llver) // 0.6.0
+console.log(`You are using Pengu Loader v${window.__llver}`)
+```
+
+::: tip
+
+Since v1.1.0, this property has been deprecated.
+Please use `Pengu.version` instead.
+
+:::
+
+---
+
+# Pengu
+
+This namespace provides information about current Pengu version and its settings.
+
+## Pengu.version
+
+A read-only property that returns the current version of Pengu Loader.
+
+Example:
+
+```js
+console.log(Pengu.version)
+// 1.0.6
+```
+
+## Pengu.superPotato
+
+A boolean value that indicates the **Super Low Spec Mode** is enabled or not.
+
+Example:
+
+```js
+console.log(Pengu.superPotato)
+// true
+```
+
+## Pengu.plugins
+
+An array of plugin entries.
+
+Example:
+
+```js
+console.log(Pengu.plugins)
+// [ '@default/index.js', 'your-plugin/index.js' ]
+```
+
+## Pengu.isMac
+
+A boolean value that indicates whether the current platform is macOS.
+
+Example:
+
+```js
+if (Pengu.isMac) {
+  console.log('Running on macOS')
+}
+```
+
+---
+
+# CommandBar
+
+Since v1.1.0, we bring to you a new Command Bar 
+that can provide access to app-level commands
+and can be used with any navigation pattern.
+
+Let's press `Ctrl + K` to open the Command Bar.
+
+![](https://i.ibb.co/DWmwtSK/image.png)
+
+### Keyboard shortcuts:
+
+- Use arrow `Down` and `Up` to nagivate the selection.
+- Press `Enter` or just click on an action to execute it.
+- Press `ESC` to close the Command Bar.
+
+<br>
+
+To add your custom actions, please use the APIs below.
+
+## CommandBar.addAction(action)
+
+Add a new action item to the Command Bar. It will automatically update even when showing.
+
+#### Params
+- `action`: An object that describes action information with these properties
+
+```ts
+interface Action {
+  id?: string       // (optional) an unique idetifier for the action
+  name: string      // action's name
+  legend?: string   // (optional) action's note/legend or shortcut key
+  tags?: string[]   // (optional) tags or keywords to search
+  icon?: string     // (optional) <svg> HTML tag in string
+  group?: string    // (optional) group name
+  hidden?: boolean  // (optional) hide the action, except for search results
+  perform?: (id?: string) => any  // called when the action is executed 
+}
+```
+
+## CommandBar.show()
+
+Show the Command Bar programmatically if it was hidden.
+
+## CommandBar.update()
+
+Manually trigger the Command Bar to update its items.
+Only use this function if your added actions are not updating.
+
+---
+
+# DataStore
+
+League Client does not store user data on disk, similar to incognito mode in web browsers. This namespace helps you to store user data on disk.
+
+## DataStore.has(key)
+
+This function returns a boolean indicating whether data with the specified key exists or not.
+
+Example:
+
+```js
+console.log(DataStore.has('my_num'))
+console.log(DataStore.has('key-does-not-exist'))
+```
+
+## DataStore.get(key, fallback?)
+
+Retrieve your stored data with a given key. If the key does not exist, it will return `undefined`.
+
+Since **v1.0.5**, you can set fallback value for non-existent keys.
+
+Example:
+
+```js
+console.log(DataStore.get('my_str'))
+// some string
+console.log(DataStore.get('key-does-not-exist'))
+// undefined
+
+console.log(DataStore.get('key-does-not-exist', 1000))
+// 1000
+```
+
+## DataStore.set(key, value)
+
+Call this function to store your data with a given key.
+
+Parameters:
+- `key` (required) Keys should be string or number.
+- `value` (required) Value may be string, number, boolean, null or collection like array and object. Actually, it will be stored as JSON format, so any value like function and runtime object are ignored.
+
+Returns:
+- A boolean value that indicates your key is valid and the data is stored successfully.
+
+Example:
+
+```js
+let my_num = 10
+let my_str = 'hello'
+DataStore.set('my_num', my_num)
+DataStore.set('my_str', my_str)
+```
+
+::: tip Unique keys
+
+You should use unique names for keys, do not use common names, e.g `access_token`, `is_logged`, etc. Other plugins can override your data, you can add prefix to your keys.
+
+:::
+
+## DataStore.remove(key)
+
+This function removes the specified data from storage by key, returns true if the existing key-value pair has been removed.
+
+Example:
+
+```js
+DataStore.remove('some-key')
+DataStore.has('some-key') // -> false
+```
+
+---
+
+# Effect
+
+This namespace supports changing window transparency/translucent effect.
+
+<br>
+
+![](https://user-images.githubusercontent.com/38210249/216951830-b3bb3ce3-7a5f-4e60-8a67-33d0bce799cf.png)
+
+## Effect.apply()
+
+A function that takes the name of the desired effect name and an optional object.
+It returns a boolean indicating whether the effect was successfully applied or not.
+
+Parameters:
+- `name` [required] These effect names above to be applied, in string.
+- `options` [optional] Additional options for the effect, `acrylic`, `unified` and `blurbehind` could have tint color, but `mica` will ignore this options.
+
+This function returns `false` if the effect could not be applied, see the [System compatibility](#system-compatibility) below.
+
+Example:
+
+```js
+// enable acrylic on Windows 10
+Effect.apply('acrylic')
+
+// with a tint color
+Effect.apply('unified', { color: '#4446' })
+
+// mica on windows 11, no options needed
+Effect.apply('mica')
+```
+
+::: info
+
+Tint colors must be in CSS hex color format, e.g. #RGB, #RGBA, #RRGGBB, #RRGGBBAA.
+
+To see transparency effect correctly, you should remove all lowest backgrounds.
+
+:::
+
+## Effect.clear()
+
+A function that clears any currently applied effect, then the Client background will be black.
+Using `Effect.current` after clearing will give you `undefined`.
+
+Example:
+
+```js
+// just clear applied effect, even if nothing applied
+Effect.clear()
+```
+
+## Effect.setTheme(theme)
+
+Set the window theme to light or dark.
+
+![](https://user-images.githubusercontent.com/38210249/216951865-bb9c6676-58ec-4c81-ad96-67e94e91ac22.png)
+
+## System compatibility
+
+<!-- - These effects are currently supported only Windows 7+. -->
+
+- On Windows 7, only the `blurbehind` is supported.
+- On Windows 10, requires build 1703 or higher to use `acrylic`.
+- `mica` and `unified` are only supported on Windows 11, but `unified` can be
+  enabled on Windows 10 without different from `acrylic`.
+
+::: warning
+
+On Windows 10 build **1903** (19H1) and higher, enabling `acrylic/mica/unified` with
+**Transparency effects** (in Personalize -> Color settings) will cause lag when
+moving the Client window.
+
+:::
+
+## Listening for changes
+
+Add a listener which will be triggered when effect changed.
+
+```js
+window.addEventListener('effect-changed', (event) => {
+  console.log(event.detail)
+})
+```
+
+---
+
+# Toast
+
+This namespace is used to push your toast notifications onto the League Client screen.
+
+## Toast.success(message)
+
+Push a simple notification with a success checkmark.
+
+Params:
+- `message` a string to be shown on the notification.
+
+Example:
+
+```ts
+Toast.success('Welcome to my theme!')
+```
+
+## Toast.error(message)
+
+Push a simple notification with a failure icon.
+
+Params:
+- `message` a string to be shown on the notification.
+
+Example:
+
+```ts
+Toast.error('Oops! Something went wrong.')
+```
+
+## Toast.promise(promise, msg)
+
+Push a progress notification and wait for the given promise to complete.
+This function returns the given promise that is helpful for then/catch chain.
+
+Params:
+- `promise` a promise that the progress waits for.
+- `msg` an object with these properties:
+  - `loading` a string message to be shown when the progress starts loading.
+  - `success` a string to be shown when the promise is resolved.
+  - `error` a string to be shown when the promise is rejected.
+
+Example:
+
+```ts
+let myTask = new Promise((resolve, reject) => {
+  // wait for 3s then fulfill randomly
+  setTimeout(() => {
+    if (Math.random() > 0.5)
+      resolve(10)
+    else
+      reject()
+  }, 3000)
+})
+
+Toast.promise(myTask, {
+  loading: 'Working in progress...',
+  success: 'Oh nice! 😎',
+  error: 'OOps! 😥'
+})
+```
+
+---
+
+# rcp
+
+This object provides easy access and hook to the Riot Client Plugin (RCP) system.
+
+Get the `rcp` in your plugin entry:
+
+```js
+export function init(context) {
+  const rcp = context.rcp
+}
+```
+
+Or get it globally via `window` object:
+
+```js
+const rcp = window.rcp
+```
+
+## rcp.preInit(name, callback)
+
+Register a callback that will be triggered before the target plugin loads.
+
+### Params
+- `name` - RCP name, should be prefixed with `rcp-`.
+- `callback` - A function will be triggered before the plugin loads.
+
+You can delay the plugin loads by blocking your async callback.
+
+Example:
+
+```js
+rcp.preInit('rcp-name', (context) => {
+  // do something
+})
+
+rcp.preInit('rcp-name', async () => {
+  // delay 2 seconds
+  await new Promise(r => setTimeout(r, 2000))
+})
+```
+
+::: warning
+
+Do not pre-hook `rcp-fe-commom-libs`. It is used for the plugin loader, so your callbacks sometimes will not triggered.
+
+:::
+
+## rcp.postInit(name, callback, blocking?)
+
+Register a callback that will be triggered after the target plugin is loaded. Gives you an opportunity to access the plugin API.
+
+### Params
+- `name` - RCP name, should be prefixed with `rcp-`.
+- `callback` - A function will be triggered after the plugin is loaded.
+- `blocking` - A boolean value indicating whether this callback will be executed in blocking way. It's `false` by default.
+
+Example:
+
+```js
+rcp.postInit('rcp-name', (api) => {
+  // do something
+  console.log('got rcp-name:', api)
+})
+```
+
+::: tip
+
+`postInit` and `preInit` should be called before the target plugin loads, preferably witin your plugin's `init` entry. So they will not work after the plugin is loaded.
+
+:::
+
+## rcp.whenReady(name)
+
+This function works as same as `postInit` but allows you to get the target plugin asynchronously and also works even after the plugin is loaded.
+
+Example:
+
+```js
+const uikit = await rcp.whenReady('rcp-fe-lol-uikit')
+```
+
+---
+
+# socket
+
+This namespace helps you to observe specific LCU APIs without creating a new WebSocket.
+You cannot get it directly from `window`, instead use the context of the [`init` entry point](../guide/javascript-plugin#plugin-entry-points).
+
+## socket.observe(api, listener)
+
+Subscribe a listener to listen when the given API endpoint get called.
+
+### Params:
+- `api` a string that presents a LCU API endpoint.
+- `listener` a function that gets called with one data param.
+
+### Return value:
+An object with a prop `disconnect` that could be called to disconnect the observer.
+
+Example:
+
+```js
+socket.observe('/lol-matchmaking/v1/ready-check', (data) => {
+  doAcceptReadyCheck()
+})
+```
+
+## socket.disconnect(api, listener)
+
+Disconnect a subscribed listener. The function parameters like the function above.
+
+---
+
+# PluginFS
+
+This API allows plugins to access **their own directory** and perform some basic file operations.
+
+::: warning
+
+**Top-level** plugin is not allowed since they don't own a directory.
+
+This API currently does not support calls in **remote** script.
+
+:::
+
+::: tip
+
+All paths passed into this API are relative to the root directory of your plugin.
+
+:::
+
+## PluginFS.read(path)
+
+Read a file in text mode.
+
+### Params
+- `path` - The path of the file you want to access with respect to the plugin root directory.
+
+### Return value
+A `Promise` of the content string on success.
+A `Promise` of `undefined` on failure.
+
+Example:
+
+```javascript
+PluginFS.read("./index.js").then( content => {
+    console.log(content)
+})
+
+const content = await PluginFs.read("./README.md")
+```
+
+## PluginFS.write(path, content, enableAppendMode?)
+
+Write to a file in text mode.
+
+### Params
+- `path` - The path of the file you want to access with respect to the plugin root directory.
+- `content` - The content string you want to write into.
+- `enableAppendMode` - Append to file if set to `true` or overwrite file if `false`. This is `false` by default.
+
+### Return value
+A `Promise` of a boolean result indicating success or failure.
+
+Example:
+
+```javascript
+// Create test.txt and write "Hello" into it
+PluginFS.write("./test.txt","Hello").then( result => {
+    if(result){
+        // success
+    }else{
+        // fail
+    }
+})
+
+// Appending " World!" to it 
+const result = await PluginFs.write("./test.txt"," World!",true)
+```
+
+::: tip
+
+This API can create a file but can't create a file under a non-existing directory.
+
+:::
+
+## PluginFS.mkdir(path)
+
+Create directories recursively.
+
+### Params
+`path` - The directory path you want to create with respect to the plugin root directory.
+
+### Return Value
+A `Promise` of a boolean result indicating success or failure.
+
+Example:
+
+```javascript
+const bMkdir0 = await PluginFS.mkdir("utils")
+const bMkdir1 = await PluginFS.mkdir("/a/b")
+const bMkdir2 = await PluginFS.mkdir("/a\\c")
+// false because it already exists
+const bMkdir3 = await PluginFS.mkdir("a\\b/")
+```
+
+## PluginFS.stat(path)
+
+Get the status of a file.
+
+### Params
+- `path` - The file path with respect to the plugin root directory.
+
+### Return value
+A `Promise` of `FileStat` or `undefined` depending on success or failure.
+
+Example:
+
+```javascript
+const stat1 = await PluginFS.stat("a/b")
+if(stat1){
+    console.log("it's a directory")
+}
+const stat2 = await PluginFS.stat("a/random.js")
+```
+
+## PluginFS.ls(path)
+
+List files and directories under given path. 
+
+### Params
+- `path` - The directory path with respect to the plugin root directory.
+
+### Return value
+A `Promise` of `Array` of file name strings on success.
+A `Promise` of `undefined` on failure.
+
+## PluginFS.rm(path, recursively?)
+
+Remove file/directories.
+
+Just like `rm` command in Unix-like systems.
+
+### Params
+- `path` - The file/directory path with respect to the plugin root directory.
+- `recursively` - Delete all files/directories under the give path recursively. This is `false` by default.
+
+### Return value
+A `Promise` of a `number` showing how many files and directories is deleted.
+When deleting with `recursively` set to `true`, the number value is sum of deleted `directories` and `files`.
+
+Example:
+
+```javascript
+// 1
+const bRm1 = await PluginFS.rm("./empty-dir")
+// 1
+const bRm2 = await PluginFS.rm("./random-file-under-plugin-root")
+
+// bRm3 == 0 because it's not empty
+const bRm3 = await PluginFS.rm("./non-empty-dir")
+// bRm4 >= 1 with recursively set to true
+const bRm4 = await PluginFS.rm("./non-empty-dir",true)
+```
+
+::: danger
+
+You should know what you are doing when using this.
+
+:::

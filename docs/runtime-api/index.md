@@ -6,7 +6,7 @@ runtime.
 ## window.openDevTools(remote?)
 
 <Badge type="info" text="function" />
-<Badge type="tip" text="since v0.3" />
+<Badge type="tip" text="since v0.1" />
 
 Call this function to open the built-in Chrome DevTools window.
 
@@ -17,24 +17,10 @@ window.openDevTools()     // built-in DevTools
 window.openDevTools(true) // remote DevTools
 ```
 
-## window.openAssetsFolder()
+## window.openPluginsFolder(subdir?)
 
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v0.6" />
-<Badge type="warning" text="deprecated" />
-
-Call this function to open the assets folder in new File Explorer window.
-
-Example:
-
-```js
-window.openAssetsFolder()
-```
-
-## window.openPluginsFolder(path?)
-
-<Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0" />
 
 Call this function to open the plugins folder in new File Explorer window.
 
@@ -90,7 +76,7 @@ window.getScriptPath()
 ## window.__llver
 
 <Badge type="info" text="string" />
-<Badge type="tip" text="since v0.6" />
+<Badge type="tip" text="since v1.0.1" />
 <Badge type="warning" text="deprecated" />
 
 This property returns the current version of Pengu Loader.

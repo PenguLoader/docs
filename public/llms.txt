@@ -1,0 +1,33 @@
+# Pengu Loader
+
+> Pengu Loader - Unleash the power of Customization from your League of Legends Client
+
+Pengu Loader is a mod loader for the League of Legends Client, allowing users to customize the client using JavaScript plugins and CSS themes.
+
+## Docs
+
+
+### Guide
+
+- [Welcome](https://docs.pengu.lol/guide/welcome)
+- [Installation](https://docs.pengu.lol/guide/installation)
+- [JavaScript Plugin](https://docs.pengu.lol/guide/javascript-plugin)
+- [CSS Theme](https://docs.pengu.lol/guide/css-theme)
+- [Module System](https://docs.pengu.lol/guide/module-system)
+- [Asset Handling](https://docs.pengu.lol/guide/asset-handling)
+- [LCU Request](https://docs.pengu.lol/guide/lcu-request)
+- [NPM Compatibility](https://docs.pengu.lol/guide/npm-compatibility)
+- [Migration from v0.6](https://docs.pengu.lol/guide/migration-from-v0-6)
+- [FAQs](https://docs.pengu.lol/guide/faqs)
+
+### Runtime API
+
+- [Runtime API](https://docs.pengu.lol/runtime-api/)
+- [Pengu](https://docs.pengu.lol/runtime-api/pengu)
+- [CommandBar](https://docs.pengu.lol/runtime-api/command-bar)
+- [DataStore](https://docs.pengu.lol/runtime-api/data-store)
+- [Effect](https://docs.pengu.lol/runtime-api/effect)
+- [Toast](https://docs.pengu.lol/runtime-api/toast)
+- [rcp](https://docs.pengu.lol/runtime-api/rcp)
+- [socket](https://docs.pengu.lol/runtime-api/socket)
+- [PluginFS](https://docs.pengu.lol/runtime-api/plugin-fs)
