@@ -17,6 +17,46 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
 
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en'
+    },
+    'zh-TW': {
+      label: '繁體中文',
+      lang: 'zh-TW',
+      link: '/zh-TW/',
+      title: "Pengu Loader" + (isBeta ? ' Beta' : ''),
+      description: '釋放 League of Legends Client 的自訂能力。',
+      themeConfig: {
+        nav: navZhTW(),
+
+        editLink: {
+          pattern: 'https://github.com/PenguLoader/docs/blob/main/docs/:path',
+          text: '在 GitHub 上編輯此頁'
+        },
+
+        sidebar: {
+          '/zh-TW/guide/': sidebarZhTW(),
+          '/zh-TW/runtime-api/': sidebarZhTW(),
+        },
+
+        docFooter: {
+          prev: '上一頁',
+          next: '下一頁'
+        },
+
+        outline: {
+          label: '本頁內容'
+        },
+
+        lastUpdated: {
+          text: '最後更新'
+        }
+      }
+    }
+  },
+
   srcDir: './docs',
   vite: {
     publicDir: join(__dirname, '../public')
@@ -92,6 +132,26 @@ function nav() {
   ]
 }
 
+function navZhTW() {
+  return [
+    {
+      text: '指南',
+      link: '/zh-TW/guide/javascript-plugin',
+      activeMatch: '/zh-TW/guide/'
+    },
+    {
+      text: 'Runtime API',
+      link: '/runtime-api/',
+      activeMatch: '/runtime-api/'
+    },
+    {
+      text: `v${pkg.version}` + (isBeta ? '-beta' : ''),
+      link: isBeta ? 'https://github.com/PenguLoader/PenguLoader/actions'
+        : `https://github.com/PenguLoader/PenguLoader/releases/`
+    }
+  ]
+}
+
 function sidebar() {
   return [
     {
@@ -135,6 +195,38 @@ function sidebar() {
       collapsed: false,
       items: [
         { text: 'Migration from v0.6', link: '/guide/migration-from-v0-6' },
+      ]
+    }
+  ]
+}
+
+function sidebarZhTW() {
+  return [
+    {
+      text: '外掛',
+      collapsed: false,
+      items: [
+        { text: 'JavaScript 外掛', link: '/zh-TW/guide/javascript-plugin' },
+        { text: 'Module System', link: '/guide/module-system' },
+        { text: 'CSS Theme', link: '/guide/css-theme' },
+        { text: 'Asset Handling', link: '/guide/asset-handling' },
+        { text: 'LCU Request', link: '/guide/lcu-request' },
+        { text: 'Npm Compatibility', link: '/guide/npm-compatibility' },
+      ]
+    },
+    {
+      text: 'Runtime API',
+      collapsed: false,
+      items: [
+        { text: 'Overview', link: '/runtime-api/' },
+        { text: '[Pengu]', link: '/runtime-api/pengu' },
+        { text: '[CommandBar]', link: '/runtime-api/command-bar' },
+        { text: '[DataStore]', link: '/runtime-api/data-store' },
+        { text: '[Effect]', link: '/runtime-api/effect' },
+        { text: '[PluginFS]', link: '/runtime-api/plugin-fs' },
+        { text: '[Toast]', link: '/runtime-api/toast' },
+        { text: '[rcp] context.rcp', link: '/runtime-api/rcp' },
+        { text: 'context.socket', link: '/runtime-api/socket' },
       ]
     }
   ]
