@@ -3,7 +3,7 @@
 Follow the steps below to install:
 
 1. Download the
-   [latest release](https://github.com/PenguLoader/PenguLoader/releases)
+   [latest release](https://github.com/PenguLoader/PenguLoader/releases/)
    - There are two versions, the setup EXE and the portable ZIP version
    - With the ZIP version, you should extract it to a fixed location
 
