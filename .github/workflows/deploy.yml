@@ -23,16 +23,10 @@ jobs:
 
       - name: Resolve Pages project
         env:
-          PROJECT_PROD: ${{ secrets.CLOUDFLARE_PROJECT_PROD }}
-          PROJECT_DEV: ${{ secrets.CLOUDFLARE_PROJECT_DEV }}
+          PROJECT: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            PROJECT="$PROJECT_PROD"
-          else
-            PROJECT="$PROJECT_DEV"
-          fi
           if [[ -z "$PROJECT" ]]; then
-            echo "::error::No Pages project configured for ${{ github.ref_name }} -- set the CLOUDFLARE_PROJECT_PROD / CLOUDFLARE_PROJECT_DEV secrets."
+            echo "::error::CLOUDFLARE_PROJECT_NAME secret is not set."
             exit 1
           fi
           echo "CF_PAGES_PROJECT=$PROJECT" >> $GITHUB_ENV
@@ -53,11 +47,12 @@ jobs:
           pnpm install
           pnpm build
 
-      # One Pages project per environment, each owning its own domain:
-      #   main -> CLOUDFLARE_PROJECT_PROD -> pengu.lol
-      #   dev  -> CLOUDFLARE_PROJECT_DEV  -> pengu.dev
-      # --branch must match each project's own production branch so the upload
-      # lands as a production deployment rather than a preview.
+      # Single Pages project, two domains routed by branch:
+      #   main -> production deployment          -> pengu.lol
+      #   dev  -> dev.<project>.pages.dev alias   -> pengu.dev
+      # --branch is what picks between them, so it must always be passed.
+      # pengu.dev reaches the dev build via a proxied CNAME retargeted at the
+      # branch alias -- see docs/guide or the Cloudflare dashboard DNS tab.
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
