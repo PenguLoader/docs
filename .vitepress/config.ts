@@ -1,47 +1,69 @@
-import { defineConfig } from 'vitepress'
-import { join } from 'node:path'
+import { defineConfig, type DefaultTheme } from 'vitepress'
+import { join, resolve } from 'node:path'
 import pkg from '../package.json'
 import { execSync } from 'node:child_process'
 
+import { sidebar } from './sidebar'
+
 const gitBranch = execSync('git rev-parse --abbrev-ref HEAD').toString().trimEnd()
-const isBeta = gitBranch !== 'main'
+const isDev = gitBranch !== 'main'
+const domain = isDev ? 'pengu.dev' : 'pengu.lol'
+
+const meta = {
+  title: 'Pengu Loader',
+  description: 'The ultimate JavaScript plugin loader, build your unmatched LoL Client.',
+  url: `https://${domain}/`,
+  image: `https://${domain}/banner.jpg`,
+}
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
 
-  title: "Pengu Loader" + (isBeta ? ' Beta' : ''),
-  description: "Unleash the power of Customization from your League of Legends Client.",
+  title: meta.title,
+  description: meta.description,
 
   lang: 'en',
-  appearance: isBeta ? undefined : 'dark',
+  appearance: isDev ? undefined : 'dark',
   lastUpdated: true,
   cleanUrls: true,
 
-  srcDir: './docs',
+  srcDir: resolve(__dirname, '../docs'),
   vite: {
-    publicDir: join(__dirname, '../public')
+    publicDir: resolve(__dirname, '../public'),
+    resolve: {
+      alias: [
+        {
+          find: '@components',
+          replacement: resolve(__dirname, 'components'),
+        },
+        {
+          find: /^.*VPSwitchAppearance\.vue$/,
+          replacement: resolve(__dirname, 'components/CustomSwitchAppearance.vue'),
+        },
+      ]
+    }
   },
 
   head: [
     ['meta', { name: 'theme-color', content: '#1e1e20' }],
-    ['link', { rel: 'icon', href: '/PenguLoader.png', type: 'image/png' }],
+    ['link', { rel: 'icon', href: '/icon.png', type: 'image/png' }],
 
     ['meta', { name: 'og:type', content: 'website' }],
-    ['meta', { name: 'og:url', content: 'https://pengu.lol/' }],
-    ['meta', { name: 'og:title', content: 'Pengu Loader' }],
-    ['meta', { name: 'og:description', content: 'Unleash the power of Customization from your League of Legends Client.' }],
-    ['meta', { name: 'og:image', content: 'https://pengu.lol/banner.jpg' }],
+    ['meta', { name: 'og:url', content: meta.url }],
+    ['meta', { name: 'og:title', content: meta.title }],
+    ['meta', { name: 'og:description', content: meta.description }],
+    ['meta', { name: 'og:image', content: meta.image }],
 
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:url', content: 'https://pengu.lol/' }],
-    ['meta', { name: 'twitter:title', content: 'Pengu Loader' }],
-    ['meta', { name: 'twitter:description', content: 'Unleash the power of Customization from your League of Legends Client.' }],
-    ['meta', { name: 'twitter:image', content: 'https://pengu.lol/banner.jpg' }],
+    ['meta', { name: 'twitter:url', content: meta.url }],
+    ['meta', { name: 'twitter:title', content: meta.title }],
+    ['meta', { name: 'twitter:description', content: meta.description }],
+    ['meta', { name: 'twitter:image', content: meta.image }],
   ],
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: '/PenguLoader.png',
+    logo: `/icon.png`,
     nav: nav(),
 
     algolia: {
@@ -66,76 +88,33 @@ export default defineConfig({
     },
 
     footer: {
-      message: 'Released under the WTF License.',
+      message: 'Released under the MIT License.',
       copyright: `Copyright © 2023-present Pengu Loader`
     },
   },
 })
 
-function nav() {
+function nav(): DefaultTheme.NavItem[] {
   return [
     {
-      text: 'Guide',
+      text: 'Download',
+      link: '/download',
+      activeMatch: '/download'
+    },
+    {
+      text: 'Docs',
       link: '/guide/welcome',
       activeMatch: '/guide/'
     },
     {
-      text: 'Runtime API',
+      text: 'API',
       link: '/runtime-api/',
       activeMatch: '/runtime-api/'
     },
-    {
-      text: `v${pkg.version}` + (isBeta ? '-beta' : ''),
-      link: isBeta ? 'https://github.com/PenguLoader/PenguLoader/actions'
-        : `https://github.com/PenguLoader/PenguLoader/releases/`
-    }
-  ]
-}
-
-function sidebar() {
-  return [
-    {
-      text: 'Getting Started',
-      collapsed: false,
-      items: [
-        { text: 'Welcome', link: '/guide/welcome' },
-        { text: 'Installation', link: '/guide/installation' },
-        { text: 'FAQs', link: '/guide/faqs' },
-      ]
-    },
-    {
-      text: 'Plugins',
-      collapsed: false,
-      items: [
-        { text: 'JavaScript Plugin', link: '/guide/javascript-plugin' },
-        { text: 'Module System', link: '/guide/module-system' },
-        { text: 'CSS Theme', link: '/guide/css-theme' },
-        { text: 'Asset Handling', link: '/guide/asset-handling' },
-        { text: 'LCU Request', link: '/guide/lcu-request' },
-        { text: 'Npm Compatibility', link: '/guide/npm-compatibility' },
-      ]
-    },
-    {
-      text: 'Runtime API',
-      collapsed: false,
-      items: [
-        { text: 'Overview', link: '/runtime-api/' },
-        { text: '[Pengu]', link: '/runtime-api/pengu' },
-        { text: '[CommandBar]', link: '/runtime-api/command-bar' },
-        { text: '[DataStore]', link: '/runtime-api/data-store' },
-        { text: '[Effect]', link: '/runtime-api/effect' },
-        { text: '[PluginFS]', link: '/runtime-api/plugin-fs' },
-        { text: '[Toast]', link: '/runtime-api/toast' },
-        { text: '[rcp] context.rcp', link: '/runtime-api/rcp' },
-        { text: 'context.socket', link: '/runtime-api/socket' },
-      ]
-    },
-    {
-      text: 'Migrations',
-      collapsed: false,
-      items: [
-        { text: 'Migration from v0.6', link: '/guide/migration-from-v0-6' },
-      ]
-    }
+    // {
+    //   text: `v${pkg.version}` + (isDev ? '-dev' : ''),
+    //   link: isDev ? 'https://github.com/PenguLoader/PenguLoader/tree/dev'
+    //     : `https://github.com/PenguLoader/PenguLoader/releases/tag/v${pkg.version}`
+    // }
   ]
 }

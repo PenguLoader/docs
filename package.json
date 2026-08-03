@@ -1,7 +1,7 @@
 {
   "name": "pengu-docs",
-  "version": "1.1.0",
-  "description": "Pengu Loader docs",
+  "version": "1.2.0",
+  "description": "Pengu Loader Docs",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -10,14 +10,19 @@
     "preview": "vitepress preview"
   },
   "devDependencies": {
-    "@types/node": "^18.14.6",
-    "vitepress": "^1.0.0-rc.4",
-    "vitepress-plugin-nprogress": "^0.0.4",
-    "vitepress-plugin-tabs": "^0.2.0",
-    "vue": "^3.3.4"
+    "@types/node": "^20",
+    "autoprefixer": "^10.5.4",
+    "postcss": "^8.5.25",
+    "sass": "^1.102.0",
+    "tailwindcss": "^3.4.14",
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-nprogress": "^0.1.1",
+    "vitepress-plugin-tabs": "^0.9.1",
+    "vue": "^3.5.40"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20",
+    "pnpm": ">=9"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -25,6 +30,12 @@
         "@algolia/client-search",
         "search-insights"
       ]
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "tailwindcss": {},
+      "autoprefixer": {}
     }
   }
 }

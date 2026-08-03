@@ -1,21 +1,34 @@
-# docs
-Pengu Loader Docs, built on top of [VitePress](https://vitepress.dev/).
+<br />
+
+<p align="center">
+  <img src="./public/icons/4274.jpg" width="128" height="128" />
+  <h1 align="center">Pengu Docs</h1>
+  <p align="center">Official Pengu Loader documentation, built with VitePress.</p>
+  <p align="center">👉 <a target="_blank" href="https://pengu.lol/">https://pengu.lol</a></p>
+</p>
+
+<br />
+<br />
 
 ## How to run?
 
-You need **NodeJS 16+** and **pnpm** installed. Then clone the repo:
+> **Node.js** version 18 or higher and **pnpm** are required to run the project.
+
+Clone the repo:
 
 ```
 git clone https://github.com/PenguLoader/docs
 ```
 
 Install dependencies and start development.
+
 ```
 pnpm i
 pnpm dev
 ```
 
 Build and preview the production.
+
 ```
 pnpm build
 pnpm preview
@@ -23,7 +36,8 @@ pnpm preview
 
 ## Help us translate the docs
 
-First, you need to create a new folder in the **docs** folder. For example, `vi` for Vietnamese.
+First, you need to create a new folder in the **docs** folder. For example, `vi`
+for Vietnamese.
 
 ```
 docs/
@@ -34,7 +48,8 @@ docs/
   |__vi/              | -> vietnamese docs
 ```
 
-Next, copy the doc files and folders from the root of the docs folder (except the language folders) and then paste them into your language folder.
+Next, copy the doc files and folders from the root of the docs folder (except
+the language folders) and then paste them into your language folder.
 
 ```
 docs/
@@ -44,7 +59,9 @@ docs/
     |__index.md
 ```
 
-Finally, add your language to the .vitepress/config.ts (see the [i18n](https://vitepress.dev/guide/i18n#internationalization) section on VitePress docs to learn more).
+Finally, add your language to the .vitepress/config.ts (see the
+[i18n](https://vitepress.dev/guide/i18n#internationalization) section on
+VitePress docs to learn more).
 
 ```ts
 export default defineConfig({
@@ -64,4 +81,5 @@ export default defineConfig({
 })
 ```
 
-When you are finished editing the translation, push your changes to your forked repo, and then open a new Pull Request.
+When you have finished editing the translation, push your changes to your forked
+repo, and then open a new Pull Request.

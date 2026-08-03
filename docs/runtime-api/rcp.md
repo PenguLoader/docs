@@ -2,7 +2,8 @@
 
 ## General usage
 
-This object provides easy access and hook to the Riot Client Plugin (RCP) system.
+This object provides easy access and hook to the Riot Client Plugin (RCP)
+system.
 
 Get the `rcp` in your plugin entry:
 
@@ -43,14 +44,14 @@ You can delay the plugin loads by blocking your async callback:
 ```js
 rcp.preInit('rcp-name', async () => {
   // delay 2 seconds
-  await new Promise(r => setTimeout(r, 2000))
+  await new Promise((r) => setTimeout(r, 2000))
 })
 ```
 
 ::: warning
 
-Do not pre-hook `rcp-fe-commom-libs`. It is used for the plugin loader, 
-so your callbacks sometimes will not triggered.
+Do not pre-hook `rcp-fe-commom-libs`. It is used for the plugin loader, so your
+callbacks sometimes will not triggered.
 
 :::
 
@@ -66,7 +67,8 @@ Gives you an opportunity to access the plugin API.
 
 - `name` - RCP name, should be prefixed with `rcp-`.
 - `callback` - A function will be triggered after the plugin is loaded.
-- `blocking` - A boolean value indicating whether this callback will be executed in blocking way. It's `false` by default.
+- `blocking` - A boolean value indicating whether this callback will be executed
+  in blocking way. It's `false` by default.
 
 Example:
 
@@ -79,8 +81,9 @@ rcp.postInit('rcp-name', (api) => {
 
 ::: tip
 
-`postInit` and `preInit` should be called before the target plugin loads, 
-preferably witin your plugin's `init` entry. So they will not work after the plugin is loaded.
+`postInit` and `preInit` should be called before the target plugin loads,
+preferably witin your plugin's `init` entry. So they will not work after the
+plugin is loaded.
 
 :::
 
@@ -89,8 +92,8 @@ preferably witin your plugin's `init` entry. So they will not work after the plu
 <Badge type="info" text="function" />
 <Badge type="tip" text="since v1.1.0" />
 
-This function works as same as `postInit` but allows you 
-to get the target plugin asynchronously and also works even after the plugin is loaded.
+This function works as same as `postInit` but allows you to get the target
+plugin asynchronously and also works even after the plugin is loaded.
 
 Example with async context:
 
@@ -102,7 +105,7 @@ Or with .then chain:
 
 ```js
 rcp.whenReady('rcp-fe-lol-uikit')
-  .then(uikit => {
+  .then((uikit) => {
     // do something
   })
 ```

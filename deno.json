@@ -2,6 +2,7 @@
   "fmt": {
     "files": {
       "include": [
+        "README.md",
         "docs/"
       ]
     },
@@ -13,5 +14,6 @@
       "semiColons": false,
       "proseWrap": "always"
     }
-  }
+  },
+  "exclude": [".vitepress", "components"]
 }

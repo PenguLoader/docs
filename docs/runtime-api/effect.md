@@ -1,110 +1,219 @@
-# Effect
+# `window.Effect`
 
-This namespace supports changing window transparency/translucent effect.
+This namespace object allows you to change the visual effect behind the Client
+window.
 
-<br>
+## Visual Effects
 
-![](https://user-images.githubusercontent.com/38210249/216951830-b3bb3ce3-7a5f-4e60-8a67-33d0bce799cf.png)
+### `transparent`
 
-## Effect.current
+<p align="center">
+  <img src="/images/visual-transparent.png" />
+</p>
 
-<Badge type="info" text="string" />
-<Badge type="tip" text="since v1.0.1" />
+Transparent window background, you can see other windows and desktop background
+under the window.
 
-A read-only property that returns the currently applied effect or `null` if
-no effect has been applied.
+> Available on Windows 7+, macOS 10.14+
 
-Available effects: `mica`, `acrylic`, `unified` and `blurbehind`.
+### `blurbehind`
 
-Example:
+<p align="center">
+  <img src="/images/visual-blurbehind.png" />
+</p>
 
-```js
-console.log(Effect.current)
-// mica
-```
+Blurbehind is also known as **aero glass** effect, it looks like Windows Vista &
+Windows 7 glossy blur effect.
 
-## Effect.apply(name, options?)
+> Available on Windows 7+, macOS 10.14+
 
-<Badge type="info" text="function" />
-<Badge type="success" text="since v1.0.1" />
+### `acrylic`
 
-A function that takes the name of the desired effect name and an optional
-object.<br> It returns a boolean indicating whether the effect was successfully
-applied or not.
+<p align="center">
+  <img src="/images/visual-acrylic.png" />
+</p>
 
-Parameters:
+Acrylic is a type of brush that creates a translucent texture. You can apply
+acrylic to app surfaces to add depth and help establish a visual hierarchy.
+Works only on Windows 10 version 1803 or higher.
 
-- `name` [required] These effect names above to be applied, in string.
+> Available on Windows 10 1803+, macOS 10.14+
 
-- `options` [optional] Additional options for the effect, `acrylic`, `unified`
-  and `blurbehind` could have tint color, but `mica` will ignore this options.
+### `unified`
 
-This function returns `false` if the effect could not be applied, see the
-[System compatibility](#system-compatibility) below.
+Unified is a mix of Acrylic and Blurbehind. It is available on Windows 11, but
+you can use on Windows 10 with no difference from Acrylic.
 
-Example:
+> Available on Windows 11, macOS 10.14+
 
-```js
-// enable acrylic on Windows 10
-Effect.apply('acrylic')
+### `mica`
 
-// with a tint color
-Effect.apply('unified', { color: '#4446' })
+Mica is an opaque, dynamic material that incorporates theme and desktop
+wallpaper to paint the background of long-lived windows. Works only on Windows
+11 or greater.
 
-// mica on windows 11, no options needed
-Effect.apply('mica')
-```
+> Available on Windows 11, macOS 10.14+
 
-::: info
+[Mica Alt](https://learn.microsoft.com/en-us/windows/apps/design/style/mica#app-layering-with-mica-alt)
+or mica with material is introduced in Windows 11 build 22523.
 
-Tint colors must be in CSS hex color format, e.g. #RGB, #RGBA, #RRGGBB,
-#RRGGBBAA.
+- `none`
+- `auto`
+- `mica`
+- `acrylic` Acrylic is a type of brush that creates a translucent texture. You
+  can apply acrylic to app surfaces to add depth and help establish a visual
+  hierarchy.
+- `tabbed` Tabbed is a Mica like material that incorporates theme and desktop
+  wallpaper, but is more sensitive to desktop wallpaper color.
 
-To see transparency effect correctly, you should remove all lowest backgrounds.
+### `vibrancy`
 
-:::
+Vibrancy is a subtle blending of foreground and background colors to increase
+the contrast and make the foreground content stand out visually.
 
-![](https://user-images.githubusercontent.com/38210249/216951865-bb9c6676-58ec-4c81-ad96-67e94e91ac22.png)
+> Available on macOS 10.14+
 
-## Effect.clear()
+Vibrancy works with material like Mica on Windows 11, here is the list based on
+[NSVisualEffectMaterial](https://developer.apple.com/documentation/appkit/nsvisualeffectmaterial):
 
-<Badge type="info" text="function" />
-<Badge type="tip" text="since v1.0.1" />
-
-A function that clears any currently applied effect, then the Client background
-will be black.<br> Using `Effect.current` after clearing will give you
-`undefined`.
-
-Example:
-
-```js
-// just clear applied effect, even if nothing applied
-Effect.clear()
-```
+- `Titlebar` The material for a window's titlebar.
+- `Selection` The material for text selection.
+- `Menu` The material for menus.
+- `Popover` The material for the background of popover windows.
+- `Sidebar` The material for the background of window sidebars.
+- `HeaderView` The material for in-line header or footer views.
+- `Sheet` The material for the background of sheet windows.
+- `WindowBackground` The material for the background of opaque windows.
+- `HudWindow` The material for the background of heads-up display (HUD) windows.
+- `FullScreenUI` The material for the background of a full-screen modal
+  interface.
+- `Tooltip` The material for the background of a tool tip.
+- `ContentBackground` The material for the background of opaque content.
+- `UnderWindowBackground` The material to show under a window's background.
+- `UnderPageBackground` The material for the area behind the pages of a
+  document.
 
 ## System compatibility
+
+### Windows
 
 <!-- - These effects are currently supported only Windows 7+. -->
 
 - On Windows 7, only the `blurbehind` is supported.
-- On Windows 10, requires build 1703 or higher to use `acrylic`.
+- On Windows 10, requires version 1803 or higher to use `acrylic`.
 - `mica` and `unified` are only supported on Windows 11, but `unified` can be
   enabled on Windows 10 without different from `acrylic`.
 
 ::: warning
 
-On Windows 10 build **1903** (19H1) and higher, enabling `acrylic/mica/unified` with
-**Transparency effects** (in Personalize -> Color settings) will cause lag when
-moving the Client window.
+On Windows 10 build **1903** (19H1) and higher, enabling `acrylic/mica/unified`
+with **Transparency effects** (in Personalize -> Color settings) will cause lag
+when moving the Client window.
 
 :::
 
-## Listening for changes
+### macOS
 
-Add a listener which will be triggered when effect changed.
+On macOS, we only have the `vibrancy` effect, so those Windows-based effects
+will be treated as `vibrancy` with the appropriate material, and the effect will
+appear when the Client window is active.
 
-```js
-window.addEventListener('effect-changed', (event) => {
-  console.log(event.detail)
-})
+- `transparent` => `UnderWindowBackground` material
+- `blurbehind` => `HudWindow` material
+- `acrylic` => `FullScreenUI` material
+- `unified` => `Popover` material
+- `mica` => `HeaderView` material
+
+<br>
+
+## API functions
+
+### `Effect.apply()` <Badge type="tip" text="since v1.0.1" />
+
+```ts
+function apply(
+  name: 'transparent' | 'blurbehind' | 'acrylic' | 'unified',
+  options?: { color: string },
+): void
+function apply(
+  name: 'mica',
+  options?: { material?: 'auto' | 'none' | 'mica' | 'acrylic' | 'tabbed' },
+): void
+function apply(
+  name: 'vibrancy',
+  options: { material: string; alwaysOn?: boolean },
+): void
 ```
+
+Apply window visual effect with the name of the desired effect.
+
+#### Parameters
+
+- `name` These effect names above to be applied, in string.
+
+- `options` [optional] Additional options for the effect.
+
+An unknown effect name, or an unknown `mica` / `vibrancy` material, is ignored
+with a warning in the DevTools console rather than throwing.
+
+#### Remarks
+
+- `transparent`, `blurbehind`, `acrylic` and `unified` require options object
+  with a `color` field is CSS hex color.
+
+  ```js
+  // enable transparent effect with accent color is #0008
+  Effect.apply('transparent', { color: '#0008' })
+  ```
+
+- The `mica` might require the options with material.
+
+  ```js
+  // enable pure mica effect (Windows 11)
+  Effect.apply('mica')
+
+  // enable mica alt effect with acrylic material (Windows 11 build 22523+)
+  Effect.apply('mica', { material: 'acrylic' })
+  ```
+
+- The `vibrancy` effect is like the `mica` but also has an option `alwaysOn` to
+  indicate that the effect should always appear even the window is inactive, it
+  is `false` by default.
+
+  ```js
+  // enable vibrancy effect with HudWindow material (macOS)
+  Effect.apply('vibrancy', { material: 'HudWindow' })
+  // always on
+  Effect.apply('vibrancy', { material: 'HudWindow', alwaysOn: true })
+  ```
+
+::: info
+
+Accent color must be in CSS hex color format.
+
+- #RGB, #RRGGBB (red-green-blue)
+- #RGBA, #RRGGBBAA (red-green-blue-alpha)
+
+To see transparency effect correctly, you should remove all opaque backgrounds.
+
+:::
+
+### Effect.clear() <Badge type="tip" text="since v1.0.1" />
+
+```ts
+function clear()
+```
+
+Call this function to clear the applied window visual effect.
+
+### `Effect.setTheme()` <Badge type="tip" text="since v1.1.0" />
+
+```ts
+function setTheme(theme: 'light' | 'dark')
+```
+
+Change the default theme of the Client window. There are two options `light` or
+`dark`, the initial value is set by system settings.
+
+Since v1.2.0, window theme is set to `dark` by default, and won't be affected by
+system settings. You can call this function to turn on `light` theme.

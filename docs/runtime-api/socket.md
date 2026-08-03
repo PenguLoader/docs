@@ -1,7 +1,8 @@
 # LCU Socket observation
 
-This namespace helps you to observe specific LCU APIs without creating a new WebSocket.
-You cannot get it directly from `window`, instead use the context of the [`init` entry point](../guide/javascript-plugin#plugin-entry-points).
+This namespace helps you to observe specific LCU APIs without creating a new
+WebSocket. You cannot get it directly from `window`, instead use the context of
+the [`init` entry point](../guide/javascript-plugin#plugin-entry-points).
 
 ## socket.observe(api, listener)
 
@@ -11,7 +12,7 @@ You cannot get it directly from `window`, instead use the context of the [`init`
 ```ts
 function observe(
   api: string,
-  listener: ApiListener
+  listener: ApiListener,
 ): { disconnect: () => void }
 
 interface EventData {
@@ -34,7 +35,8 @@ Subscribe a listener to listen when the given API endpoint get called.
 
 ### Return value:
 
-An object with a prop `disconnect` that could be called to disconnect the observer.
+An object with a prop `disconnect` that could be called to disconnect the
+observer.
 
 Example:
 
@@ -53,4 +55,5 @@ socket.observe('/lol-matchmaking/v1/ready-check', (data) => {
 function disconnect(api: string, listener: ApiListener)
 ```
 
-Disconnect a subscribed listener. The function parameters like the function above.
+Disconnect a subscribed listener. The function parameters like the function
+above.

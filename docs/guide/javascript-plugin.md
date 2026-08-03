@@ -58,25 +58,84 @@ Hello, League Client!
 
 <Badge type="tip" text="since v1.1.0" />
 
-A plugin's entry point is an exported function in the plugin index that is called automatically by the loader.
-The `init` entry should be called before League Client initializes its scripts.
+A plugin's entry point is an exported function in the plugin index that is
+called automatically by the loader. The `init` entry is called before League
+Client initializes its scripts.
 
 ```js
 export function init(context) {
   // your code here
 }
 ```
-- See [`context.rcp`](../runtime-api/rcp) to use RiotClientPlugin hooks from this `context`.
-- See [`context.socket`](../runtime-api/socket.md) to use built-in socket observation.
 
-As of v1.1.0, you no longer need to put your load script in the `load` event of `window`.
-Instead, you can put in the `load` entry, it will be called even after window is loaded.
+The `context` gives you:
+
+- [`context.rcp`](../runtime-api/rcp) — RiotClientPlugin hooks.
+- [`context.socket`](../runtime-api/socket) — built-in socket observation.
+- `context.meta` — `{ name }`, your plugin's folder name.
+  <Badge type="tip" text="since v1.2" />
+- [`context.fs`](../runtime-api/fs) — read/write access to your own plugin
+  folder. <Badge type="tip" text="since v1.2" />
+
+`meta` and `fs` are only present for **folder plugins** — see
+[Plugin layouts](#plugin-layouts) below.
+
+`init` may be `async`, and the loader awaits it. That is how you delay the
+Client's own startup until your setup is done — but keep it short, see
+[Load timing](#load-timing).
+
+As of v1.1.0, you no longer need to register a `load` listener on `window`
+yourself. Export a `load` entry instead and the loader wires it up for you.
 
 ```js
 export function load() {
   // your code here
 }
 ```
+
+`load` runs once the Client's HTML has been parsed, which is where you should
+touch the DOM. A `default` export is treated the same way if you don't export
+`load`:
+
+```js
+export default function () {
+  // same as `export function load()`
+}
+```
+
+## Plugin layouts
+
+Pengu recognises three shapes inside the **plugins** folder:
+
+```
+plugins/
+  |__quick-tweak.js           <- single-file plugin
+  |__your-plugin/
+  |  |__index.js              <- folder plugin
+  |__@author/
+     |__their-plugin/
+        |__index.js           <- namespaced folder plugin
+```
+
+Single-file plugins work, but they get neither `context.meta` nor `context.fs`
+— they have no folder of their own to scope those to. If your plugin needs to
+store anything next to itself, give it a folder.
+
+Namespaced plugins (`@author/name/index.js`) are supported since v1.2, and are
+the convention for anything you publish for others to install.
+
+## Load timing
+
+Every plugin's `init` is awaited before the Client's first RCP plugin is
+released, so slow work in `init` delays Client startup for your users.
+
+Pengu caps the total wait at **15 seconds**. If your plugins collectively take
+longer, the Client is released anyway and a warning appears in the console.
+Plugins still finish loading in the background, but they may miss `preInit` /
+`postInit` hooks for RCP plugins that already got past those phases.
+
+If a plugin throws while loading, the error is logged with the plugin name and
+the remaining plugins carry on — one broken plugin does not take down the rest.
 
 ## Plugin templates
 

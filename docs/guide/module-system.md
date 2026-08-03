@@ -30,7 +30,7 @@ console.log(utils.greeting) // -> hello
 ```ts [utils.js]
 // export a simple object
 export default {
-  gretting: 'Hello'
+  gretting: 'Hello',
 }
 ```
 
@@ -127,7 +127,7 @@ In your CSS module, you can import plugin assets using relative path:
 ```css
 .some-div {
   background-image: url(./assets/image.png);
-  /* resolve to //plugins/your-plugin/assets/image.png */ 
+  /* resolve to //plugins/your-plugin/assets/image.png */
 }
 ```
 

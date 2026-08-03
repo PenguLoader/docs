@@ -1,42 +1,41 @@
 ---
 layout: home
-
 title: Pengu Loader
 titleTemplate: Pengu Loader
-
 hero:
-  name: Pengu Loader
-  # text: Pengu Loader
-  tagline: Unleash the power of Customization from your League of Legends Client
+  name: Build your unmatched
+  text: LoL Client
+  tagline: Start customizing now!
   image:
-    src: /Pengu_Featherknight_144.jpg
-    alt: VitePress
+    src: /images/visual-acrylic.png
+    alt: Pengu Loader
   actions:
     - theme: brand
+      text: Download
+      link: /download
+    - theme: alt
       text: Get Started
       link: /guide/welcome
     - theme: alt
-      text: Join our Discord
+      text: Join Discord
       link: https://chat.pengu.lol
-    - theme: alt
-      text: View on GitHub
-      link: https://github.com/PenguLoader/PenguLoader
-
 features:
   - icon:
       src: /features/javascript.png
     title: JavaScript-Powered
-    details: Build a more intelligent Client with JavaScript. It's great to be able to use your favorite front-end technology.
+    details: Build a more intelligent Client with modern JavaScript and flexible web stacks.
+    link: /guide/javascript-plugin
+    linkText: Create your first plugin
   - icon:
       src: /features/theme.png
     title: Personalized Look & Feel
     details: Customize the Client interface to your preferences and make it unique.
+    link: /guide/css-theme
+    linkText: Create your first theme
   - icon:
       src: /features/league-of-legends.png
     title: Inside the League
-    details: Designed to work seamlessly within the Client, helping you to access the LCU without restriction.
-  - icon:
-      src: /features/chrome-dev.png
-    title: Chrome DevTools
-    details: Inspect and edit anything on the Client just as you would in a web browser.
+    details: Designed to work seamlessly within the Client UX, for simplified API access and hooks.
+    link: /runtime-api/
+    linkText: Check out API docs
 ---
