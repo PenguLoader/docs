@@ -51,27 +51,6 @@ import this theme.css from your index.js */
 
 :::
 
-### Common assets
-
-Since v0.5, we have provided access to local assets via the `//assets/` domain.
-
-Example:
-
-```
-loader/
-  |__assets/
-    |__your-image.png
-    |__your-background.mp4
-    |...
-  |__plugins/
-    |...
-```
-
-```html
-<img src="//assets/your-image.png" />
-<video src="//assets/your-background.mp4"></video>
-```
-
 ## Remote assets
 
 ### GitHub file hosting

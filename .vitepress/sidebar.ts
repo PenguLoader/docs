@@ -34,6 +34,7 @@ export function sidebar(): DefaultTheme.SidebarItem[] {
         { text: 'window.Effect (Visual)', link: '/runtime-api/effect' },
         { text: 'window.CommandBar (UI)', link: '/runtime-api/command-bar' },
         { text: 'window.Toast (UI)', link: '/runtime-api/toast' },
+        { text: 'window.Settings (UI)', link: '/runtime-api/settings' },
         { text: 'context.rcp', link: '/runtime-api/rcp' },
         { text: 'context.socket', link: '/runtime-api/socket' },
         { text: 'context.fs (PluginFS)', link: '/runtime-api/fs' },

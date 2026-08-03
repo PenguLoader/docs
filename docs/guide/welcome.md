@@ -3,7 +3,7 @@
 ## What is Pengu Loader?
 
 <p align=center style="margin: 3rem 0">
-  <img src="/Pengu_Featherknight_144.jpg" />
+  <img src="/icons/4216.jpg" width="144" height="144" />
 </p>
 
 **Pengu Loader** (formerly **League Loader**) is a **plugin loader** designed

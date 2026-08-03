@@ -1,5 +1,8 @@
 # Migration from v0.6
 
+Pengu Loader v0.6 is known as **League Loader**, the old name of the project
+before rebranding.
+
 ## New plugin project structure
 
 <Badge type="tip" text="^1.0" />
@@ -145,5 +148,5 @@ In this case above, `import` becomes an async function like. You can also add a
 
 ### JSON and CSS modules
 
-You should refer to the [Module System](./module-system) to handle
-importing them.
+You should refer to the [Module System](./module-system) to handle importing
+them.

@@ -50,7 +50,7 @@ async function quitLobby() { // dont know why people call it 'dodge'
 When the WebSocket is ready, this link tag will appear:
 
 ```html
-<link rel="riot:plugins:websocket" href="wss://riot:.../">
+<link rel="riot:plugins:websocket" href="wss://riot:.../" />
 ```
 
 Getting its URI with a simple query.
@@ -97,7 +97,8 @@ socket.send(JSON.stringify([6, '<EventName>']))
 
 ::: tip
 
-Since v1.1.0, we have introduced [`context.socket`](../runtime-api/socket) to for easier socket observation.
+Since v1.1.0, we have introduced [`context.socket`](../runtime-api/socket) to
+for easier socket observation.
 
 :::
 

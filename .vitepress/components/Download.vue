@@ -64,8 +64,9 @@ onMounted(async () => {
               </path>
             </svg></div>
           <h5 class="mb-1 font-medium leading-none tracking-tight">Info</h5>
-          <div class="text-sm [&amp;_p]:leading-relaxed">By downloading the app, you agree to the <a
-              href="/privacy-policy/">Privacy Policy</a>.</div>
+          <div class="text-sm [&amp;_p]:leading-relaxed">Pengu Loader only restyles the League Client and never
+            touches the game — but it is a third-party tool, and what your plugins do is on you. Please read the <a
+              href="/policy">Usage Policy</a> before downloading.</div>
         </div>
 
         <div v-if="release === undefined">
