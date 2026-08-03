@@ -6,62 +6,64 @@ on:
   workflow_dispatch:
 
 jobs:
-  env-prod:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://pengu.lol
-    steps:
-      - run: echo >nul
-
-  env-dev:
-    if: github.ref == 'refs/heads/dev'
-    runs-on: ubuntu-latest
-    environment:
-      name: development
-      url: https://beta.pengu.lol
-    steps:
-      - run: echo >nul
-
   deploy:
-    permissions:
-      id-token: write
-      contents: read
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      deployments: write
+
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+      url: ${{ github.ref == 'refs/heads/main' && 'https://pengu.lol' || 'https://pengu.dev' }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set environment variables
+      - name: Resolve Pages project
+        env:
+          PROJECT_PROD: ${{ secrets.CLOUDFLARE_PROJECT_PROD }}
+          PROJECT_DEV: ${{ secrets.CLOUDFLARE_PROJECT_DEV }}
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "DENO_DEPLOY_PROJECT=pengu-docs" >> $GITHUB_ENV
-          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            echo "DENO_DEPLOY_PROJECT=pengu-docs-dev" >> $GITHUB_ENV
+            PROJECT="$PROJECT_PROD"
+          else
+            PROJECT="$PROJECT_DEV"
           fi
+          if [[ -z "$PROJECT" ]]; then
+            echo "::error::No Pages project configured for ${{ github.ref_name }} -- set the CLOUDFLARE_PROJECT_PROD / CLOUDFLARE_PROJECT_DEV secrets."
+            exit 1
+          fi
+          echo "CF_PAGES_PROJECT=$PROJECT" >> $GITHUB_ENV
 
-      - name: Install NodeJS
-        uses: actions/setup-node@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 18.x
+          version: 9
 
-      - name: Install Deno
-        uses: denoland/setup-deno@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          deno-version: 1.x
-
-      - name: Install Deno deployctl
-        run: deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -r -f https://deno.land/x/deploy/deployctl.ts
+          node-version: 20.x
+          cache: pnpm
 
       - name: Build project
         run: |
-          npm i -g pnpm
           pnpm install
           pnpm build
 
-      - name: Deploy to Deno Deploy
-        run: |
-          cd .vitepress
-          deployctl deploy --prod --project=$DENO_DEPLOY_PROJECT ./serve.ts --token ${{ secrets.DENO_DEPLOY_TOKEN }}
+      # One Pages project per environment, each owning its own domain:
+      #   main -> CLOUDFLARE_PROJECT_PROD -> pengu.lol
+      #   dev  -> CLOUDFLARE_PROJECT_DEV  -> pengu.dev
+      # --branch must match each project's own production branch so the upload
+      # lands as a production deployment rather than a preview.
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy .vitepress/dist
+            --project-name=${{ env.CF_PAGES_PROJECT }}
+            --branch=${{ github.ref_name }}
