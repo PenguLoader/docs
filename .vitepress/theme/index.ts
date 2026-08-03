@@ -1,23 +1,25 @@
 // https://vitepress.dev/guide/custom-theme
-import { h } from 'vue';
-import Theme from 'vitepress/theme';
-import type { EnhanceAppContext } from 'vitepress';
 
-import { vitepressGoogleAnalytics } from './analytics';
-import vitepressNprogress from 'vitepress-plugin-nprogress';
+// must stay first: Tailwind's Preflight has to be emitted before the default
+// theme's stylesheet, otherwise it overrides VitePress base styles site-wide
+import './tailwind.css'
 
-import './style.css';
-import 'vitepress-plugin-nprogress/lib/css/index.css';
+import DefaultTheme from 'vitepress/theme'
+import type { EnhanceAppContext, Theme } from 'vitepress'
+
+import { vitepressGoogleAnalytics } from './analytics'
+import vitepressNprogress from 'vitepress-plugin-nprogress'
+
+import './custom.css'
+import 'vitepress-plugin-nprogress/lib/css/index.css'
+
+import Layout from './Layout.vue'
 
 export default {
-  extends: Theme,
-  Layout: () => {
-    return h(Theme.Layout, null, {
-      // https://vitepress.dev/guide/extending-default-theme#layout-slots
-    })
-  },
+  extends: DefaultTheme,
+  Layout: Layout,
   enhanceApp(ctx: EnhanceAppContext) {
-    vitepressNprogress(ctx);
-    vitepressGoogleAnalytics('G-KX1BWHTJ9S');
+    vitepressNprogress(ctx)
+    vitepressGoogleAnalytics('G-KX1BWHTJ9S')
   }
-}
+} as Theme

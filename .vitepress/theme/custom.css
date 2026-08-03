@@ -1,0 +1,305 @@
+:root {
+  --vp-c-emerald-1: #10b981;
+  --vp-c-emerald-2: #059669;
+  --vp-c-emerald-3: #047857;
+  --vp-c-emerald-soft: rgba(16, 185, 129, 0.14);
+
+  --vp-c-teal-1: #14b8a6;
+  --vp-c-teal-2: #0d9488;
+  --vp-c-teal-3: #0f766e;
+  --vp-c-teal-soft: rgba(13, 148, 136, 0.14);
+
+  --vp-c-slate-1: #334155;
+  --vp-c-slate-2: #1e293b;
+  --vp-c-slate-3: #0f172a;
+  --vp-c-slate-soft: rgba(31, 41, 58, 0.14);
+
+  --vp-c-sky-1: #0ea5e9;
+  --vp-c-sky-2: #0284c7;
+  --vp-c-sky-3: #0369a1;
+  --vp-c-sky-soft: rgba(2, 132, 199, 0.14);
+}
+
+.dark {
+  --vp-c-emerald-1: #34d399;
+  --vp-c-emerald-2: #10b981;
+  --vp-c-emerald-3: #059669;
+  --vp-c-emerald-soft: rgba(16, 185, 129, 0.16);
+
+  --vp-c-teal-1: #2dd4bf;
+  --vp-c-teal-2: #14b8a6;
+  --vp-c-teal-3: #0d9488;
+  --vp-c-teal-soft: rgba(13, 148, 136, 0.16);
+
+  --vp-c-slate-1: #f1f5f9;
+  --vp-c-slate-2: #e2e8f0;
+  --vp-c-slate-3: #cbd5e1;
+  --vp-c-slate-soft: rgba(203, 232, 241, 0.16);
+
+  --vp-c-sky-1: #38bdf8;
+  --vp-c-sky-2: #0ea5e9;
+  --vp-c-sky-3: #0284c7;
+  --vp-c-sky-soft: rgba(2, 132, 199, 0.16);
+
+  --vp-c-bg: #1a1a1a;
+}
+
+:root {
+  --vp-c-brand-1: var(--vp-c-slate-1);
+  --vp-c-brand-2: var(--vp-c-slate-2);
+  --vp-c-brand-3: var(--vp-c-slate-3);
+  --vp-c-brand-soft: var(--vp-c-slate-soft);
+
+  --vp-button-brand-text: var(--vp-c-bg);
+  --vp-button-brand-bg: var(--vp-c-brand-2);
+  --vp-button-brand-hover-text: var(--vp-c-bg);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-1);
+  --vp-button-brand-active-text: var(--vp-c-bg);
+  --vp-button-brand-active-bg: var(--vp-c-brand-1);
+
+  --vp-button-alt-border: var(--vp-c-default-3);
+  --vp-button-alt-text: var(--vp-c-text-1);
+  --vp-button-alt-bg: transparent;
+  --vp-button-alt-hover-border: var(--vp-c-default-1);
+  --vp-button-alt-hover-text: var(--vp-c-text-1);
+  --vp-button-alt-hover-bg: transparent;
+  --vp-button-alt-active-border: var(--vp-c-default-1);
+  --vp-button-alt-active-text: var(--vp-c-text-1);
+  --vp-button-alt-active-bg: transparent;
+
+  --vp-link-color: var(--vp-c-sky-2);
+  --vp-link-hover-color: var(--vp-c-sky-2);
+
+  --dm-color-brand: var(--vp-c-brand-1);
+  --dm-color-bg-alt: transparent;
+  --dm-color-hint: var(--vp-c-text-1);
+}
+
+/* VitePress only paints the background on <body>, which propagates to the
+   viewport canvas. During a view transition the canvas is painted *below* the
+   snapshot layer, so give <html> its own background to make sure nothing
+   un-themed can ever show through. */
+html {
+  background-color: var(--vp-c-bg);
+}
+
+.vp-doc a {
+  color: var(--vp-link-color);
+  text-decoration: none;
+}
+
+.vp-doc a:hover {
+  color: var(--vp-link-hover-color);
+  text-decoration-line: underline;
+  text-decoration-thickness: from-font;
+  text-underline-position: from-font;
+}
+
+.dialog-container .dialog-panel .combobox-option.active {
+  color: var(--vp-c-neutral-inverse);
+}
+
+.vp-doc .plugin-tabs .plugin-tabs--content {
+  padding: 0;
+}
+
+.vp-doc .plugin-tabs .plugin-tabs--content div[class*='language-'] {
+  background-color: transparent !important;
+}
+
+@media (min-width: 960px) {
+  #app .VPNavBar:not(.has-sidebar):not(.top) {
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+  }
+
+  #app .VPNavBar:not(.has-sidebar):not(.top) .content .content-body {
+    background-color: transparent;
+  }
+
+  .VPHome .VPHomeHero {
+    padding-bottom: 120px;
+  }
+}
+
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
+
+/**
+ * Colors
+ * -------------------------------------------------------------------------- */
+
+/* :root {
+  --vp-c-brand-1: #279EFF;
+  --vp-c-brand-2: #279EFF;
+
+  --vp-c-brand: #279EFF;
+  --vp-c-brand-light: #00A9FF;
+  --vp-c-brand-lighter: #89CFF3;
+  --vp-c-brand-lightest: #A0E9FF;
+  --vp-c-brand-dark: #00C4FF;
+  --vp-c-brand-darker: #30A2FF;
+  --vp-c-brand-dimm: rgba(100, 108, 255, 0.08);
+
+  scroll-behavior: smooth;
+} */
+
+/**
+ * Component: Button
+ * -------------------------------------------------------------------------- */
+
+/* :root {
+  --vp-button-brand-border: var(--vp-c-brand-light);
+  --vp-button-brand-text: var(--vp-c-white);
+  --vp-button-brand-bg: var(--vp-c-brand);
+  --vp-button-brand-hover-border: var(--vp-c-brand-light);
+  --vp-button-brand-hover-text: var(--vp-c-white);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-light);
+  --vp-button-brand-active-border: var(--vp-c-brand-light);
+  --vp-button-brand-active-text: var(--vp-c-white);
+  --vp-button-brand-active-bg: var(--vp-button-brand-bg);
+} */
+
+/**
+ * Component: Home
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #bd34fe, #41d1ff);
+  --vp-home-hero-image-background-image: linear-gradient(156deg, #378adf60 30%, #bb5ff560);
+  --vp-home-hero-image-filter: blur(66px);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --vp-home-hero-image-filter: blur(56px);
+  }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-home-hero-image-filter: blur(72px);
+  }
+}
+
+/**
+ * Component: Custom Block
+ * -------------------------------------------------------------------------- */
+
+/* :root {
+  --vp-custom-block-tip-border: var(--vp-c-brand);
+  --vp-custom-block-tip-text: var(--vp-c-brand-darker);
+  --vp-custom-block-tip-bg: var(--vp-c-brand-dimm);
+}
+
+.dark {
+  --vp-custom-block-tip-border: var(--vp-c-brand);
+  --vp-custom-block-tip-text: var(--vp-c-brand-lightest);
+  --vp-custom-block-tip-bg: var(--vp-c-brand-dimm);
+} */
+
+/**
+ * Others
+ * -------------------------------------------------------------------------- */
+
+.VPImage.logo {
+  border-radius: 0.25rem;
+}
+
+.VPHero .VPImage {
+  border-radius: 1rem;
+}
+
+.VPFeature .VPImage {
+  width: 48px;
+  height: 48px;
+  border-radius: .3rem;
+}
+
+.VPNavBar.has-sidebar .content-body {
+  /* margin-left: 1.4rem; */
+  /* border-bottom: 1px solid var(--vp-c-divider); */
+}
+
+.VPNavBar.has-sidebar .curtain {
+  display: none;
+}
+
+.VPFooter {
+  border-top: none !important;
+  background-color: #8080800A !important;
+}
+
+.VPMenu {
+  min-width: 180px !important;
+}
+
+/**
+ * Component: Algolia
+ * -------------------------------------------------------------------------- */
+
+.DocSearch {
+  --docsearch-primary-color: var(--vp-c-brand) !important;
+}
+
+/* .DocSearch.DocSearch-Button {
+  background: var(--docsearch-searchbox-focus-background);
+  box-shadow: var(--docsearch-searchbox-shadow);
+  color: var(--docsearch-text-color);
+  outline: none;
+} */
+
+.dark .DocSearch-Hit[aria-selected=true] .DocSearch-Hit-Container * {
+  color: var(--vp-c-neutral-inverse) !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #6664;
+  border: 4px solid transparent;
+  border-radius: 6px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #6668;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 1px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::selection {
+  background-color: #79ffe1;
+  color: #000;
+}
+
+.VPNavBarMenuLink.active {
+  font-weight: bold;
+  margin-bottom: -1px;
+  border-bottom: solid 1px var(--vp-c-slate-1);
+}
+
+/* .VPSidebarItem.is-active a {
+  position: relative;
+}
+
+.VPSidebarItem.is-active a::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -32px;
+  height: 100%;
+  display: block;
+  border-right: solid 1px var(--vp-c-slate-1);
+} */
