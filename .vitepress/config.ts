@@ -66,10 +66,14 @@ export default defineConfig({
     logo: `/icon.png`,
     nav: nav(),
 
-    algolia: {
-      apiKey: '470d1a268c45ebcec23f9cefd23a6387',
-      appId: 'QXR7IBTC3K',
-      indexName: 'pengu'
+    // Offline, in-site search. The index is built from the rendered pages at
+    // build time and shipped with the site -- no crawler, no external API, and
+    // freshly published pages are searchable the moment they deploy.
+    search: {
+      provider: 'local',
+      options: {
+        detailedView: true,
+      },
     },
 
     editLink: {

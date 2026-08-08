@@ -237,25 +237,6 @@ html {
   min-width: 180px !important;
 }
 
-/**
- * Component: Algolia
- * -------------------------------------------------------------------------- */
-
-.DocSearch {
-  --docsearch-primary-color: var(--vp-c-brand) !important;
-}
-
-/* .DocSearch.DocSearch-Button {
-  background: var(--docsearch-searchbox-focus-background);
-  box-shadow: var(--docsearch-searchbox-shadow);
-  color: var(--docsearch-text-color);
-  outline: none;
-} */
-
-.dark .DocSearch-Hit[aria-selected=true] .DocSearch-Hit-Container * {
-  color: var(--vp-c-neutral-inverse) !important;
-}
-
 *::-webkit-scrollbar-thumb {
   background: #6664;
   border: 4px solid transparent;

@@ -199,9 +199,3 @@ a[href]:not(.btn-download) {
   @apply font-medium text-blue-600 dark:text-blue-500 hover:underline;
 }
 </style>
-
-<style module>
-#docsearch {
-  display: none;
-}
-</style>
