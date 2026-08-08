@@ -6,8 +6,16 @@ browsers. This namespace helps you to store user data on disk.
 The whole store is read from disk **before any plugin runs**, and kept in memory
 for the rest of the session. Reads (`get`, `has`) are therefore synchronous and
 safe to call from your plugin's `init`. Writes update memory immediately and
-commit to disk on a short debounce, so a burst of `set` calls (a settings slider,
-say) collapses into a single write.
+reach disk a moment later; repeated `set` calls on the same key (a settings
+slider, say) collapse into a single write.
+
+::: tip Storing more than a few settings?
+
+Every plugin shares this one store, and it's all held in memory. For datasets,
+caches, or anything that grows, use [`context.storage`](./storage) — it's
+per-plugin, and the cost of a write doesn't grow with how much you've stored.
+
+:::
 
 ## DataStore.set()
 
@@ -34,11 +42,14 @@ functions and runtime objects will be ignored.
 
 #### Returns
 
-`true` if the value was accepted, `false` if `key` was not a string.
+`true` if the value was accepted.
 
-The return value is **not** a write confirmation — it means "stored in memory,
-and it will reach disk shortly". Use [`flush()`](#datastore-flush) if you need
-to know the data is durable.
+`false` if `key` wasn't a string, if the value is something JSON can't represent,
+or if the store is [full](#storage-limits).
+
+A `true` is **not** a write confirmation — it means "stored in memory, and it
+will reach disk shortly". Use [`flush()`](#datastore-flush) if you need to know
+the data is durable.
 
 #### Example
 
@@ -172,9 +183,9 @@ function flush(): Promise<void>
 Writes any pending changes out immediately and resolves once they are durable
 on disk.
 
-Most plugins never need this — the debounced commit already handles normal use.
-Reach for it when you are about to do something that could end the session
-before the debounce fires, such as calling `restartClient()`.
+Most plugins never need this — normal writes reach disk on their own. Reach for
+it when you're about to do something that could end the session first, such as
+calling `restartClient()`.
 
 #### Example
 
@@ -183,3 +194,39 @@ DataStore.set('my-config', config)
 await DataStore.flush()
 window.restartClient()
 ```
+
+## DataStore.usage()
+
+<Badge type="info" text="function" />
+<Badge type="tip" text="since v1.2.0" />
+
+```ts
+function usage(): Promise<{ used: number, quota: number }>
+```
+
+How much of the store is in use, and the cap — both in bytes.
+
+#### Example
+
+```js
+const { used, quota } = await DataStore.usage()
+console.log(`${Math.round(used / quota * 100)}% of DataStore used`)
+```
+
+## Storage limits
+
+DataStore is capped at **128 MB**, and that budget is **shared by every
+installed plugin** — it's one file. One plugin filling it stops every other
+plugin from saving.
+
+When it's full, `set` returns `false` and nothing is written; a warning appears
+in the console once. Existing data is untouched and still readable. Removing
+keys frees space, and writes start working again shortly after.
+
+::: tip
+
+If you're storing anything that grows — cached data, per-match records, a
+dataset — use [`context.storage`](./storage) instead. It's per-plugin, gets
+256 MB of its own, and nothing another plugin does can use it up.
+
+:::

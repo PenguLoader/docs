@@ -38,6 +38,7 @@ export function sidebar(): DefaultTheme.SidebarItem[] {
         { text: 'context.rcp', link: '/runtime-api/rcp' },
         { text: 'context.socket', link: '/runtime-api/socket' },
         { text: 'context.fs (PluginFS)', link: '/runtime-api/fs' },
+        { text: 'context.storage', link: '/runtime-api/storage' },
         {
           text: 'Modules',
           // collapsed: false,
