@@ -251,7 +251,7 @@ html:not(.dark) .vb {
   overflow: visible;
 }
 .b-bench-client { padding: 14px; border-right: 1px solid var(--line); }
-.b-bench-code { height: 400px; padding: 16px 16px 10px; display: flex; min-height: 0; background: var(--panel); border-radius: 0 14px 14px 0; }
+.b-bench-code { min-height: 400px; padding: 16px 16px 10px; display: flex; background: var(--panel); border-radius: 0 14px 14px 0; }
 .b-bench-code > * { flex: 1; }
 .b-hint { margin: 14px 2px 0; font-size: 13px; color: var(--muted); }
 

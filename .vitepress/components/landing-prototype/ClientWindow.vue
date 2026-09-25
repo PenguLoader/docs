@@ -19,6 +19,8 @@ const width = ref<number | null>(null) // null: fill the container
 const root = ref<HTMLElement>()
 // once resized, the slot keeps its original height so a bigger Client floats instead of pushing the page
 const slotHeight = ref<number | null>(null)
+const moved = ref(false)
+const changed = computed(() => moved.value || width.value !== null)
 const MIN_WIDTH = 360
 
 const setFrame = (el: any) => { props.demo.frame.value = el }
@@ -42,7 +44,7 @@ let disposed = false
 function syncDrag() {
   canDrag.value = !!drag && !media?.matches
   if (canDrag.value) drag.enable()
-  else { drag?.disable(); gsapRef?.set(box.value, { x: 0, y: 0 }); width.value = null; slotHeight.value = null }
+  else { drag?.disable(); gsapRef?.set(box.value, { x: 0, y: 0 }); width.value = null; slotHeight.value = null; moved.value = false }
 }
 
 onMounted(async () => {
@@ -62,17 +64,22 @@ onMounted(async () => {
     edgeResistance: 0.75,
     zIndexBoost: false,
     onPress() { dragging.value = true },
-    onRelease() { dragging.value = false },
+    onRelease() { dragging.value = false; moved.value = Math.abs(this.x) + Math.abs(this.y) > 1 },
   })[0]
   syncDrag()
   media.addEventListener('change', syncDrag)
 })
 
 // Resize from the bottom-right corner; the left edge stays put, 16:9 comes from .cw-screen.
+// capped by the bounds' right edge and by the viewport's bottom, so the corner handle stays reachable
 function maxWidth() {
+  if (!box.value) return 1600
+  const r = box.value.getBoundingClientRect()
   const b = props.bounds ? document.querySelector(props.bounds) : null
-  if (!b || !box.value) return 1600
-  return Math.max(MIN_WIDTH, b.getBoundingClientRect().right - box.value.getBoundingClientRect().left - 16)
+  const byBounds = b ? b.getBoundingClientRect().right - r.left - 16 : 1600
+  const chrome = r.width - screen.value!.offsetWidth // frame gutters and border
+  const byViewport = (innerHeight - r.top - 48) * 16 / 9 + chrome
+  return Math.max(MIN_WIDTH, Math.min(byBounds, byViewport))
 }
 function setWidth(w: number) {
   slotHeight.value ??= root.value!.offsetHeight
@@ -107,6 +114,7 @@ function onResizeKey(e: KeyboardEvent) {
 function snapBack() {
   width.value = null
   slotHeight.value = null
+  moved.value = false
   drag?.tween?.kill()
   gsapRef?.to(box.value!, { x: 0, y: 0, duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.7, ease: 'power3.out', onUpdate: () => drag?.update() })
 }
@@ -115,7 +123,7 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
 </script>
 
 <template>
-  <div ref="root" class="cw" :style="slotHeight ? { height: `${slotHeight}px` } : undefined">
+  <div ref="root" class="cw" :class="{ 'can-drag': canDrag }" :style="slotHeight ? { height: `${slotHeight}px` } : undefined">
     <div ref="box" class="cw-box" :class="{ 'is-dragging': dragging, 'is-sized': width }" :style="width ? { width: `${width}px` } : undefined">
       <div ref="handle" class="cw-frame" :class="{ 'can-drag': canDrag }" @dblclick="snapBack">
         <div ref="screen" class="cw-screen" :style="material">
@@ -147,8 +155,9 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
         @pointerdown.prevent="onResizeStart"
         @keydown="onResizeKey"
       />
+      <!-- part of the window, so it follows the Client when moved or resized -->
+      <button v-if="changed" class="cw-reset" type="button" @click="snapBack">Reset position and size</button>
     </div>
-    <button v-if="canDrag" class="cw-reset" type="button" @click="snapBack">Reset position and size</button>
   </div>
 </template>
 
@@ -157,6 +166,8 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
   position: relative;
   width: 100%;
 }
+/* room under the Client for the reset link, reserved so it can appear without shifting the page */
+.cw.can-drag { padding-bottom: 34px; }
 .cw-box {
   position: relative;
   z-index: 1; /* moved or enlarged, the Client floats over the editor like a window */
@@ -222,7 +233,19 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
   color-scheme: normal;
 }
 .cw-iframe.no-events { pointer-events: none; }
-.cw-reset { position: relative; z-index: 2; display: block; margin: 10px 0 0 auto; padding: 4px 0; font: 12px/1.5 var(--cp-sans, inherit); color: var(--cp-dim-strong); }
+.cw-reset {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  /* backed, since after a move it can sit over other content */
+  background: var(--cw-frame-bg, transparent);
+  white-space: nowrap;
+  font: 12px/1.5 var(--cp-sans, inherit);
+  color: var(--cp-dim-strong);
+}
 .cw-reset:hover { color: var(--cp-accent); }
 .cw-reset:focus-visible { outline: 2px solid var(--cp-accent); outline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) {
