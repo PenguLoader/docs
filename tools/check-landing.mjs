@@ -58,6 +58,18 @@ try {
   const after = reloads
   await new Promise(resolve => setTimeout(resolve, 650))
   assert.equal(reloads, after, 'Preset changes cancel pending updates')
+  // click-to-style: a pick adds one rule to the CSS file and applies it; a second pick of the same element doesn't duplicate it
+  demo.select('button')
+  await demo.onFrameLoad()
+  demo.addRule('.find-match-button-container', 'Find Match button')
+  const css = demo.files.value[demo.fileIndex.value]
+  assert.equal(css.name, 'style.css', 'A pick switches the editor to the CSS file')
+  assert.ok(css.code.endsWith('/* Find Match button */\n.find-match-button-container {\n  \n}\n'))
+  assert.equal(css.code.slice(demo.cursor.value - 4, demo.cursor.value), '{\n  ', 'Cursor lands inside the new rule')
+  assert.match(style.textContent, /find-match-button-container/)
+  const length = css.code.length
+  demo.addRule('.find-match-button-container', 'Find Match button')
+  assert.equal(css.code.length, length, 'Picking the same element twice must not duplicate its rule')
   console.log('Landing runtime checks passed')
 } finally {
   await server.close()

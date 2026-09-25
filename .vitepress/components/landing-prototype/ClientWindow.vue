@@ -1,8 +1,11 @@
-<!-- The real League Client lobby (live DOM snapshot) in a draggable frame.
-     The frame around the Client is the drag handle, so the Client itself stays clickable. -->
+<!-- The real League Client lobby (live DOM snapshot) in a draggable, resizable frame.
+     The frame around the Client is the drag handle, so the Client itself stays clickable:
+     clicking an element in it adds that element's CSS rule to the editor (picker.ts).
+     Resizing keeps 16:9 and scales the UI, which is what the real Client does. -->
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { effectStyle, type ClientDemo } from './useClientDemo'
+import { installPicker } from './picker'
 
 const props = defineProps<{ demo: ClientDemo; bounds?: string }>()
 
@@ -12,9 +15,23 @@ const screen = ref<HTMLElement>()
 const scale = ref(0.6)
 const dragging = ref(false)
 const canDrag = ref(false)
+const width = ref<number | null>(null) // null: fill the container
+const root = ref<HTMLElement>()
+// once resized, the slot keeps its original height so a bigger Client floats instead of pushing the page
+const slotHeight = ref<number | null>(null)
+const MIN_WIDTH = 360
 
 const setFrame = (el: any) => { props.demo.frame.value = el }
-const onLoad = () => props.demo.onFrameLoad()
+const setScaleVar = () => props.demo.frame.value?.contentDocument?.documentElement.style.setProperty('--pengu-scale', String(scale.value))
+function onLoad() {
+  props.demo.onFrameLoad()
+  const doc = props.demo.frame.value?.contentDocument
+  if (!doc?.body) return
+  setScaleVar()
+  // phones get a read-only editor, so there is nothing to pick into
+  if (!matchMedia('(max-width: 767px)').matches) installPicker(doc, props.demo.addRule)
+}
+watch(scale, setScaleVar)
 const material = computed(() => effectStyle(props.demo.effect.value))
 
 let ro: ResizeObserver | undefined
@@ -25,7 +42,7 @@ let disposed = false
 function syncDrag() {
   canDrag.value = !!drag && !media?.matches
   if (canDrag.value) drag.enable()
-  else { drag?.disable(); gsapRef?.set(box.value, { x: 0, y: 0 }) }
+  else { drag?.disable(); gsapRef?.set(box.value, { x: 0, y: 0 }); width.value = null; slotHeight.value = null }
 }
 
 onMounted(async () => {
@@ -51,7 +68,45 @@ onMounted(async () => {
   media.addEventListener('change', syncDrag)
 })
 
+// Resize from the bottom-right corner; the left edge stays put, 16:9 comes from .cw-screen.
+function maxWidth() {
+  const b = props.bounds ? document.querySelector(props.bounds) : null
+  if (!b || !box.value) return 1600
+  return Math.max(MIN_WIDTH, b.getBoundingClientRect().right - box.value.getBoundingClientRect().left - 16)
+}
+function setWidth(w: number) {
+  slotHeight.value ??= root.value!.offsetHeight
+  width.value = Math.round(Math.min(maxWidth(), Math.max(MIN_WIDTH, w)))
+  requestAnimationFrame(() => drag?.applyBounds())
+}
+function onResizeStart(e: PointerEvent) {
+  const el = e.currentTarget as HTMLElement
+  const startW = box.value!.offsetWidth
+  const startX = e.clientX
+  el.setPointerCapture(e.pointerId)
+  dragging.value = true
+  const move = (ev: PointerEvent) => setWidth(startW + ev.clientX - startX)
+  const end = () => {
+    dragging.value = false
+    el.removeEventListener('pointermove', move)
+    el.removeEventListener('pointerup', end)
+    el.removeEventListener('pointercancel', end)
+  }
+  el.addEventListener('pointermove', move)
+  el.addEventListener('pointerup', end)
+  el.addEventListener('pointercancel', end)
+}
+function onResizeKey(e: KeyboardEvent) {
+  const step = e.shiftKey ? 80 : 20
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') setWidth(box.value!.offsetWidth + step)
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') setWidth(box.value!.offsetWidth - step)
+  else return
+  e.preventDefault()
+}
+
 function snapBack() {
+  width.value = null
+  slotHeight.value = null
   drag?.tween?.kill()
   gsapRef?.to(box.value!, { x: 0, y: 0, duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.7, ease: 'power3.out', onUpdate: () => drag?.update() })
 }
@@ -60,8 +115,8 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
 </script>
 
 <template>
-  <div class="cw">
-    <div ref="box" class="cw-box" :class="{ 'is-dragging': dragging }">
+  <div ref="root" class="cw" :style="slotHeight ? { height: `${slotHeight}px` } : undefined">
+    <div ref="box" class="cw-box" :class="{ 'is-dragging': dragging, 'is-sized': width }" :style="width ? { width: `${width}px` } : undefined">
       <div ref="handle" class="cw-frame" :class="{ 'can-drag': canDrag }" @dblclick="snapBack">
         <div ref="screen" class="cw-screen" :style="material">
           <img
@@ -84,8 +139,16 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
           />
         </div>
       </div>
+      <button
+        v-if="canDrag"
+        class="cw-resize" type="button"
+        aria-label="Resize the Client. Arrow keys change the size."
+        title="Drag to resize"
+        @pointerdown.prevent="onResizeStart"
+        @keydown="onResizeKey"
+      />
     </div>
-    <button v-if="canDrag" class="cw-reset" type="button" @click="snapBack">Center Client</button>
+    <button v-if="canDrag" class="cw-reset" type="button" @click="snapBack">Reset position and size</button>
   </div>
 </template>
 
@@ -96,8 +159,26 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
 }
 .cw-box {
   position: relative;
+  z-index: 1; /* moved or enlarged, the Client floats over the editor like a window */
   will-change: transform;
 }
+.cw-resize {
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  width: 22px;
+  height: 22px;
+  cursor: nwse-resize;
+  touch-action: none;
+  border-radius: 6px;
+  /* two short diagonal strokes in the corner */
+  background:
+    linear-gradient(135deg, transparent 45%, var(--cp-dim-strong, #888) 45% 52%, transparent 52% 64%, var(--cp-dim-strong, #888) 64% 71%, transparent 71%);
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.cw-resize:hover, .cw-box.is-dragging .cw-resize { opacity: 1; }
+.cw-resize:focus-visible { opacity: 1; outline: 2px solid var(--cp-accent); outline-offset: 2px; }
 .cw-frame {
   padding: var(--cw-gutter, 10px);
   border-radius: var(--cw-radius, 14px);

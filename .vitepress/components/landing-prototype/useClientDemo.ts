@@ -19,6 +19,9 @@ export function useClientDemo() {
   const status = ref<{ ok: boolean; text: string }>({ ok: true, text: '' })
   const frame = shallowRef<HTMLIFrameElement | null>(null)
   const ready = ref(false)
+  // bumped when code changes outside the editor, with where the editor cursor should land
+  const revision = ref(0)
+  const cursor = ref<number | null>(null)
   let timer: ReturnType<typeof setTimeout> | undefined
   let run = 0
 
@@ -108,9 +111,31 @@ export function useClientDemo() {
     }
   }
 
+  // Click-to-style: give the picked element a rule in the example's CSS file (or jump to its
+  // existing rule) and put the cursor inside it. CSS applies live, so no reload.
+  function addRule(selector: string, label: string) {
+    const i = files.value.findIndex(f => f.lang === 'css')
+    if (i < 0) return
+    const f = files.value[i]
+    let at = f.code.indexOf(`${selector} {`)
+    if (at < 0) {
+      const code = f.code.trimEnd()
+      f.code = `${code}${code ? '\n\n' : ''}/* ${label} */\n${selector} {\n  \n}\n`
+      at = f.code.lastIndexOf(`${selector} {`)
+      cursor.value = f.code.indexOf('\n', at) + 3 // on the empty line inside the braces
+      status.value = { ok: true, text: `Added ${label} to ${f.name}` }
+    } else {
+      cursor.value = f.code.indexOf('{', at) + 1
+      status.value = { ok: true, text: `${label} is already in ${f.name}` }
+    }
+    fileIndex.value = i
+    revision.value++
+    applyCss()
+  }
+
   onBeforeUnmount(() => { clearTimeout(timer); run++; frame.value = null })
 
-  return { presets, activeId, files, fileIndex, effect, status, frame, ready, select, reset, update, onFrameLoad }
+  return { presets, activeId, files, fileIndex, effect, status, frame, ready, revision, cursor, select, reset, update, onFrameLoad, addRule }
 }
 
 export type ClientDemo = ReturnType<typeof useClientDemo>

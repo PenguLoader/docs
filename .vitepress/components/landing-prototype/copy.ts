@@ -5,7 +5,7 @@ export const hero = {
   title: ['Restyle it. Extend it.', 'Make the Client yours.'],
   sub: 'Pengu Loader adds themes and plugins to the League Client. Free, open source, and it never touches the game.',
   secondary: { text: 'Read the guide', href: '/guide/welcome' },
-  demoHint: 'Drag the frame to move the Client. Change the code and it updates live.',
+  demoHint: 'Drag the frame to move the Client, or its corner to resize it. Click anything in the Client to add its CSS to the editor.',
 }
 
 export const app = {

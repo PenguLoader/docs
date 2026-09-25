@@ -78,11 +78,17 @@ onMounted(() => {
   observer.observe(host.value!)
 })
 
-watch([d.files, d.fileIndex, readOnly], () => {
+watch([d.files, d.fileIndex, d.revision, readOnly], () => {
   if (!view) return
   quiet = true
   view.setState(makeState())
   quiet = false
+  // a click in the Client added a rule: put the cursor in it, ready to type
+  const at = d.cursor.value
+  if (at == null || readOnly.value) return
+  d.cursor.value = null
+  view.dispatch({ selection: { anchor: Math.min(at, view.state.doc.length) }, scrollIntoView: true })
+  view.focus()
 })
 
 onBeforeUnmount(() => { observer?.disconnect(); media?.removeEventListener('change', syncReadOnly); view?.destroy() })
