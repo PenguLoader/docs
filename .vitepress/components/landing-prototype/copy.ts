@@ -1,5 +1,5 @@
 // PROTOTYPE (throwaway): page copy shared by all three variants, so they differ only in design.
-// Rules: no em dashes, no "script"/"inject"/"hack" wording, unslop applied.
+// Plain product copy, reviewed with unslop.
 
 export const hero = {
   title: ['Restyle it. Extend it.', 'Make the Client yours.'],
@@ -11,16 +11,11 @@ export const hero = {
 export const app = {
   title: 'Turn it on once',
   body: 'Press Activate in the Pengu app and every Client launch loads your themes and plugins. Switch them on and off with a checkbox.',
-  shots: [
-    { src: '/home/hub.webp', label: 'Your plugins', alt: 'The Pengu app listing installed plugins, each with a checkbox' },
-    { src: '/home/store.webp', label: 'The store', alt: 'The plugin store inside the Pengu app' },
-    { src: '/home/theme-purple.webp', label: 'Five accents', alt: 'The Pengu app in its purple accent' },
-  ],
 }
 
 export const community = {
   title: 'Made by players',
-  body: 'Everything in the store comes from the community. Here are four themes on the same lobby you just edited.',
+  body: 'Everything in the store comes from the community. These four themes use the same lobby as the live demo.',
   themes: [
     { src: '/home/community/ahri.webp', name: 'Ahri', author: 'Yuzuru10', href: 'https://github.com/nomi-san/ahri-theme' },
     { src: '/home/community/irelia.webp', name: 'Irelia', author: 'rumi-chan', href: 'https://github.com/rumi-chan/LeagueThemes' },
@@ -35,7 +30,7 @@ export const community = {
 }
 
 export const authors = {
-  title: 'A plugin is one JavaScript file',
+  title: 'Start with one file',
   body: 'Put an index.js in your plugins folder and export load(). Pengu runs it inside the Client once the page is ready.',
   points: [
     { title: 'Talk to the Client', body: 'Call the Client API with plain fetch. No ports or tokens to find.' },

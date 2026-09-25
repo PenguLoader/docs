@@ -1,24 +1,24 @@
 <!-- PROTOTYPE (throwaway) Variant A, "Summoner's Rift at night": cinematic, Riot-adjacent.
      Deep night sky, gold as the single accent, Playfair Display for display type (justified by
-     League's own flared-serif identity), long pinned and filmstrip sections. -->
+     League's own flared-serif identity), and a wide community filmstrip. -->
 <script setup lang="ts">
 import { ref } from 'vue'
 import { PhArrowRight, PhBug, PhDiscordLogo, PhDownloadSimple, PhDrop, PhFolderSimple, PhPlugsConnected } from '@phosphor-icons/vue'
 import ClientWindow from './ClientWindow.vue'
+import AppOverview from './AppOverview.vue'
 import CodePanel from './CodePanel.vue'
 import CodeBlock from './CodeBlock.vue'
 import { useClientDemo } from './useClientDemo'
 import { useDownload } from './useDownload'
 import { useMotion } from './useMotion'
-import { app, authors, community, download, hero, riot } from './copy'
+import { authors, community, download, hero, riot } from './copy'
 
 const demo = useClientDemo()
 const dl = useDownload()
 const root = ref<HTMLElement>()
-const activeShot = ref(0)
 const icons = [PhPlugsConnected, PhBug, PhDrop, PhFolderSimple]
 
-useMotion(root, (gsap, ScrollTrigger) => {
+useMotion(root, (gsap) => {
   gsap.from('.a-line', { yPercent: 115, duration: 1.2, ease: 'power4.out', stagger: 0.1 })
   gsap.from('.a-hero-sub, .a-hero-cta', { opacity: 0, y: 18, duration: 0.9, delay: 0.4, stagger: 0.08, ease: 'power3.out' })
   gsap.from('.a-window', { opacity: 0, y: 50, scale: 0.94, rotationX: 10, transformPerspective: 1400, duration: 1.6, delay: 0.1, ease: 'power3.out' })
@@ -28,9 +28,6 @@ useMotion(root, (gsap, ScrollTrigger) => {
   for (const t of gsap.utils.toArray('[data-reveal]') as HTMLElement[]) {
     gsap.from(t, { opacity: 0, y: 40, duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: t, start: 'top 85%' } })
   }
-  ;(gsap.utils.toArray('.a-shot') as HTMLElement[]).forEach((s, i) => {
-    ScrollTrigger.create({ trigger: s, start: 'top 60%', end: 'bottom 60%', onToggle: (self: any) => { if (self.isActive) activeShot.value = i } })
-  })
 })
 </script>
 
@@ -51,8 +48,8 @@ useMotion(root, (gsap, ScrollTrigger) => {
             <a v-else :href="dl.href.value" class="a-btn"><PhDownloadSimple :size="18" weight="bold" />{{ dl.label.value }}</a>
             <a :href="hero.secondary.href" class="a-link">{{ hero.secondary.text }}<PhArrowRight :size="16" /></a>
           </div>
-          <div class="a-editor"><CodePanel :demo="demo" /></div>
         </div>
+        <div class="a-editor"><CodePanel :demo="demo" /></div>
         <div class="a-stage">
           <div class="a-window"><ClientWindow :demo="demo" bounds=".a-hero" /></div>
           <p class="a-hint">{{ hero.demoHint }}</p>
@@ -60,22 +57,7 @@ useMotion(root, (gsap, ScrollTrigger) => {
       </div>
     </section>
 
-    <section class="a-app">
-      <div class="a-wrap a-app-grid">
-        <div class="a-app-copy">
-          <h2 class="a-h2">{{ app.title }}</h2>
-          <p class="a-body">{{ app.body }}</p>
-          <ul class="a-app-list">
-            <li v-for="(s, i) in app.shots" :key="s.label" :class="{ 'is-on': i === activeShot }">{{ s.label }}</li>
-          </ul>
-        </div>
-        <div class="a-app-shots">
-          <figure v-for="s in app.shots" :key="s.src" class="a-shot">
-            <img :src="s.src" :alt="s.alt" loading="lazy" width="2000" height="1280">
-          </figure>
-        </div>
-      </div>
-    </section>
+    <AppOverview />
 
     <section class="a-comm">
       <div class="a-wrap" data-reveal>
@@ -153,7 +135,7 @@ useMotion(root, (gsap, ScrollTrigger) => {
   --display: 'Playfair Display', Georgia, serif;
   --sans: 'Geist', system-ui, sans-serif;
   --cp-fg: var(--ink);
-  --cp-dim: #5d6679;
+  --cp-dim: #9099ab;
   --cp-dim-strong: #98a1b1;
   --cp-accent: var(--gold);
   --cp-on-accent: var(--gold-ink);
@@ -173,7 +155,7 @@ useMotion(root, (gsap, ScrollTrigger) => {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--sans);
-  overflow: hidden;
+  overflow-x: clip;
 }
 html:not(.dark) .va {
   --bg: #eef1f6;
@@ -184,7 +166,7 @@ html:not(.dark) .va {
   --gold-ink: #fbf7ee;
   --line: rgb(138 106 44 / 0.22);
   --glass: rgb(255 255 255 / 0.7);
-  --cp-dim: #8a93a3;
+  --cp-dim: #657084;
   --cp-dim-strong: #566072;
   --cp-select: rgb(138 106 44 / 0.18);
   --cp-kw: #8a6a2c;
@@ -240,7 +222,7 @@ html:not(.dark) .a-sky::after { opacity: 0; }
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  grid-template-columns: minmax(340px, 4fr) minmax(0, 8fr);
   gap: 36px 56px;
   align-items: start;
 }
@@ -256,9 +238,10 @@ html:not(.dark) .a-sky::after { opacity: 0; }
 .a-mask { display: block; overflow: hidden; padding-bottom: 0.08em; }
 .a-line { display: block; }
 .a-line.is-accent { font-style: italic; color: var(--gold); }
+.a-copy { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 32px; }
 .a-hero-sub {
   margin: 4px 0 0;
-  max-width: 34ch;
+  max-width: 58ch;
   font-size: 1.1rem;
   line-height: 1.6;
   color: var(--muted);
@@ -294,7 +277,7 @@ html:not(.dark) .a-sky::after { opacity: 0; }
 .a-link:hover { color: var(--gold); border-color: var(--gold); }
 .a-note { margin: 0; color: var(--muted); }
 .a-editor {
-  margin-top: 44px;
+  margin-top: 0;
   padding: 18px 18px 12px;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -304,13 +287,9 @@ html:not(.dark) .a-sky::after { opacity: 0; }
   display: flex;
 }
 .a-editor > * { flex: 1; }
-.a-stage { position: relative; padding-top: 8px; }
+.a-stage { position: relative; align-self: center; }
 .a-hint { margin: 18px 4px 0; font-size: 13px; color: var(--muted); }
 
-/* app: pinned copy, scrolling screenshots */
-.a-app { padding: 140px 0 60px; }
-.a-app-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 72px; }
-.a-app-copy { position: sticky; top: calc(var(--vp-nav-height, 64px) + 80px); align-self: start; }
 .a-h2 {
   margin: 0;
   font-family: var(--display);
@@ -320,19 +299,6 @@ html:not(.dark) .a-sky::after { opacity: 0; }
   letter-spacing: -0.015em;
 }
 .a-body { margin: 18px 0 0; max-width: 46ch; font-size: 1.05rem; line-height: 1.65; color: var(--muted); }
-.a-app-list { margin: 36px 0 0; padding: 0; list-style: none; border-left: 1px solid var(--line); }
-.a-app-list li {
-  padding: 10px 0 10px 18px;
-  margin-left: -1px;
-  border-left: 2px solid transparent;
-  color: var(--muted);
-  transition: color 0.3s, border-color 0.3s;
-}
-.a-app-list li.is-on { color: var(--ink); border-left-color: var(--gold); }
-.a-app-shots { display: grid; gap: 80px; }
-.a-shot { margin: 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 40px 100px -40px rgb(0 0 0 / 0.7); }
-.a-shot img { display: block; width: 100%; height: auto; }
-
 /* community: filmstrip */
 .a-comm { padding: 140px 0 40px; }
 .a-strip {
@@ -389,23 +355,24 @@ html:not(.dark) .a-sky::after { opacity: 0; }
 .a-foot p { max-width: 900px; margin: 0 auto; font-size: 11px; line-height: 1.6; color: var(--muted); opacity: 0.7; text-align: center; }
 
 @media (max-width: 1023px) {
-  .a-hero-grid, .a-app-grid, .a-dev-grid { grid-template-columns: 1fr; gap: 40px; }
+  .a-hero-grid, .a-dev-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   /* title, copy, Client, then the editor */
   .a-copy { display: contents; }
   .a-hero-sub { order: 1; }
   .a-hero-cta { order: 2; margin-top: 0; }
   .a-stage { order: 3; }
   .a-editor { order: 4; margin-top: 0; }
-  .a-app-copy { position: static; }
 }
 @media (max-width: 767px) {
   .a-hero { padding: 32px 16px 48px; }
   .a-hint { display: none; } /* no dragging on phones */
   .a-wrap { padding: 0 16px; }
   .a-editor { height: 340px; margin-top: 32px; }
-  .a-app, .a-comm, .a-dev { padding-top: 88px; }
-  .a-plugins, .a-points { grid-template-columns: 1fr; }
+  .a-comm, .a-dev { padding-top: 88px; }
+  .a-plugins, .a-points { grid-template-columns: minmax(0, 1fr); }
   .a-strip { grid-auto-columns: 86vw; padding: 0 16px 16px; }
-  .a-app-shots { gap: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
 }
 </style>

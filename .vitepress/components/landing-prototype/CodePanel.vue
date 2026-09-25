@@ -9,11 +9,15 @@ const d = props.demo
 
 const host = ref<HTMLElement>()
 const readOnly = ref(false)
+const loaded = ref(false)
 const preset = computed(() => d.presets.find(p => p.id === d.activeId.value)!)
 
 let view: any
 let cm: any
 let quiet = false
+let observer: IntersectionObserver | undefined
+let media: MediaQueryList | undefined
+const syncReadOnly = () => { readOnly.value = media!.matches }
 
 function makeState() {
   const f = d.files.value[d.fileIndex.value]
@@ -27,6 +31,7 @@ function makeState() {
       cm.syntaxHighlighting(cm.classHighlighter),
       cm.EditorView.lineWrapping,
       cm.EditorState.readOnly.of(readOnly.value),
+      cm.EditorView.editable.of(!readOnly.value),
       cm.EditorView.contentAttributes.of({ 'aria-label': `${preset.value.folder}/${f.name}` }),
       cm.EditorView.updateListener.of((u: any) => {
         if (u.docChanged && !quiet) d.update(u.state.doc.toString())
@@ -44,13 +49,13 @@ function makeState() {
   })
 }
 
-onMounted(async () => {
-  readOnly.value = matchMedia('(max-width: 767px)').matches
+async function loadEditor() {
   const [state, view_, commands, language, highlight, langCss, langJs] = await Promise.all([
     import('@codemirror/state'), import('@codemirror/view'), import('@codemirror/commands'),
     import('@codemirror/language'), import('@lezer/highlight'),
     import('@codemirror/lang-css'), import('@codemirror/lang-javascript'),
   ])
+  if (!host.value) return
   cm = {
     EditorState: state.EditorState, EditorView: view_.EditorView, keymap: view_.keymap, lineNumbers: view_.lineNumbers,
     history: commands.history, defaultKeymap: commands.defaultKeymap, historyKeymap: commands.historyKeymap,
@@ -58,26 +63,39 @@ onMounted(async () => {
     classHighlighter: highlight.classHighlighter, css: langCss.css, javascript: langJs.javascript,
   }
   view = new cm.EditorView({ state: makeState(), parent: host.value! })
+  loaded.value = true
+}
+
+onMounted(() => {
+  media = matchMedia('(max-width: 767px)')
+  syncReadOnly()
+  media.addEventListener('change', syncReadOnly)
+  observer = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return
+    observer?.disconnect()
+    loadEditor().catch(() => { d.status.value = { ok: false, text: 'Editor unavailable. Reload to try again.' } })
+  }, { rootMargin: '100px' })
+  observer.observe(host.value!)
 })
 
-watch([d.activeId, d.fileIndex], () => {
+watch([d.files, d.fileIndex, readOnly], () => {
   if (!view) return
   quiet = true
   view.setState(makeState())
   quiet = false
 })
 
-onBeforeUnmount(() => view?.destroy())
+onBeforeUnmount(() => { observer?.disconnect(); media?.removeEventListener('change', syncReadOnly); view?.destroy() })
 </script>
 
 <template>
   <div class="cp">
-    <div class="cp-presets" role="tablist" aria-label="Examples">
+    <div class="cp-presets" role="group" aria-label="Examples">
       <button
         v-for="p in d.presets" :key="p.id"
-        role="tab" type="button"
+        type="button"
         class="cp-preset" :class="{ 'is-active': p.id === d.activeId.value }"
-        :aria-selected="p.id === d.activeId.value"
+        :aria-pressed="p.id === d.activeId.value"
         @click="d.select(p.id)"
       >{{ p.label }}</button>
     </div>
@@ -86,18 +104,21 @@ onBeforeUnmount(() => view?.destroy())
         v-for="(f, i) in d.files.value" :key="f.name"
         type="button"
         class="cp-file" :class="{ 'is-active': i === d.fileIndex.value }"
+        :aria-pressed="i === d.fileIndex.value"
         @click="d.fileIndex.value = i"
       ><span class="cp-dir">plugins/{{ preset.folder }}/</span>{{ f.name }}</button>
     </div>
-    <div ref="host" class="cp-editor" />
+    <div ref="host" class="cp-editor"><pre v-if="!loaded" class="cp-fallback">{{ d.files.value[d.fileIndex.value].code }}</pre></div>
+    <button type="button" class="cp-reset" @click="d.reset()">Reset example</button>
     <p class="cp-status" :class="{ 'is-error': !d.status.value.ok }" aria-live="polite">
-      {{ readOnly ? 'Open this page on a computer to edit the code.' : d.status.value.text }}
+      {{ readOnly ? 'Try it on desktop to edit live.' : d.status.value.text }}
     </p>
   </div>
 </template>
 
 <style scoped>
 .cp {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -127,12 +148,15 @@ onBeforeUnmount(() => view?.destroy())
   border-color: var(--cp-accent);
 }
 .cp-files {
+  overflow-x: auto;
+  flex-shrink: 0;
   display: flex;
   gap: 16px;
   margin-top: 14px;
   border-bottom: 1px solid var(--cp-border);
 }
 .cp-file {
+  white-space: nowrap;
   padding: 6px 0 8px;
   margin-bottom: -1px;
   font-family: var(--cp-mono);
@@ -145,6 +169,9 @@ onBeforeUnmount(() => view?.destroy())
   border-bottom-color: var(--cp-accent);
 }
 .cp-dir { color: var(--cp-dim); }
+.cp-reset { align-self: flex-end; color: var(--cp-dim-strong); font-size: 12px; padding: 6px 0; }
+.cp-reset:hover { color: var(--cp-accent); }
+.cp button:focus-visible { outline: 2px solid var(--cp-accent); outline-offset: 3px; }
 .cp-editor {
   flex: 1;
   /* the host sets the panel height; long code scrolls inside the editor */
@@ -153,6 +180,7 @@ onBeforeUnmount(() => view?.destroy())
   overflow: hidden;
 }
 .cp-editor :deep(.cm-editor) { height: 100%; }
+.cp-fallback { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: 13px/1.65 var(--cp-mono); }
 .cp-status {
   margin: 8px 0 0;
   min-height: 1.4em;

@@ -16,28 +16,35 @@ const box = ref<HTMLElement>()
 const handle = ref<HTMLElement>()
 const screen = ref<HTMLElement>()
 const scale = ref(0.6)
-const shown = ref(false) // poster until the live DOM has painted once
 const dragging = ref(false)
 const canDrag = ref(false)
 
 const setFrame = (el: any) => { props.demo.frame.value = el }
-const onLoad = () => { props.demo.onFrameLoad(); shown.value = true }
+const onLoad = () => props.demo.onFrameLoad()
 const material = computed(() => effectStyle(props.demo.effect.value))
 
 let ro: ResizeObserver | undefined
 let drag: any
 let gsapRef: any
+let media: MediaQueryList | undefined
+let disposed = false
+function syncDrag() {
+  canDrag.value = !!drag && !media?.matches
+  if (canDrag.value) drag.enable()
+  else { drag?.disable(); gsapRef?.set(box.value, { x: 0, y: 0, rotation: 0 }) }
+}
 
 onMounted(async () => {
-  ro = new ResizeObserver(([e]) => { scale.value = e.contentRect.width / 1280 })
+  ro = new ResizeObserver(([e]) => { scale.value = e.contentRect.width / 1280; drag?.applyBounds() })
   ro.observe(screen.value!)
 
-  const small = matchMedia('(max-width: 767px)').matches
-  if (!props.draggable || small) return
+  if (!props.draggable) return
+  media = matchMedia('(max-width: 767px), (pointer: coarse)')
   const { gsap } = await import('gsap')
   const { Draggable } = await import('gsap/Draggable')
   const plugins: any[] = [Draggable]
   if (props.inertia) plugins.push((await import('gsap/InertiaPlugin')).InertiaPlugin)
+  if (disposed || !box.value) return
   gsap.registerPlugin(...plugins)
   gsapRef = gsap
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -48,6 +55,7 @@ onMounted(async () => {
     bounds: props.bounds,
     inertia: props.inertia && !reduce,
     edgeResistance: 0.75,
+    zIndexBoost: false,
     onPress() { dragging.value = true; lastX = this.x },
     onDrag() {
       if (!props.tilt || reduce) return
@@ -60,14 +68,16 @@ onMounted(async () => {
       if (props.tilt) gsap.to(box.value!, { rotation: 0, duration: 0.9, ease: 'elastic.out(1, 0.4)' })
     },
   })[0]
-  canDrag.value = true
+  syncDrag()
+  media.addEventListener('change', syncDrag)
 })
 
 function snapBack() {
-  gsapRef?.to(box.value!, { x: 0, y: 0, rotation: 0, duration: 0.7, ease: 'power3.out', onUpdate: () => drag?.update() })
+  drag?.tween?.kill()
+  gsapRef?.to(box.value!, { x: 0, y: 0, rotation: 0, duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.7, ease: 'power3.out', onUpdate: () => drag?.update() })
 }
 
-onBeforeUnmount(() => { ro?.disconnect(); drag?.kill() })
+onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventListener('change', syncDrag); drag?.kill(); gsapRef?.killTweensOf(box.value!) })
 </script>
 
 <template>
@@ -77,10 +87,12 @@ onBeforeUnmount(() => { ro?.disconnect(); drag?.kill() })
         <div ref="screen" class="cw-screen" :style="material">
           <img
             class="cw-poster"
-            :class="{ 'is-hidden': shown }"
+            :class="{ 'is-hidden': demo.ready.value }"
+            :aria-hidden="demo.ready.value"
             src="/client/lobby-poster.webp"
             alt="The League Client's Draft lobby, running Pengu Loader"
             width="2560" height="1440"
+            fetchpriority="high"
           >
           <iframe
             :ref="setFrame"
@@ -88,13 +100,13 @@ onBeforeUnmount(() => { ro?.disconnect(); drag?.kill() })
             :class="{ 'no-events': dragging }"
             src="/client/lobby/index.html"
             title="Live League Client lobby"
-            tabindex="-1"
             :style="{ transform: `scale(${scale})` }"
             @load="onLoad"
           />
         </div>
       </div>
     </div>
+    <button v-if="canDrag" class="cw-reset" type="button" @click="snapBack">Center Client</button>
   </div>
 </template>
 
@@ -126,6 +138,7 @@ onBeforeUnmount(() => { ro?.disconnect(); drag?.kill() })
   transition: background-color 0.4s;
 }
 .cw-poster {
+  z-index: 1;
   position: absolute;
   inset: 0;
   width: 100%;
@@ -149,4 +162,10 @@ onBeforeUnmount(() => { ro?.disconnect(); drag?.kill() })
   color-scheme: normal;
 }
 .cw-iframe.no-events { pointer-events: none; }
+.cw-reset { position: relative; z-index: 2; display: block; margin: 10px 0 0 auto; padding: 4px 0; font: 12px/1.5 var(--cp-sans, inherit); color: var(--cp-dim-strong); }
+.cw-reset:hover { color: var(--cp-accent); }
+.cw-reset:focus-visible { outline: 2px solid var(--cp-accent); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  .cw-screen, .cw-poster { transition: none; }
+}
 </style>

@@ -100,7 +100,9 @@ export function load() {
     '<p>Edit index.js and this panel changes with it.</p>'
   document.body.append(panel)
 
-  const button = document.createElement('div')
+  const button = document.createElement('button')
+  button.type = 'button'
+  button.setAttribute('aria-label', 'Toggle plugin panel')
   button.className = 'pengu-button'
   button.onclick = () => panel.classList.toggle('open')
   document.querySelector('.right-nav-menu').prepend(button)

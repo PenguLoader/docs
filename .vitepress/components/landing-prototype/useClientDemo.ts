@@ -2,7 +2,7 @@
 // CSS edits restyle the snapshot instantly. JS edits reload the snapshot and run
 // the plugin's load() inside it, with a stand-in for Pengu's Effect API that
 // drives the window material in the page.
-import { computed, reactive, ref, shallowRef } from 'vue'
+import { computed, onBeforeUnmount, reactive, ref, shallowRef } from 'vue'
 import { presets, pluginAssets, type PresetFile } from './presets'
 
 export type Effect = { name: string; color?: string } | null
@@ -19,6 +19,8 @@ export function useClientDemo() {
   const status = ref<{ ok: boolean; text: string }>({ ok: true, text: '' })
   const frame = shallowRef<HTMLIFrameElement | null>(null)
   const ready = ref(false)
+  let timer: ReturnType<typeof setTimeout> | undefined
+  let run = 0
 
   const resolveAssets = (css: string) =>
     css.replace(/url\((['"]?)(\.\/[\w.-]+)\1\)/g, (m, q, p) => pluginAssets[p] ? `url("${pluginAssets[p]}")` : m)
@@ -35,7 +37,7 @@ export function useClientDemo() {
     style.textContent = files.value.filter(f => f.lang === 'css').map(f => resolveAssets(f.code)).join('\n')
   }
 
-  function runJs() {
+  async function runJs(currentRun: number) {
     const win = frame.value?.contentWindow as (Window & typeof globalThis) | null
     const js = files.value.find(f => f.lang === 'js')
     if (!win || !js) return
@@ -44,48 +46,61 @@ export function useClientDemo() {
       .replace(/export\s+(async\s+)?function\s+(load|init)\s*\(/g, '$1function $2(')
       .replace(/export\s+default\s+function\s*\w*\s*\(/, 'function load(')
     const Effect = {
-      apply(name: string, options?: { color?: string }) { effect.value = { name, color: options?.color } },
-      clear() { effect.value = null },
+      apply(name: string, options?: { color?: string }) { if (currentRun === run) effect.value = { name, color: options?.color } },
+      clear() { if (currentRun === run) effect.value = null },
     }
     try {
-      new win.Function('Effect', `${body}\n;if (typeof init === 'function') init({});\nif (typeof load === 'function') load();`)(Effect)
+      await new win.Function('Effect', `return (async () => { ${body}\n;if (typeof init === 'function') await init({});\nif (typeof load === 'function') await load(); })()`)(Effect)
     } catch (e: any) {
-      status.value = { ok: false, text: `${js.name}: ${e?.message ?? e}` }
+      if (currentRun === run) status.value = { ok: false, text: `${js.name}: ${e?.message ?? e}` }
     }
   }
 
-  function applyAll() {
+  async function applyAll() {
+    const currentRun = ++run
     effect.value = null
     status.value = { ok: true, text: '' }
     applyCss()
-    runJs()
-    if (status.value.ok) status.value = { ok: true, text: `Applied ${files.value.map(f => f.name).join(' + ')}` }
+    await runJs(currentRun)
+    if (currentRun === run && status.value.ok) status.value = { ok: true, text: `Applied ${files.value.map(f => f.name).join(' + ')}` }
   }
 
   // JS can't be un-run, so a JS change starts from a clean snapshot
   function reload() {
+    clearTimeout(timer)
+    run++
     ready.value = false
+    status.value = { ok: true, text: 'Updating preview...' }
     frame.value?.contentWindow?.location.reload()
   }
 
   function onFrameLoad() {
+    if (!frame.value?.contentDocument?.querySelector('.parties-background')) {
+      status.value = { ok: false, text: 'Preview unavailable. Try resetting the example.' }
+      return
+    }
     ready.value = true
-    applyAll()
+    return applyAll()
   }
 
   function select(id: string) {
-    if (id === activeId.value) return
+    if (id === activeId.value || !edits[id]) return
     activeId.value = id
     fileIndex.value = 0
     reload()
   }
 
-  let timer: ReturnType<typeof setTimeout> | undefined
+  function reset() {
+    edits[activeId.value] = presets.find(p => p.id === activeId.value)!.files.map(f => ({ ...f }))
+    fileIndex.value = 0
+    reload()
+  }
+
   function update(code: string) {
     const f = files.value[fileIndex.value]
     f.code = code
     clearTimeout(timer)
-    if (f.lang === 'css' && !files.value.some(x => x.lang === 'js')) {
+    if (f.lang === 'css' && ready.value) {
       applyCss()
       status.value = { ok: true, text: `Applied ${f.name}` }
     } else {
@@ -93,7 +108,9 @@ export function useClientDemo() {
     }
   }
 
-  return { presets, activeId, files, fileIndex, effect, status, frame, ready, select, update, onFrameLoad }
+  onBeforeUnmount(() => { clearTimeout(timer); run++; frame.value = null })
+
+  return { presets, activeId, files, fileIndex, effect, status, frame, ready, select, reset, update, onFrameLoad }
 }
 
 export type ClientDemo = ReturnType<typeof useClientDemo>

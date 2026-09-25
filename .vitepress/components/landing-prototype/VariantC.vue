@@ -4,12 +4,13 @@
 import { ref } from 'vue'
 import { PhArrowRight, PhBug, PhDiscordLogo, PhDownloadSimple, PhDrop, PhFolderSimple, PhPlugsConnected } from '@phosphor-icons/vue'
 import ClientWindow from './ClientWindow.vue'
+import AppOverview from './AppOverview.vue'
 import CodePanel from './CodePanel.vue'
 import CodeBlock from './CodeBlock.vue'
 import { useClientDemo } from './useClientDemo'
 import { useDownload } from './useDownload'
 import { useMotion } from './useMotion'
-import { app, authors, community, download, hero, riot } from './copy'
+import { authors, community, download, hero, riot } from './copy'
 
 const demo = useClientDemo()
 const dl = useDownload()
@@ -25,11 +26,7 @@ useMotion(root, (gsap) => {
   for (const t of gsap.utils.toArray('[data-reveal]') as HTMLElement[]) {
     gsap.from(t, { opacity: 0, y: 50, scale: 0.97, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: t, start: 'top 88%' } })
   }
-  // each stacked card sinks back a little as the next one slides over it
-  const cards = gsap.utils.toArray('.c-stack-card') as HTMLElement[]
-  cards.slice(0, -1).forEach((card, i) => {
-    gsap.to(card, { scale: 0.94, opacity: 0.6, ease: 'none', scrollTrigger: { trigger: cards[i + 1], start: 'top bottom', end: 'top 30%', scrub: true } })
-  })
+
 })
 </script>
 
@@ -62,20 +59,7 @@ useMotion(root, (gsap) => {
       </div>
     </section>
 
-    <section class="c-app">
-      <div class="c-wrap">
-        <div class="c-head" data-reveal>
-          <h2 class="c-h2">{{ app.title }}</h2>
-          <p class="c-body">{{ app.body }}</p>
-        </div>
-        <div class="c-stack">
-          <article v-for="(s, i) in app.shots" :key="s.src" class="c-stack-card" :style="{ top: `calc(var(--vp-nav-height, 64px) + 32px + ${i * 22}px)` }">
-            <h3>{{ s.label }}</h3>
-            <img :src="s.src" :alt="s.alt" loading="lazy" width="2000" height="1280">
-          </article>
-        </div>
-      </div>
-    </section>
+    <AppOverview />
 
     <section class="c-comm">
       <div class="c-wrap">
@@ -160,7 +144,7 @@ useMotion(root, (gsap) => {
   --line: rgb(125 211 252 / 0.16);
   --font: 'Outfit', system-ui, sans-serif;
   --cp-fg: var(--ink);
-  --cp-dim: #4f6f88;
+  --cp-dim: #8aa8c0;
   --cp-dim-strong: #8fb0c9;
   --cp-accent: var(--accent);
   --cp-on-accent: var(--on-accent);
@@ -182,7 +166,7 @@ useMotion(root, (gsap) => {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
-  overflow: hidden;
+  overflow-x: clip;
 }
 html:not(.dark) .vc {
   --bg: #eef7fd;
@@ -193,7 +177,7 @@ html:not(.dark) .vc {
   --card: rgb(255 255 255 / 0.62);
   --card-solid: #ffffff;
   --line: rgb(10 36 64 / 0.1);
-  --cp-dim: #9bb0c2;
+  --cp-dim: #56708a;
   --cp-dim-strong: #56708a;
   --cp-select: rgb(2 132 199 / 0.15);
   --cp-kw: #0369a1;
@@ -271,13 +255,13 @@ html:not(.dark) .c-ice {
 .c-btn-lg { height: 58px; padding: 0 30px; font-size: 17px; }
 .c-note { margin: 0; color: var(--muted); }
 
-.c-stage { position: relative; margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1fr) 380px; align-items: end; }
+.c-stage { position: relative; margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: center; }
 .c-window { position: relative; z-index: 2; }
 .c-editor {
   position: relative;
   z-index: 3;
-  margin-left: -40px;
-  transform: translateY(64px);
+  margin-left: 0;
+  transform: translateY(32px);
   height: 420px;
   display: flex;
   padding: 20px 20px 12px;
@@ -290,25 +274,9 @@ html:not(.dark) .c-ice {
 .c-editor > * { flex: 1; }
 .c-hint { margin: 18px 6px 0; font-size: 14px; color: var(--muted); }
 
-/* app: sticky stack */
-.c-app { padding: 120px 0 40px; }
 .c-head { max-width: 620px; }
 .c-h2 { margin: 0; font-weight: 700; font-size: clamp(2rem, 3.6vw, 3.2rem); line-height: 1.05; letter-spacing: -0.03em; }
 .c-body { margin: 16px 0 0; font-size: 1.1rem; line-height: 1.6; color: var(--muted); }
-.c-stack { margin: 56px auto 0; max-width: 1120px; display: grid; gap: 40px; }
-.c-stack-card {
-  position: sticky;
-  padding: 22px 22px 22px;
-  border-radius: 32px;
-  background: var(--card-solid);
-  border: 1px solid var(--line);
-  box-shadow: 0 -20px 60px -30px rgb(0 20 40 / 0.35);
-  transform-origin: 50% 0;
-}
-.c-stack-card { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; align-items: start; }
-.c-stack-card h3 { margin: 10px 6px 0; font-size: 1.35rem; font-weight: 600; }
-.c-stack-card img { display: block; width: 100%; height: auto; border-radius: 18px; }
-
 /* community: offset two-column gallery */
 .c-comm { padding: 120px 0 40px; }
 .c-gallery { margin-top: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
@@ -396,22 +364,24 @@ html:not(.dark) .c-ice {
 .c-foot p { margin: 0 auto; max-width: 900px; text-align: center; font-size: 11px; line-height: 1.6; color: var(--muted); opacity: 0.75; }
 
 @media (max-width: 1023px) {
-  .c-top, .c-dev-grid { grid-template-columns: 1fr; }
-  .c-stage { grid-template-columns: 1fr; gap: 24px; }
+  .c-top, .c-dev-grid { grid-template-columns: minmax(0, 1fr); }
+  .c-stage { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .c-editor { margin-left: 0; height: 380px; transform: none; }
   .c-tiles { grid-template-columns: 1fr 1fr; }
   .c-plugins { grid-template-columns: 1fr 1fr; }
-  .c-stack-card { grid-template-columns: 1fr; gap: 12px; }
 }
 @media (max-width: 767px) {
   .c-wrap { padding: 0 16px; }
   .c-hero { padding-top: 32px; }
   .c-hint { display: none; } /* no dragging on phones */
-  .c-app, .c-comm, .c-dev { padding-top: 80px; }
-  .c-gallery, .c-tiles, .c-plugins { grid-template-columns: 1fr; }
+  .c-comm, .c-dev { padding-top: 80px; }
+  .c-gallery, .c-tiles, .c-plugins { grid-template-columns: minmax(0, 1fr); }
   .c-theme:nth-child(even) { transform: none; }
   .c-plugins { margin-top: 48px; }
   .c-dl-card { padding: 48px 20px; border-radius: 28px; }
   .c-shard { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
 }
 </style>

@@ -12,7 +12,7 @@ function step(dir: number) {
 
 function onKey(e: KeyboardEvent) {
   const t = e.target as HTMLElement
-  if (t.closest('input, textarea, [contenteditable], .cm-editor')) return
+  if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || t.closest('input, textarea, select, button, [role="tablist"], [contenteditable], .cm-editor')) return
   if (e.key === 'ArrowLeft') step(-1)
   if (e.key === 'ArrowRight') step(1)
 }
@@ -39,18 +39,23 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
   display: flex;
   align-items: center;
   gap: 12px;
+  max-width: calc(100vw - 24px);
+  width: max-content;
   padding: 6px 8px;
   border-radius: 999px;
-  background: #fde047;
-  color: #111;
+  background: var(--vp-c-bg-elv);
+  color: var(--vp-c-text-1);
+  border: 1px solid var(--vp-c-divider);
   font: 600 13px/1 ui-monospace, monospace;
   box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
 }
 .ps button {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
   border-radius: 999px;
-  background: #111;
-  color: #fde047;
+  background: var(--vp-c-default-soft);
+  color: var(--vp-c-text-1);
 }
+.ps span { line-height: 1.4; text-align: center; }
 </style>

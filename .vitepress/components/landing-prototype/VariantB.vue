@@ -4,18 +4,18 @@
 import { ref } from 'vue'
 import { PhArrowRight, PhArrowUpRight, PhBug, PhDiscordLogo, PhDownloadSimple, PhDrop, PhFolderSimple, PhPlugsConnected } from '@phosphor-icons/vue'
 import ClientWindow from './ClientWindow.vue'
+import AppOverview from './AppOverview.vue'
 import CodePanel from './CodePanel.vue'
 import CodeBlock from './CodeBlock.vue'
 import { useClientDemo } from './useClientDemo'
 import { useDownload } from './useDownload'
 import { useMotion } from './useMotion'
-import { app, authors, community, download, hero, riot } from './copy'
+import { authors, community, download, hero, riot } from './copy'
 
 const demo = useClientDemo()
 const dl = useDownload()
 const root = ref<HTMLElement>()
 const icons = [PhPlugsConnected, PhBug, PhDrop, PhFolderSimple]
-const accents = ['/home/theme-green.webp', '/home/theme-pink.webp', '/home/theme-yellow.webp', '/home/theme-purple.webp']
 
 useMotion(root, (gsap) => {
   gsap.from('.b-intro > *', { opacity: 0, y: 14, duration: 0.7, stagger: 0.06, ease: 'power2.out' })
@@ -53,30 +53,7 @@ useMotion(root, (gsap) => {
       </div>
     </section>
 
-    <section class="b-section">
-      <div class="b-wrap">
-        <div class="b-head" data-reveal>
-          <h2 class="b-h2">{{ app.title }}</h2>
-          <p class="b-body">{{ app.body }}</p>
-        </div>
-        <div class="b-bento" data-reveal>
-          <figure class="b-cell b-cell-main">
-            <img :src="app.shots[0].src" :alt="app.shots[0].alt" loading="lazy" width="2000" height="1280">
-            <figcaption>{{ app.shots[0].label }}</figcaption>
-          </figure>
-          <figure class="b-cell">
-            <img :src="app.shots[1].src" :alt="app.shots[1].alt" loading="lazy" width="2000" height="1280">
-            <figcaption>{{ app.shots[1].label }}</figcaption>
-          </figure>
-          <figure class="b-cell b-cell-accents">
-            <div class="b-accent-grid">
-              <img v-for="a in accents" :key="a" :src="a" alt="" loading="lazy" width="2000" height="1280">
-            </div>
-            <figcaption>{{ app.shots[2].label }}</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
+    <AppOverview />
 
     <section class="b-section">
       <div class="b-wrap">
@@ -89,14 +66,14 @@ useMotion(root, (gsap) => {
             <img :src="t.src" :alt="`The lobby with the ${t.name} theme`" loading="lazy" width="1600" height="900">
             <figcaption>
               <a :href="t.href" target="_blank" rel="noopener">{{ t.name }}</a>
-              <span>{{ t.author }}</span>
+              <span>by {{ t.author }}</span>
             </figcaption>
           </figure>
         </div>
         <div class="b-plugins" data-reveal>
           <a v-for="p in community.plugins" :key="p.name" :href="p.href" target="_blank" rel="noopener" class="b-plugin">
             <div>
-              <h3>{{ p.name }} <span>{{ p.author }}</span></h3>
+              <h3>{{ p.name }} <span>by {{ p.author }}</span></h3>
               <p>{{ p.body }}</p>
             </div>
             <PhArrowUpRight :size="18" class="b-plugin-arrow" />
@@ -168,7 +145,7 @@ useMotion(root, (gsap) => {
   --on-accent: #04121c;
   --sans: 'Geist', system-ui, sans-serif;
   --cp-fg: var(--ink);
-  --cp-dim: #5a5a64;
+  --cp-dim: #92929d;
   --cp-dim-strong: #8d8d98;
   --cp-accent: var(--accent);
   --cp-on-accent: var(--on-accent);
@@ -185,7 +162,7 @@ useMotion(root, (gsap) => {
   --cw-gutter: 8px;
   --cw-radius: 10px;
   --cw-screen-radius: 6px;
-  --cw-frame-bg: var(--panel);
+  --cw-frame-bg: transparent;
   --cw-frame-border: var(--line-strong);
   --cw-shadow: none;
   background: var(--bg);
@@ -202,7 +179,7 @@ html:not(.dark) .vb {
   --muted: #5f5f6b;
   --accent: #0284c7;
   --on-accent: #ffffff;
-  --cp-dim: #a1a1aa;
+  --cp-dim: #6b6b76;
   --cp-dim-strong: #6b6b76;
   --cp-select: rgb(2 132 199 / 0.15);
   --cp-kw: #0369a1;
@@ -267,12 +244,12 @@ html:not(.dark) .vb {
   grid-template-columns: minmax(0, 1fr) 400px;
   border: 1px solid var(--line-strong);
   border-radius: 14px;
-  background: var(--panel);
+  background: transparent;
   box-shadow: 0 30px 80px -40px rgb(0 0 0 / 0.5);
-  overflow: hidden;
+  overflow: visible;
 }
-.b-bench-client { padding: 14px; background: var(--panel-2); border-right: 1px solid var(--line); }
-.b-bench-code { padding: 16px 16px 10px; display: flex; min-height: 0; }
+.b-bench-client { padding: 14px; border-right: 1px solid var(--line); }
+.b-bench-code { height: 400px; padding: 16px 16px 10px; display: flex; min-height: 0; background: var(--panel); border-radius: 0 14px 14px 0; }
 .b-bench-code > * { flex: 1; }
 .b-hint { margin: 14px 2px 0; font-size: 13px; color: var(--muted); }
 
@@ -280,30 +257,6 @@ html:not(.dark) .vb {
 .b-head { max-width: 640px; }
 .b-h2 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
 .b-body { margin: 14px 0 0; font-size: 1.05rem; line-height: 1.6; color: var(--muted); }
-
-.b-bento {
-  margin-top: 48px;
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 16px;
-}
-.b-cell {
-  margin: 0;
-  padding: 14px 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--panel);
-  display: flex;
-  flex-direction: column;
-}
-.b-cell img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
-.b-cell figcaption { margin-top: 12px; font-size: 14px; font-weight: 500; }
-.b-cell-main { grid-row: span 2; }
-.b-cell-main img { flex: 1; min-height: 0; object-fit: cover; object-position: top left; }
-.b-cell-accents { background: linear-gradient(135deg, rgb(56 189 248 / 0.12), rgb(56 189 248 / 0.02)), var(--panel); }
-.b-accent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.b-accent-grid img { border-radius: 6px; }
 
 .b-themes { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .b-theme { margin: 0; }
@@ -364,19 +317,21 @@ html:not(.dark) .vb {
 .b-foot p { margin: 0; font-size: 11px; line-height: 1.6; color: var(--muted); opacity: 0.75; }
 
 @media (max-width: 1023px) {
-  .b-bench { grid-template-columns: 1fr; }
+  .b-bench { grid-template-columns: minmax(0, 1fr); }
   .b-bench-client { border-right: 0; border-bottom: 1px solid var(--line); }
   .b-bench-code { height: 360px; }
   .b-points { grid-template-columns: 1fr 1fr; }
-  .b-dl { grid-template-columns: 1fr; }
+  .b-dl { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 767px) {
   .b-wrap { padding: 0 16px; }
   .b-hero { padding-top: 40px; }
   .b-hint { display: none; } /* no dragging on phones */
   .b-section { padding-top: 80px; }
-  .b-bento, .b-themes, .b-points { grid-template-columns: 1fr; }
-  .b-cell-main { grid-row: auto; }
+  .b-themes, .b-points { grid-template-columns: minmax(0, 1fr); }
   .b-dl { padding: 28px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
 }
 </style>

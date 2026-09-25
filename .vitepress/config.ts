@@ -60,10 +60,6 @@ export default defineConfig({
     ['meta', { name: 'twitter:description', content: meta.description }],
     ['meta', { name: 'twitter:image', content: meta.image }],
 
-    // PROTOTYPE (prototype/landing): display faces for the three landing variants
-    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
-    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@400;500;600;700;800&display=swap' }],
   ],
 
   themeConfig: {

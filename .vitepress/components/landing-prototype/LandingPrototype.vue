@@ -2,6 +2,7 @@
      switchable with ?variant=A|B|C and the floating bar. -->
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import './fonts.css'
 import PrototypeSwitcher from './PrototypeSwitcher.vue'
 import VariantA from './VariantA.vue'
 import VariantB from './VariantB.vue'
