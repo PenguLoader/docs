@@ -1,5 +1,5 @@
 <!-- PROTOTYPE (throwaway, branch prototype/landing): three art directions for the home page,
-     switchable with ?variant=A|B|C and the floating bar. -->
+     switchable with ?variant=A|B|C|D and the floating bar. -->
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import './fonts.css'
@@ -7,11 +7,13 @@ import PrototypeSwitcher from './PrototypeSwitcher.vue'
 import VariantA from './VariantA.vue'
 import VariantB from './VariantB.vue'
 import VariantC from './VariantC.vue'
+import VariantD from './VariantD.vue'
 
 const variants = [
   { key: 'A', name: "Summoner's Rift at night" },
   { key: 'B', name: 'Raycast clean' },
   { key: 'C', name: 'Ice' },
+  { key: 'D', name: 'Instrument' },
 ]
 const current = ref('A')
 
@@ -32,6 +34,7 @@ function change(key: string) {
 <template>
   <VariantA v-if="current === 'A'" />
   <VariantB v-else-if="current === 'B'" />
-  <VariantC v-else />
+  <VariantC v-else-if="current === 'C'" />
+  <VariantD v-else />
   <PrototypeSwitcher :variants="variants" :current="current" @change="change" />
 </template>

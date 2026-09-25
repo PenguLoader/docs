@@ -1,21 +1,27 @@
 <!-- PROTOTYPE (throwaway): static JS highlighted with CodeMirror's parser; plain text until mounted. -->
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
-const props = defineProps<{ code: string }>()
+const props = withDefaults(defineProps<{ code: string; lang?: 'js' | 'css' }>(), { lang: 'js' })
 const el = ref<HTMLElement>()
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
 
-onMounted(async () => {
-  const [{ highlightCode, classHighlighter }, { javascriptLanguage }] = await Promise.all([
-    import('@lezer/highlight'), import('@codemirror/lang-javascript'),
+async function paint() {
+  const [{ highlightCode, classHighlighter }, parser] = await Promise.all([
+    import('@lezer/highlight'),
+    props.lang === 'css'
+      ? import('@codemirror/lang-css').then(m => m.cssLanguage.parser)
+      : import('@codemirror/lang-javascript').then(m => m.javascriptLanguage.parser),
   ])
   let out = ''
-  highlightCode(props.code, javascriptLanguage.parser.parse(props.code), classHighlighter,
+  highlightCode(props.code, parser.parse(props.code), classHighlighter,
     (text, cls) => { out += cls ? `<span class="${cls}">${esc(text)}</span>` : esc(text) },
     () => { out += '\n' })
   if (el.value) el.value.innerHTML = out // unmounted while the parser loaded
-})
+}
+
+onMounted(paint)
+watch(() => [props.code, props.lang], paint)
 </script>
 
 <template>
@@ -36,6 +42,8 @@ onMounted(async () => {
 .cb :deep(.tok-string), .cb :deep(.tok-string2) { color: var(--cp-str); }
 .cb :deep(.tok-number) { color: var(--cp-num); }
 .cb :deep(.tok-propertyName) { color: var(--cp-prop); }
+.cb :deep(.tok-className), .cb :deep(.tok-typeName), .cb :deep(.tok-labelName) { color: var(--cp-sel); }
+.cb :deep(.tok-atom), .cb :deep(.tok-bool) { color: var(--cp-num); }
 .cb :deep(.tok-variableName) { color: var(--cp-fg); }
 .cb :deep(.tok-operator), .cb :deep(.tok-punctuation) { color: var(--cp-dim-strong); }
 </style>
