@@ -1,7 +1,9 @@
-<!-- PROTOTYPE (throwaway) Variant B, "Raycast clean": neutral zinc, sky-400 as the single accent,
-     Geist throughout, restrained motion. The Client and the editor share one workbench surface. -->
+<!-- The chosen landing direction (B, "Raycast clean"): neutral zinc, sky-400 as the single accent,
+     Geist throughout, restrained motion. The Client and the editor share one workbench surface.
+     The other directions (A, C, D) are in commit c08577a on prototype/landing. -->
 <script setup lang="ts">
 import { ref } from 'vue'
+import './fonts.css'
 import { PhArrowRight, PhArrowUpRight, PhBug, PhDiscordLogo, PhDownloadSimple, PhDrop, PhFolderSimple, PhPlugsConnected } from '@phosphor-icons/vue'
 import ClientWindow from './ClientWindow.vue'
 import AppOverview from './AppOverview.vue'

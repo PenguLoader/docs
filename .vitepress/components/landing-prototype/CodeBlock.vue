@@ -1,18 +1,16 @@
-<!-- PROTOTYPE (throwaway): static JS highlighted with CodeMirror's parser; plain text until mounted. -->
+<!-- Static JS highlighted with CodeMirror's parser; plain text until mounted. -->
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 
-const props = withDefaults(defineProps<{ code: string; lang?: 'js' | 'css' }>(), { lang: 'js' })
+const props = defineProps<{ code: string }>()
 const el = ref<HTMLElement>()
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
 
 async function paint() {
-  const [{ highlightCode, classHighlighter }, parser] = await Promise.all([
-    import('@lezer/highlight'),
-    props.lang === 'css'
-      ? import('@codemirror/lang-css').then(m => m.cssLanguage.parser)
-      : import('@codemirror/lang-javascript').then(m => m.javascriptLanguage.parser),
+  const [{ highlightCode, classHighlighter }, { javascriptLanguage }] = await Promise.all([
+    import('@lezer/highlight'), import('@codemirror/lang-javascript'),
   ])
+  const parser = javascriptLanguage.parser
   let out = ''
   highlightCode(props.code, parser.parse(props.code), classHighlighter,
     (text, cls) => { out += cls ? `<span class="${cls}">${esc(text)}</span>` : esc(text) },
@@ -21,7 +19,7 @@ async function paint() {
 }
 
 onMounted(paint)
-watch(() => [props.code, props.lang], paint)
+watch(() => props.code, paint)
 </script>
 
 <template>

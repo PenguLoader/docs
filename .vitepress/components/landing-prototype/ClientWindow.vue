@@ -1,16 +1,10 @@
-<!-- PROTOTYPE (throwaway): the real League Client lobby (live DOM snapshot) in a draggable frame.
+<!-- The real League Client lobby (live DOM snapshot) in a draggable frame.
      The frame around the Client is the drag handle, so the Client itself stays clickable. -->
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { effectStyle, type ClientDemo } from './useClientDemo'
 
-const props = withDefaults(defineProps<{
-  demo: ClientDemo
-  draggable?: boolean
-  inertia?: boolean
-  tilt?: boolean
-  bounds?: string
-}>(), { draggable: true, inertia: false, tilt: false })
+const props = defineProps<{ demo: ClientDemo; bounds?: string }>()
 
 const box = ref<HTMLElement>()
 const handle = ref<HTMLElement>()
@@ -31,42 +25,27 @@ let disposed = false
 function syncDrag() {
   canDrag.value = !!drag && !media?.matches
   if (canDrag.value) drag.enable()
-  else { drag?.disable(); gsapRef?.set(box.value, { x: 0, y: 0, rotation: 0 }) }
+  else { drag?.disable(); gsapRef?.set(box.value, { x: 0, y: 0 }) }
 }
 
 onMounted(async () => {
   ro = new ResizeObserver(([e]) => { scale.value = e.contentRect.width / 1280; drag?.applyBounds() })
   ro.observe(screen.value!)
 
-  if (!props.draggable) return
   media = matchMedia('(max-width: 767px), (pointer: coarse)')
   const { gsap } = await import('gsap')
   const { Draggable } = await import('gsap/Draggable')
-  const plugins: any[] = [Draggable]
-  if (props.inertia) plugins.push((await import('gsap/InertiaPlugin')).InertiaPlugin)
   if (disposed || !box.value) return
-  gsap.registerPlugin(...plugins)
+  gsap.registerPlugin(Draggable)
   gsapRef = gsap
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
-  let lastX = 0
   drag = Draggable.create(box.value!, {
     type: 'x,y',
     trigger: handle.value!,
     bounds: props.bounds,
-    inertia: props.inertia && !reduce,
     edgeResistance: 0.75,
     zIndexBoost: false,
-    onPress() { dragging.value = true; lastX = this.x },
-    onDrag() {
-      if (!props.tilt || reduce) return
-      const v = gsap.utils.clamp(-8, 8, (this.x - lastX) * 0.6)
-      lastX = this.x
-      gsap.to(box.value!, { rotation: v, duration: 0.3, overwrite: 'auto' })
-    },
-    onRelease() {
-      dragging.value = false
-      if (props.tilt) gsap.to(box.value!, { rotation: 0, duration: 0.9, ease: 'elastic.out(1, 0.4)' })
-    },
+    onPress() { dragging.value = true },
+    onRelease() { dragging.value = false },
   })[0]
   syncDrag()
   media.addEventListener('change', syncDrag)
@@ -74,7 +53,7 @@ onMounted(async () => {
 
 function snapBack() {
   drag?.tween?.kill()
-  gsapRef?.to(box.value!, { x: 0, y: 0, rotation: 0, duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.7, ease: 'power3.out', onUpdate: () => drag?.update() })
+  gsapRef?.to(box.value!, { x: 0, y: 0, duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.7, ease: 'power3.out', onUpdate: () => drag?.update() })
 }
 
 onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventListener('change', syncDrag); drag?.kill(); gsapRef?.killTweensOf(box.value!) })

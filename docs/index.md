@@ -7,7 +7,7 @@ lastUpdated: false
 ---
 
 <script setup>
-  import LandingPrototype from '@components/landing-prototype/LandingPrototype.vue'
+  import Landing from '@components/landing-prototype/VariantB.vue'
 </script>
 
-<LandingPrototype />
+<Landing />
