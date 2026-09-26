@@ -17,6 +17,7 @@ import { authors, community, download, hero, riot } from './copy'
 const demo = useClientDemo()
 const dl = useDownload()
 const root = ref<HTMLElement>()
+const docked = ref(false) // resized Client: the editor lives in the window's dock until reset
 const icons = [PhPlugsConnected, PhBug, PhDrop, PhFolderSimple]
 
 useMotion(root, (gsap) => {
@@ -43,12 +44,15 @@ useMotion(root, (gsap) => {
           </div>
         </div>
 
-        <div class="b-bench">
+        <div class="b-bench" :class="{ 'is-docked': docked }">
           <div class="b-bench-client">
-            <ClientWindow :demo="demo" bounds=".b-hero" />
+            <ClientWindow v-model:docked="docked" :demo="demo" bounds=".b-hero" />
           </div>
-          <aside class="b-bench-code">
-            <CodePanel :demo="demo" />
+          <aside v-show="!docked" class="b-bench-code">
+            <!-- moved, not remounted, so the code, cursor and undo history carry over -->
+            <Teleport defer to="#cw-dock" :disabled="!docked">
+              <CodePanel :demo="demo" />
+            </Teleport>
           </aside>
         </div>
         <p class="b-hint">{{ hero.demoHint }}</p>
@@ -251,6 +255,8 @@ html:not(.dark) .vb {
   overflow: visible;
 }
 .b-bench-client { padding: 14px; border-right: 1px solid var(--line); }
+.b-bench.is-docked { grid-template-columns: minmax(0, 1fr); }
+.b-bench.is-docked .b-bench-client { border-right: 0; }
 .b-bench-code { min-height: 400px; padding: 16px 16px 10px; display: flex; background: var(--panel); border-radius: 0 14px 14px 0; }
 .b-bench-code > * { flex: 1; }
 .b-hint { margin: 14px 2px 0; font-size: 13px; color: var(--muted); }

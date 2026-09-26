@@ -1,15 +1,19 @@
 <!-- The real League Client lobby (live DOM snapshot) in a draggable, resizable frame.
      The frame around the Client is the drag handle, so the Client itself stays clickable:
      clicking an element in it adds that element's CSS rule to the editor (picker.ts).
-     Resizing keeps 16:9 and scales the UI, which is what the real Client does. -->
+     Resizing keeps 16:9 and scales the UI, which is what the real Client does.
+     Once resized, the window docks the editor on its right edge (like DevTools): the parent
+     teleports its editor into #cw-dock while `docked` is true. Reset undocks it. -->
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { effectStyle, type ClientDemo } from './useClientDemo'
 import { installPicker } from './picker'
 
 const props = defineProps<{ demo: ClientDemo; bounds?: string }>()
+const docked = defineModel<boolean>('docked', { default: false })
 
 const box = ref<HTMLElement>()
+const win = ref<HTMLElement>()
 const handle = ref<HTMLElement>()
 const screen = ref<HTMLElement>()
 const scale = ref(0.6)
@@ -22,6 +26,10 @@ const slotHeight = ref<number | null>(null)
 const moved = ref(false)
 const changed = computed(() => moved.value || width.value !== null)
 const MIN_WIDTH = 360
+const DOCK_WIDTH = 380
+const DOCK_MIN_HEIGHT = 340
+const frameHeight = ref(0) // the dock matches the Client frame; its editor scrolls inside
+watch(width, w => { docked.value = w !== null })
 
 const setFrame = (el: any) => { props.demo.frame.value = el }
 const setScaleVar = () => props.demo.frame.value?.contentDocument?.documentElement.style.setProperty('--pengu-scale', String(scale.value))
@@ -48,7 +56,11 @@ function syncDrag() {
 }
 
 onMounted(async () => {
-  ro = new ResizeObserver(([e]) => { scale.value = e.contentRect.width / 1280; drag?.applyBounds() })
+  ro = new ResizeObserver(([e]) => {
+    scale.value = e.contentRect.width / 1280
+    frameHeight.value = handle.value!.offsetHeight
+    drag?.applyBounds()
+  })
   ro.observe(screen.value!)
 
   media = matchMedia('(max-width: 767px), (pointer: coarse)')
@@ -73,10 +85,10 @@ onMounted(async () => {
 // Resize from the bottom-right corner; the left edge stays put, 16:9 comes from .cw-screen.
 // capped by the bounds' right edge and by the viewport's bottom, so the corner handle stays reachable
 function maxWidth() {
-  if (!box.value) return 1600
-  const r = box.value.getBoundingClientRect()
+  if (!win.value) return 1600
+  const r = win.value.getBoundingClientRect()
   const b = props.bounds ? document.querySelector(props.bounds) : null
-  const byBounds = b ? b.getBoundingClientRect().right - r.left - 16 : 1600
+  const byBounds = b ? b.getBoundingClientRect().right - r.left - 16 - DOCK_WIDTH : 1600
   const chrome = r.width - screen.value!.offsetWidth // frame gutters and border
   const byViewport = (innerHeight - r.top - 48) * 16 / 9 + chrome
   return Math.max(MIN_WIDTH, Math.min(byBounds, byViewport))
@@ -88,7 +100,7 @@ function setWidth(w: number) {
 }
 function onResizeStart(e: PointerEvent) {
   const el = e.currentTarget as HTMLElement
-  const startW = box.value!.offsetWidth
+  const startW = win.value!.offsetWidth
   const startX = e.clientX
   el.setPointerCapture(e.pointerId)
   dragging.value = true
@@ -105,8 +117,8 @@ function onResizeStart(e: PointerEvent) {
 }
 function onResizeKey(e: KeyboardEvent) {
   const step = e.shiftKey ? 80 : 20
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') setWidth(box.value!.offsetWidth + step)
-  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') setWidth(box.value!.offsetWidth - step)
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') setWidth(win.value!.offsetWidth + step)
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') setWidth(win.value!.offsetWidth - step)
   else return
   e.preventDefault()
 }
@@ -124,7 +136,8 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
 
 <template>
   <div ref="root" class="cw" :class="{ 'can-drag': canDrag }" :style="slotHeight ? { height: `${slotHeight}px` } : undefined">
-    <div ref="box" class="cw-box" :class="{ 'is-dragging': dragging, 'is-sized': width }" :style="width ? { width: `${width}px` } : undefined">
+    <div ref="box" class="cw-box" :class="{ 'is-dragging': dragging, 'is-docked': docked }">
+     <div ref="win" class="cw-window" :style="width ? { width: `${width}px` } : undefined">
       <div ref="handle" class="cw-frame" :class="{ 'can-drag': canDrag }" @dblclick="snapBack">
         <div ref="screen" class="cw-screen" :style="material">
           <img
@@ -155,6 +168,8 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
         @pointerdown.prevent="onResizeStart"
         @keydown="onResizeKey"
       />
+     </div>
+      <div v-show="docked" id="cw-dock" class="cw-dock" :style="{ width: `${DOCK_WIDTH}px`, height: `${Math.max(frameHeight, DOCK_MIN_HEIGHT)}px` }" />
       <!-- part of the window, so it follows the Client when moved or resized -->
       <button v-if="changed" class="cw-reset" type="button" @click="snapBack">Reset position and size</button>
     </div>
@@ -170,9 +185,23 @@ onBeforeUnmount(() => { disposed = true; ro?.disconnect(); media?.removeEventLis
 .cw.can-drag { padding-bottom: 34px; }
 .cw-box {
   position: relative;
-  z-index: 1; /* moved or enlarged, the Client floats over the editor like a window */
+  z-index: 1; /* moved or enlarged, the Client floats over the page like a window */
   will-change: transform;
 }
+.cw-window { position: relative; }
+.cw-box.is-docked { display: flex; align-items: flex-start; width: max-content; }
+.cw-box.is-docked .cw-frame { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.cw-dock {
+  flex: none;
+  display: flex;
+  padding: 16px 16px 10px;
+  border: 1px solid var(--cw-frame-border, rgb(255 255 255 / 0.12));
+  border-left: 0;
+  border-radius: 0 var(--cw-radius, 14px) var(--cw-radius, 14px) 0;
+  background: var(--cw-dock-bg, var(--cw-frame-bg, transparent));
+  box-shadow: var(--cw-shadow, none);
+}
+.cw-dock > * { flex: 1; min-width: 0; }
 .cw-resize {
   position: absolute;
   right: -7px;
